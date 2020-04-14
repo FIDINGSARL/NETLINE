@@ -1,0 +1,93 @@
+<odoo>
+  <data>
+
+     <record model="ir.ui.view" id="colis_emballage_tree_view">
+        <field name="name">colis.emballage.tree</field>
+        <field name="model">cps.colis.emballage</field>
+        <field name="arch" type="xml">
+            <tree name="Colis d'emballage" >
+                <field name="product_product_id" />
+                <field name="qte" />
+                <field name="qte_emballer" />
+                <!--<field name="source" />-->
+                <!--<field name="destination" />-->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="invoice_sale_form_view">
+        <field name="name">colis.emballage.form</field>
+        <field name="model">cps.colis.emballage</field>
+        <field name="arch" type="xml">
+            <form string="Colis d'emballage">
+                <sheet>
+                    <group>
+                          <field name="product_product_id"/>
+                          <!--<field name="qte_disponible" />-->
+                          <field name="qte" />
+                          <field name="qte_emballer" />
+                    </group>
+                    <group>
+                        <field name="colis_details" >
+                            <tree name="Colis détails"  editable="bottom" >
+                                <field name="sequence"/>
+                                <field name="qte" invisible="1" />
+                                <field name="qte_emballer"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                </sheet>
+<!--                <div class="oe_chatter">-->
+<!--                    <field name="message_follower_ids" widget="mail_followers"/>-->
+<!--                    <field name="activity_ids" widget="mail_activity"/>-->
+<!--                    <field name="message_ids" widget="mail_thread"/>-->
+<!--                </div>-->
+
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="colis_emballage_setting_tree_view">
+        <field name="name">colis.emballage.setting_tree</field>
+        <field name="model">cps.colis.emballage.setting</field>
+        <field name="arch" type="xml">
+            <tree name="Colis d'emballage Paramètres" >
+               <field name="stock_picking_type_id"/>
+               <field name="stock_location_source" />
+               <field name="stock_location_destination" />
+            </tree>
+        </field>
+    </record>
+       <record model="ir.ui.view" id="colis_emballage_setting_form_view">
+        <field name="name">colis.emballage.setting_form</field>
+        <field name="model">cps.colis.emballage.setting</field>
+        <field name="arch" type="xml">
+            <form string="Colis d'emballage Paramètres" >
+                 <sheet>
+                    <group>
+                        <field name="stock_picking_type_id"/>
+                        <field name="stock_location_source" />
+                        <field name="stock_location_destination" />
+                    </group>
+                 </sheet>
+            </form>
+        </field>
+    </record>
+
+     <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="cps_colis_action">
+      <field name="name">Colis emballage</field>
+      <field name="res_model">cps.colis.emballage</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+     <record model="ir.actions.act_window" id="cps_colis_config_action">
+      <field name="name">Colis emballage paramètres</field>
+      <field name="res_model">cps.colis.emballage.setting</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>
