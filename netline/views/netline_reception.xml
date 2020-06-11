@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="netline_reception_laundry_list_action">
+        <field name="name">Receptions Laundry</field>
+        <field name="context">{'is_laundry':1, 'is_pressing':0, 'is_vt':0}</field>
+        <field name="domain">[('is_laundry', '=', True)]</field>
+        <field name="res_model">netline.reception</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="netline_reception_pressing_list_action">
+        <field name="name">Receptions Pressing</field>
+        <field name="context">{'is_laundry':0, 'is_pressing':1, 'is_vt':0}</field>
+        <field name="domain">[('is_pressing', '=', True)]</field>
+        <field name="res_model">netline.reception</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="netline_reception_vt_list_action">
+        <field name="name">Receptions Vetements de travail</field>
+        <field name="context">{'is_laundry':0, 'is_pressing':0, 'is_vt':1}</field>
+        <field name="domain">[('is_vt', '=', True)]</field>
+        <field name="res_model">netline.reception</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_reception_trees_view">
+        <field name="name">netline.reception.tree</field>
+        <field name="model">netline.reception</field>
+        <field name="arch" type="xml">
+            <tree name="Receptions" default_order="date_reception desc">
+                <field name="client_name"/>
+                <field name="product_order_name" string="N° de bon"/>
+                <field name="n_bon_client" string="N° de bon client"/>
+                <field name="state" string="Etat de la réception"/>
+                <field name="date_reception" string="Date réception" readonly="1"/>
+                <field name="original_quantity" string="Quantité reçue"/>
+                <field name="quality_quantity" string="Quantité en réparation"/>
+                <field name="delivred_quantity" string="Quantité livrée"/>
+                <field name="available_quantity" string="Quantité restante"/>
+                <field name="create_uid" string="Réceptionné par:" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_reception_form_view">
+        <field name="name">netline.reception.form</field>
+        <field name="model">netline.reception</field>
+        <field name="arch" type="xml">
+            <form string="Réception">
+                <header>
+                    <button string="Valider" name="action_validate" type="object" states="draft" groups="netline.group_admin,netline.group_gestionnaire,netline.group_rh,netline.group_comptabilite"/>
+                    <button string="Annuler le bon" name="action_cancel" type="object" states="draft,received,in_progress,ready" groups="netline.group_admin,netline.group_gestionnaire"/>
+                    <field name="state" widget="statusbar" statusbar_visible="cancelled,draft,received,in_progress,ready,partial_delivred,delivred"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_make_livraison" type="object" String="Créer livraison" class="oe_stat_button" states="ready,partial_delivred"/>
+                        <!--<button name="action_make_transfer_sortie" type="object" String="Créer détachage" class="oe_stat_button" icon="fa-pencil-square-o" states="ready,partial_delivred"/>-->
+                    </div>
+                    <group>
+                        <group>
+                            <field name="client_id" domain="[('is_client', '=', True),('is_company', '=', True)]"/>
+                            <field name="reception_document" widget="image" />
+                        </group>
+                        <group>
+                            <field name="date_reception" string="Date recéption"/>
+<!--                            <field name="product_order_name"  string="N° de bon"/>-->
+                            <field name="n_bon_client"  string="N° de bon Client"/>
+                            <field name="create_uid" readonly="1" string="Créé par"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="n_porteur" string="Numéro Porteur" invisible="context.get('is_vt') == 0"/>
+                        <field name="n_chambre" string="Numéro chambre" invisible="1"/>
+
+<!--                        <field name="pressing_product_selection_ids" string="Produits" invisible="1"/>-->
+
+                    </group>
+                    <group>
+                        <button string="Ajouter" name="action_add_pressing_lines" type="object" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="receptionline_ids" context="{'is_laundry_line':context.get('is_laundry', True), 'is_pressing_line':context.get('is_pressing', False), 'is_vt_line':context.get('is_vt', False)}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>    
+    
+    <record model="ir.ui.view" id="netline_reception_line_laundry_tree_view">
+        <field name="name">netline.reception.line.laundry</field>
+        <field name="model">netline.reception.line</field>
+        <field name="arch" type="xml">
+            <tree name="Réception line">
+<!--                <field name="n_chambre" invisible="context.get('is_pressing',0)"/>-->
+                <field name="nom_porteur"  invisible="context.get('is_pressing',0)"/>
+                <field name="n_porteur" string="Numéro Porteur" invisible="context.get('is_vt',0)"/>
+                <field name="categ_name" string="Catégorie" readonly="1" invisible="context.get('is_laundry')==0"/>
+                <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_laundry', 0)" filter_domain="[('name', '=', self)]"/>
+                <field name="product_pressing_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_pressing', 0)"/>
+                <field name="product_vt_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_vt', 0)"/>
+                <field name="quantity" string="Quantité déclarée" sum="Total quantité"/>
+                <field name="declared_quantity"  />
+                <field name="diff_quantity"/>
+                <field name="quality_quantity" string="Quantité en réparation" readonly="1"/>
+                <field name="delivered_quantity"/>
+                <field name="available_quantity"/>
+                <field name="is_controlled"/>
+                <!--<field name="copy_it"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_pressing_reception_product_helper">
+        <field name="name">netline.pressing_product_selection_helper</field>
+        <field name="model">netline.pressing_product_selection_helper</field>
+        <field name="arch" type="xml">
+            <tree name="Produits">
+                <field name="product_pressing_id" string="Article" options="{'limit':1}"/>
+                <field name="traitement"  />
+                <field name="quantity"  />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_netline_reception_search" model="ir.ui.view">
+        <field name="name">netline.reception.search</field>
+        <field name="model">netline.reception</field>
+        <field name="arch" type="xml">
+            <search string="Recherche">
+                <field name="client_id" string="Client"/>
+                <field name="product_order_name" string="N° Bon"/>
+                <field name="n_bon_client" string="N° Bon client"/>
+                <field string="Etat de la reception" name="state"/>
+                <separator/>
+                <field string="Article" name="product_names"/>
+                <separator/>
+                <group expand="0" name="group_by" string="Grouper par">
+                    <filter name="client_id" string="Client" domain="[]" context="{'group_by' : 'client_id'}"/>
+                    <filter string="Etat Reception" name="state" domain="[]" context="{'group_by' : 'state'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <!-- <record model="ir.ui.view" id="netline_reception_tree_view">
+        <field name="name">stock.picking.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="view_type">tree</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@string='Picking list']/tree/field[@name='location_dest_id']" invisible="1"/>
+        </field>
+    </record> -->
+    
+</odoo>

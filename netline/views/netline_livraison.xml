@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="netline_livraison_laundry_list2_action">
+        <field name="name">Livraisons Laundry</field>
+        <field name="context">{'is_laundry':1, 'is_pressing':0, 'is_vt':0}</field>
+        <field name="domain">[('is_laundry', '=', True)]</field>
+        <field name="limit">200</field>
+        <field name="res_model">netline.livraison</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="netline_livraison_pressing_list_action">
+        <field name="name">Livraisons Pressing</field>
+        <field name="context">{'is_laundry':0, 'is_pressing':1, 'is_vt':0}</field>
+        <field name="domain">[('is_pressing', '=', True)]</field>
+        <field name="res_model">netline.livraison</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="netline_livraison_vt_list_action">
+        <field name="name">Livraisons Vetement de Travail</field>
+        <field name="context">{'is_laundry':0, 'is_pressing':0, 'is_vt':1}</field>
+        <field name="domain">[('is_vt', '=', True)]</field>
+        <field name="res_model">netline.livraison</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_livraison_tree_view">
+        <field name="name">netline.livraison.tree</field>
+        <field name="model">netline.livraison</field>
+        <field name="arch" type="xml">
+            <tree string="Livraisons" default_order="date_livraison desc">
+                <field name="client_name" string="Client"/>
+                <field name="date_livraison" string="Date livraison"/>
+                <field name="sale_order_name" string="N° Bon"/>
+                <field name="delivred_quantity" string="Quantité livrée"/>
+                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
+                <field name="devise" string="Devise"/>
+                <field name="state" string="Etat"/>
+            </tree>
+        </field>
+    </record>
+    <!--<record model="ir.values" id="ir_values_create_delivery_button">-->
+            <!--<field name="model_id" ref="sale.model_sale_order_line" />-->
+            <!--<field name="name">Facturer</field>-->
+            <!--<field name="key2">client_action_multi</field>-->
+            <!--<field name="value" eval="'ir.actions.act_window,' + str(ref('netline_livraison_laundry_list_action'))" />-->
+            <!--<field name="key">action</field>-->
+            <!--<field name="model">netline.livraison</field>-->
+    <!--</record>-->
+
+    <record model="ir.ui.view" id="netline_livraison_form_view">
+        <field name="name">netline.livraison.form</field>
+        <field name="model">netline.livraison</field>
+        <field name="arch" type="xml">
+            <form string="Livraisons">
+                <header>
+                    <button string="Annuler" name="action_cancel" type="object" states="ready"/>
+                    <button string="Maj des Prix" name="action_update_product_prices" type="object" states="ready"/>
+                    <button string="Valider" name="set_ready" type="object" states="waiting"/>
+                    <button string="En attente" name="set_waiting" type="object" states="ready"/>
+                    <field name="state" widget="statusbar" statusbar_visible="cancelled,waiting,ready,invoiced"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice" type="object" String="Facture" class="oe_stat_button" icon="fa-pencil-square-o" states="invoiced">
+
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="client_id" string="Client"/>
+                            <field name="date_livraison" string="Date livraison"/>
+                        </group>
+                        <group>
+                            <field name="observation"/>
+                        </group>
+                        <field name="reception_laundry_ids" string="Liste des réceptions" invisible="context.get('is_laundry')==0"/>
+                        <field name="reception_pressing_ids" string="Liste des réceptions" invisible="context.get('is_pressing')==0"/>
+                        <field name="reception_vt_ids" string="Liste des réceptions" invisible="context.get('is_vt')==0"/>
+                        <field name="livraison_lines_ids" string="Produits à livrer" context="{'is_laundry_line':context.get('is_laundry'), 'is_pressing_line':context.get('is_pressing'), 'is_vt_line':context.get('is_vt')}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="netline_livraison_line_tree_view">
+        <field name="name">netline.livraison.line</field>
+        <field name="model">netline.livraison.line</field>
+        <field name="arch" type="xml">
+            <tree name="Livraison line" create="false" editable="bottom">
+                <field name="reception_line_id" invisible="1"/>
+                <field name="n_chambre" invisible="context.get('is_pressing_line')==0"/>
+                <field name="nom_porteur" invisible="context.get('is_pressing_line')==0"/>
+                <field name="n_porteur" invisible="context.get('is_vt_line')==0"/>
+                <field name="laundry_product_name" invisible="context.get('is_laundry_line')==0" string="Article"/>
+                <field name="pressing_product_name" invisible="context.get('is_pressing_line')==0" string="Article"/>
+                <field name="vt_product_name" invisible="context.get('is_vt_line')==0" string="Article"/>
+                <field name="original_quantity" string="Quantité reçue"/>
+                <field name="available_quantity"/>
+                <field name="to_deliver_quantity" sum="Quantité bon livraison"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    <record id="facturer_more_action" model="ir.actions.server">-->
+<!--            <field name="name">Facturer</field>-->
+<!--            <field name="model_id" ref="model_netline_livraison"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="condition">True</field>-->
+<!--            <field name="code">action = env["netline.livraison"].create_invoice()</field>-->
+<!--    </record>-->
+<!--    <record id="facturer_more_def_action" model="ir.values">-->
+<!--            <field name="name">facturer_more_name</field>-->
+<!--            <field name="model">netline.livraison</field>-->
+<!--            <field name="key" >action</field>-->
+<!--            <field name="key2">client_action_multi</field>-->
+<!--            <field name="value" eval="'ir.actions.server,%d'%facturer_more_action"/>-->
+<!--    </record>-->
+
+    <record id="view_report_pos_order_search" model="ir.ui.view">
+        <field name="name">netline.livraison.search</field>
+        <field name="model">netline.livraison</field>
+        <field name="arch" type="xml">
+            <search string="Facturation">
+                <filter name="state" string="Prêt à facturer" domain="[('state', '=', 'ready')]"/>
+                <field name="client_id" string="Client"/>
+                <field name="sale_order_name" string="N° Bon"/>
+                <field string="Etat de la reception" name="state"/>
+                <group string="Group By">
+                    <filter name="client_id" string="Grouper par client" context="{'group_by': 'client_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- <record model="ir.ui.view" id="netline_livraison_line_tree_view">
+        <field name="name">netline.livraison.line</field>
+        <field name="model">netline.livraison.line</field>
+        <field name="view_type">tree</field>
+        <field name="arch" type="xml">
+            <xpath name="Sales Order Lines" create="false" editable="bottom">
+                <field name="traitement"/>
+            </xpath>
+        </field>
+    </record> -->
+
+    <!--<menuitem id="livraison_menu" name="Livraisons Articles" parent="reception_menu" 
+        action="netline_livraison_list_action" />-->
+</odoo>

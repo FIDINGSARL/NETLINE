@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <!--<record model="ir.ui.menu" id="utm.menu_link_tracker_root">-->
+        <!--<field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+    <!--</record>	-->
+<!--    <record model="ir.ui.menu" id="project.menu_main_pm">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>-->
+<!--    <record model="ir.ui.menu" id="purchase.menu_purchase_root">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>-->
+<!--    <record model="ir.ui.menu" id="stock.menu_stock_root">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>-->
+<!--    <record model="ir.ui.menu" id="hr_timesheet.timesheet_menu_root">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>-->
+    <!--<record model="ir.ui.menu" id="account.menu_finance">-->
+        <!--<field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+    <!--</record>-->
+<!--    <record model="ir.ui.menu" id="survey.menu_surveys">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>   -->
+<!--    <record model="ir.ui.menu" id="sales_team.menu_base_partner">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>   -->
+<!--    <record model="ir.ui.menu" id="maintenance.menu_maintenance_title">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>-->
+<!--    <record model="ir.ui.menu" id="contacts.menu_contacts">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>-->
+<!--    <record model="ir.ui.menu" id="point_of_sale.menu_point_root">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>-->
+<!--    <record model="ir.ui.menu" id="mrp_repair.menu_repair_order">-->
+<!--        <field name="groups_id" eval="[(6,0,[ref('group_hide_menus')])]"/>-->
+<!--    </record>-->
+
+	<record model="ir.actions.act_window" id="product_vente_list_action">
+		<field name="name">Articles Vente</field>
+		<field name="res_model">product.product</field>
+		<field name="context">{"search_default_filter_to_sell":1, 'creationtype': 1}</field>
+		<field name="domain">[('is_sale', '=', True)]</field>
+	</record>
+
+    <record id="genericproduct_action_all" model="ir.actions.act_window">
+        <field name="name">Articles Laundry</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">netline.genericproduct</field>
+        <field name="context">{'creationtype': 3}</field>
+        <field name="domain">[('is_generic', '=', True)]</field>
+        <field name="view_mode">tree,form</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Cliquez ici pour créer un nouveau article.
+            </p>
+        </field>
+    </record>
+
+    <record id="pressingproduct_action_all" model="ir.actions.act_window">
+        <field name="name">Articles Pressing</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">netline.genericproduct_pressing</field>
+        <field name="context">{'creationtype': 4}</field>
+        <field name="domain">[('is_pressing', '=', True)]</field>
+        <field name="view_mode">tree,form</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Cliquez ici pour créer un nouveau article.
+            </p>
+        </field>
+    </record>
+
+    <record id="vtproduct_action_all" model="ir.actions.act_window">
+        <field name="name">Vetements de travail</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">netline.genericproduct_vt</field>
+        <field name="context">{'creationtype': 5}</field>
+        <field name="domain">[('is_vt', '=', True)]</field>
+        <field name="view_mode">tree,form</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Cliquez ici pour créer un nouveau article.
+            </p>
+        </field>
+    </record>
+
+	<record model="ir.actions.act_window" id="blvente_list_action">
+		<field name="name">Bon de livraison</field>
+		<field name="res_model">stock.picking</field>
+		<field name="context">{'contact_display': 'partner_address'}</field>
+	</record>
+
+    <record model="ir.actions.act_window" id="netline_departement_vt_action">
+        <field name="name">Départements pour V.T.</field>
+        <field name="res_model">netline.vt_product.departement</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="netline_fonction_vt_action">
+        <field name="name">Fonctions pour V.T.</field>
+        <field name="res_model">netline.vt_product.fonction</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="netline_porteur_action">
+        <field name="name">Porteurs</field>
+        <field name="res_model">netline.porteur</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<menuitem id="commercial_menu_v7" name="Ventes" sequence="1" web_icon="netline,static/description/icon.png"/>
+		<menuitem id="vente_menu_v7" name="Gestion des flux" parent="commercial_menu_v7" sequence="1" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_magentree,group_maintenance,group_comptabilite" />
+			<menuitem id="client_menu_v7" name="Situation clients" parent="vente_menu_v7" action="client_list_action" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_magentree,group_comptabilite" sequence="1"/>
+			<!--<menuitem id="bcvente_menu_v7" name="Bon de commande" parent="vente_menu_v7" action="bcvente_list_action" sequence="1" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin"/>-->
+			<menuitem id="servicelaundry_menu_v7" name="Laundry" parent="vente_menu_v7" sequence="2" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_magentree,group_maintenance,group_comptabilite"/>
+				<menuitem id="serviceachatlaundry_menu_v7" name="Reception Laundry" parent="servicelaundry_menu_v7" action="netline_reception_laundry_list_action" groups="group_admin,group_gestionnaire,group_comptabilite,group_magentree" sequence="1"/>
+				<menuitem id="blventelaundry_menu_v7" name="Livraison laundry" parent="servicelaundry_menu_v7" action="netline_livraison_laundry_list2_action" sequence="2" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_comptabilite,group_maintenance"/>
+			<menuitem id="servicepressing_menu_v7" name="Pressing" parent="vente_menu_v7" sequence="3" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_comptabilite,group_magentree,group_maintenance"/>
+				<menuitem id="serviceachatpressing_menu_v7" name="Reception Pressing" parent="servicepressing_menu_v7" action="netline_reception_pressing_list_action" sequence="1" groups="group_admin,group_gestionnaire,group_comptabilite,group_magentree"/>
+				<menuitem id="blventepressing_menu_v7" name="Livraison pressing" parent="servicepressing_menu_v7" action="netline_livraison_pressing_list_action" sequence="2" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_comptabilite,group_maintenance"/>
+			<menuitem id="serviceuniforme_menu_v7" name="Uniforme" parent="vente_menu_v7" sequence="4" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_comptabilite,group_magentree,group_maintenance"/>
+				<menuitem id="serviceachatvt_menu_v7" name="Reception Uniforme" parent="serviceuniforme_menu_v7" action="netline_reception_vt_list_action" sequence="1" groups="group_admin,group_gestionnaire,group_comptabilite,group_magentree"/>
+				<menuitem id="blventevt_menu_v7" name="Livraison Uniforme" parent="serviceuniforme_menu_v7" action="netline_livraison_vt_list_action" sequence="2" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_comptabilite,group_maintenance"/>
+		<menuitem id="stock.stock_picking_type_menu_v7" parent="commercial_menu_v7" sequence="5" groups="group_admin,group_gestionnaire"/>
+		<menuitem id="productsvente_menu_v7" name="Paramètres" parent="commercial_menu_v7"  sequence="8" groups="group_admin,group_gestionnaire,group_maintenance,group_labo,group_comptabilite"/>
+			<menuitem id="gestion_clientatelier" name="Gestion client/atelier" parent="productsvente_menu_v7" sequence="1" groups="group_admin,group_gestionnaire"/>
+				<menuitem id="client_menu_v7" name="Gestion clients" parent="gestion_clientatelier" action="client_list_action" sequence="1" groups="group_admin,group_gestionnaire"/>
+			<menuitem id="product_article_criteria_menu_v7" name="Gestion Article" parent="productsvente_menu_v7" sequence="3" groups="group_admin"/>
+				<menuitem id="articlelaundry_menu_v7" name="Laundry" parent="product_article_criteria_menu_v7" action="genericproduct_action_all" sequence="1" groups="group_admin"/>
+				<menuitem id="articlepressing_menu_v7" name="Pressing" parent="product_article_criteria_menu_v7" action="pressingproduct_action_all" sequence="3" groups="group_admin"/>
+				<menuitem id="articlevt_menu_v7" name="Uniforme" parent="product_article_criteria_menu_v7" action="vtproduct_action_all" sequence="4" groups="group_admin"/>
+				<menuitem id="articlevente_menu_v7" name="Vente" parent="product_article_criteria_menu_v7" action="product_vente_list_action" sequence="5" groups="group_admin"/>
+			<menuitem id="product_criteria_menu_v7" name="Propriétés articles" parent="productsvente_menu_v7" sequence="4" groups="group_admin,group_gestionnaire,group_maintenance,group_labo"/>
+				<menuitem id="product_criteria_marque_menu_v7" name="Marques" parent="product_criteria_menu_v7" action="netline_product_marques_list_action"  sequence="1" groups="group_admin"/>
+				<menuitem id="product_criteria_couleur_menu_v7" name="Couleurs NETLINE" parent="product_criteria_menu_v7" action="netline_product_couleurs_list_action"  sequence="2" groups="group_admin,group_gestionnaire,group_maintenance,group_labo"/>
+				<menuitem id="product_criteria_taille_menu_v7" name="Tailles" parent="product_criteria_menu_v7" action="netline_product_tailles_list_action" sequence="5" groups="group_admin"/>
+				<menuitem id="product_criteria_composition_menu_v7" name="Compositions" parent="product_criteria_menu_v7" action="netline_product_compositions_list_action" sequence="6" groups="group_admin,group_gestionnaire,group_maintenance,group_labo"/>
+				<menuitem id="product_criteria_matiere_menu_v7" name="Matières" parent="product_criteria_menu_v7" action="netline_product_matieres_list_action" sequence="7" groups="group_admin,group_gestionnaire,group_maintenance,group_labo"/>
+				<menuitem id="product_criteria_type_article_menu_v7" name="Type Articles" parent="product_criteria_menu_v7" action="netline_product_types_list_action" sequence="8" groups="group_admin"/>
+			<menuitem id="product_vt_menu_v7" name="Propriétés V.T." parent="productsvente_menu_v7" sequence="5" groups="group_admin"/>
+				<menuitem id="product_criteria_departement_vt_menu_v7" name="Départements" parent="product_vt_menu_v7" action="netline_departement_vt_action" sequence="1" groups="group_admin"/>
+				<menuitem id="product_criteria_fonction_vt_menu_v7" name="Fonctions" parent="product_vt_menu_v7" action="netline_fonction_vt_action" sequence="2" groups="group_admin"/>
+				<menuitem id="porteur_menu_v7" name="Porteur" parent="product_vt_menu_v7" action="netline_porteur_action" sequence="3" groups="group_admin"/>
+    </data>
+</odoo>
+

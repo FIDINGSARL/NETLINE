@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report id="commande_report_id"
+                model="purchase.order"
+                string="Bon de commande NETLINE"
+                report_type="qweb-pdf"
+                name="netline.commande_report_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+
+    <template id="commande_report_template">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="rl">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <table width="100%">
+                            <tr>
+                                <td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                <td width="50%" style="font-size:11px;text-align:center;font-family:Calibri;align:right" align="right">
+                                    Usine : Zone Industrielle Gzenaya
+                                    <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                    <br/>Tél. / Fax : 0212 539 39 39 03
+                                    <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                    <br/>.R.C: 29797 - IF : 04922966
+                                    <br/>N° Patente : 57223853 - CNSS N° : 7369194
+                                    <br/>N° I.C.E. : 001530545000001
+                                </td>
+                            </tr>
+                            <tr style="border: 20px solid white;">
+                                <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de commande Fournisseur</td>
+                            </tr>
+                        </table>
+                        <table class="table table-condensed" style="margin-top: 1px;">
+                            <thead>
+                                <tr style="line-height: 500px;">
+                                    <td width="100%" style="font-size:14px;text-align:center;font-family:Calibri" colspan="6">
+                                        <table style="font-size:12px;margin-top: 5px;" border="2">
+                                            <td style="font-size:12px;text-align:center;font-family:Calibri;width:2200px">
+                                                <table style="font-size:12px;text-align:center;font-family:Calibri;width:200px">
+                                                    <tr><td align="center" style="padding: 2px;">Date B.C.</td><td align="center" style="padding: 2px;">N° B.C.</td></tr>
+                                                    <tr><td align="center" style="padding: 5px;"><span t-field="rl.date_order" style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="rl.name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                                </table>
+                                            </td>
+                                            <td style="float: right;font-size:12px;text-align:center;font-family:Calibri;border-top:50px;width:200px" align="right">
+                                                <table>
+                                                    <tr><td>
+                                                        <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 100px;text-align:center;">
+                                                            <span t-field="rl.partner_id.nom_commercial"/><br/>
+                                                            <span t-field="rl.partner_id.contact_address"/><br/>
+                                                            <span t-if="rl.partner_id.phone is not False">Tél: <span t-field="rl.partner_id.phone"/></span> <span t-if="rl.partner_id.fax is not False">Fax: <span t-field="rl.partner_id.fax"/></span><br/>
+                                                            <span t-if="rl.partner_id.code_client is not False">Code client:</span> <span t-field="rl.partner_id.code_client"/>
+                                                        </div>
+                                                    </td></tr>
+                                                </table>
+                                            </td>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <th class="text-center">Ref. Article</th>
+                                    <th class="text-center">Désignation</th>
+                                    <th class="text-center">Quantité</th>
+                                    <th class="text-center">Unité</th>
+                                    <th class="text-center">Prix H.T.</th>
+                                    <th class="text-center">Montant H.T.</th>
+                                </tr>
+                           </thead>
+                           <tbody class="sale_tbody">
+                               <t t-set="ligne" t-value="0"/>
+                               <t t-set="sum_pieces" t-value="0"/>
+                               <t t-set="categ_en_cours" t-value="a"/>
+                               <t t-foreach="rl.order_line" t-as="l">
+                                    <tr style="font-size:12px;text-align:center;font-family:Calibri;align:right">
+                                        <td width="10%"><span t-field="l.product_id.default_code"/></td>
+                                        <td width="50%"><span t-field="l.product_id.name"/></td>
+                                        <td width="10%"><span t-field="l.product_qty"/></td>
+                                        <td width="10%"><span t-field="l.product_uom.name"/></td>
+                                        <td class="text-left" width="10%"><span t-field="l.price_unit"/></td>
+                                        <td class="text-right" width="10%"><span t-field="l.price_subtotal"/></td>
+                                    </tr>
+                               </t>
+
+                                <!--<tr style="font-size:12px;text-align:center;font-family:Calibri;align:right" width="50%">-->
+                                    <!--<td class="text-left" width="10%"></td>-->
+                                    <!--<td width="20%"></td>-->
+                                    <!--<td class="text-left" width="50%"></td>-->
+                                    <!--<td class="text-right" width="20%">Total : <span t-esc="sum_pieces"/> Pièces</td>-->
+                                <!--</tr>-->
+                            </tbody>
+                        </table>
+                        <t t-set="devise" t-value="'DH'"/>
+                        <t t-if="rl.partner_id.devise.id is not False">
+                            <t t-set="devise" t-value="rl.partner_id.devise.name"/>
+                        </t>
+
+                        <table width="100%" style="margin-top: 10px;">
+                            <tr>
+                                <td width="50%" style="font-size:14px;text-align:center;font-family:Calibri" >
+                                    <table>
+                                        <tr><td align="center" style="padding: 2px;">Total H.T.</td><td align="center" style="padding: 2px;">Montant T.V.A.</td><td align="center" style="padding: 2px;">Montant T.T.C.</td><td align="center" style="padding: 2px;">Mode Paiement</td></tr>
+                                        <tr><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="'{0:,.2f}'.format(rl.amount_untaxed).replace(',', ' ').replace('.',',')"/>  <span t-esc="devise"/></span>
+                                            </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 200px; display: block;"><span t-esc="'{0:,.2f}'.format(rl.amount_tax).replace(',', ' ').replace('.',',')"/> <span t-esc="devise"/> </span>
+                                            </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="'{0:,.2f}'.format(rl.amount_total).replace(',', ' ').replace('.',',')"/> <span t-esc="devise"/></span>
+                                            </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-field="rl.payment_term_id.name"/> </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                            <table width="100%" style="margin-top: 15px;">
+                                <tr style="font-size:14px;text-align:left;font-family:Calibri;align:right">
+                                    <td width="50%" colspan="2">
+                                        Arrêtée le présent bon de commande, toutes taxes comprises, à la somme de :
+                                        <span t-esc="rl.amount_to_text(rl.amount_total, devise)"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        <table width="100%">
+                            <!--<tr><td colspan="2">Observation</td></tr>-->
+                            <!--<tr style="font-size:12px;text-align:left;font-family:Calibri;align:right" width="100%">-->
+                                <!--<td width="100%" colspan="2">-->
+                                    <!--<div style="border: 1px solid black;border-radius:5px;padding: 5px;height: 57px; display: block;">-->
+                                        <!--<span t-field="rl.observation"/>-->
+                                    <!--</div>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <tr height="10px"><td> </td></tr>
+                            <tr style="font-size:12px;text-align:center;font-family:Calibri;align:right" width="100%">
+                                <td width="50%">
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                        VISA NETLINE
+                                    </div>
+                                </td>
+                                <td width="50%">
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                        VISA + CACHET CLIENT
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</openerp>

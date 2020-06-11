@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="netline_customclients_form_view">
+        <field name="name">res.partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+        	
+            <field name="name" position="after">
+                <field name="nom_commercial"
+                       invisible="context.get('is_client2', 0)"
+                       placeholder="Nom commercial..."/>
+            </field>
+            <field name="category_id" position="after">
+            	<field name="code_client" invisible="context.get('is_client2', 0)"/>
+                <field name="typeprestation_ids" widget="many2many_tags" invisible="context.get('is_client2', 0)"/>
+                <field name="type_client" invisible="context.get('is_client2', 0)"/>
+                <field name="latitude"  invisible="context.get('is_client2', 0)"/>
+                <field name="longitude"  invisible="context.get('is_client2', 0)"/>
+                <field name="devise" string="Devise de Facturation" />
+            </field>
+            <field name="lang" position="after">
+                <field name="numero_rc"/>
+                <field name="numero_ice"/>
+                <field name="plafond_credit" invisible="context.get('is_client2', 0)"/>
+                <field name="caution" invisible="context.get('is_client2', 0)"/>
+                <field name="dossier_complet" invisible="context.get('is_client2', 0)"/>
+                <!--<field name="devise" invisible="context.get('is_client2', 0)"/>-->
+            </field>
+            <page name="internal_notes" position="after">
+                <page name="liste_reception" string="RECEPTIONS" invisible="context.get('is_client2', 0)">
+                    <group>
+                        <div class="oe_button_box" name="button_box">
+                            <button string="Créer Laundry" name="action_creer_reception_laundry" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />
+                            <button string="Créer Pressing" name="action_creer_reception_pressing" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />
+                            <button string="Créer V.T." name="action_creer_reception_vt" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />
+                        </div>
+                    </group>
+                    <group>
+                        <field name="reception_ids" string="Laundry" default_order="state desc, date_reception desc" context="{'is_laundry':1, 'is_pressing':0, 'is_vt':0}">
+                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">
+                                <field name="product_order_name" string="N° de bon"/>
+                                <field name="n_bon_client" string="N° de bon client"/>
+                                <field name="state" string="Etat de la réception"/>
+                                <field name="date_reception" string="Date réception" readonly="1"/>
+                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>
+                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>
+                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+                                <field name="available_quantity" string="Quantité restante" sum="Total"/>
+                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="reception_pressing_ids" string="Pressing" default_order="state desc, date_reception desc" context="{'is_laundry':0, 'is_pressing':1, 'is_vt':0}">
+                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">
+                                <field name="product_order_name" string="N° de bon"/>
+                                <field name="n_bon_client" string="N° de bon client"/>
+                                <field name="state" string="Etat de la réception"/>
+                                <field name="date_reception" string="Date réception" readonly="1"/>
+                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>
+                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>
+                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+                                <field name="available_quantity" string="Quantité restante" sum="Total"/>
+                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="reception_vt_ids" string="Vetement Travail" default_order="state desc, date_reception desc" context="{'is_laundry':0, 'is_pressing':0, 'is_vt':1}">
+                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">
+                                <field name="product_order_name" string="N° de bon"/>
+                                <field name="n_bon_client" string="N° de bon client"/>
+                                <field name="state" string="Etat de la réception"/>
+                                <field name="date_reception" string="Date réception" readonly="1"/>
+                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>
+                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>
+                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+                                <field name="available_quantity" string="Quantité restante" sum="Total"/>
+                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page name="liste_livraison" string="LIVRAISONS" invisible="context.get('is_client2', 0)">
+                    <group>
+                        <field name="livraison_ids" string="Laundry" default_order="state, date_livraison desc" context="{'is_laundry':1, 'is_pressing':0, 'is_vt':0}">
+                            <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
+                                <field name="date_livraison" string="Date livraison"/>
+                                <field name="sale_order_name" string="N° Bon"/>
+                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
+                                <field name="devise" string="Devise"/>
+                                <field name="state" string="Etat"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="livraison_pressing_ids" string="Pressing" default_order="state, date_livraison desc" context="{'is_laundry':0, 'is_pressing':1, 'is_vt':0}">
+                            <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
+                                <field name="date_livraison" string="Date livraison"/>
+                                <field name="sale_order_name" string="N° Bon"/>
+                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
+                                <field name="devise" string="Devise"/>
+                                <field name="state" string="Etat"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="livraison_vt_ids" string="V.T." default_order="state, date_livraison desc" context="{'is_laundry':0, 'is_pressing':0, 'is_vt':1}">
+                            <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
+                                <field name="date_livraison" string="Date livraison"/>
+                                <field name="sale_order_name" string="N° Bon"/>
+                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
+                                <field name="devise" string="Devise"/>
+                                <field name="state" string="Etat"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page name="products_laundry" string="LAUNDRY" invisible="context.get('is_client2', 0)">
+                    <field name="product_ids" string="Articles laundry"/>
+                </page>
+                <page name="products_pressing" string="PRESSING" invisible="context.get('is_client2', 0)">
+                    <field name="liste_pressing_ids" string="Articles pressing"/>
+                </page>
+                <page name="products_vt" string="V.T. UNIFORME" invisible="context.get('is_client2', 0)">
+                    <field name="liste_vt_ids" string="Vetements de travail"/>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_partner_form_inherited">
+        <field name="name">view.partner.form.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="nom_commercial"/>
+                <field name="total_entree" sum="Total"/>
+                <field name="total_sortie" sum="Total"/>
+                <field name="total_detachage" sum="Total"/>
+                <field name="total_encours" sum="Total"/>
+            </xpath>
+        </field>
+    </record>
+
+	<record model="ir.actions.act_window" id="client_list_action">
+		<field name="name">Clients</field>
+		<field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_client', '=', True),('is_company', '=', True)]</field>
+		<field name="context">{'creationtype': 0, 'is_client2': 0}</field>
+	</record>
+
+</odoo>

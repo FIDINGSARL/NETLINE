@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+            <report id="livraison_vt_table_id"
+                    model="netline.livraison"
+                    string="Vetement Travail"
+                    report_type="qweb-pdf"
+                    name="netline.livraison_vt_report_template"
+                    paperformat="paperformat_a4"
+            />
+    </data>
+
+    <template id="livraison_vt_report_template">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="rl">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <table width="100%">
+                            <tr>
+                                <td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                <td width="50%" style="font-size:14px;text-align:center;font-family:Calibri;align:right" align="right">
+                                    Usine : Zone Industrielle Gzenaya
+                                    <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                    <br/>Tél. / Fax : 0212 539 39 39 03
+                                    <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                    <br/>.R.C: 29797 - IF : 04922966
+                                    <br/>N° Patente : 57223853 - CNSS N° : 7369194
+                                    <br/>N° I.C.E. : 001530545000001
+                                </td>
+                            </tr>
+                            <tr style="border: 20px solid white;">
+                                <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de livraison</td>
+                            </tr>
+                        </table>
+                        <table class="table table-condensed" style="margin-top: 1px;">
+                            <thead>
+                                <tr style="line-height: 500px;">
+                                    <td width="100%" style="font-size:14px;text-align:center;font-family:Calibri" colspan="6">
+                                        <table style="font-size:12px;margin-top: 5px;" border="2">
+                                            <td style="font-size:12px;text-align:center;font-family:Calibri;width:2200px">
+                                                <table style="font-size:12px;text-align:center;font-family:Calibri;width:200px">
+                                                    <tr><td align="center" style="padding: 2px;">Date livraison</td><td align="center" style="padding: 2px;">N° livraison</td></tr>
+                                                    <tr><td align="center" style="padding: 5px;"><span t-field="rl.date_livraison"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="rl.sale_order_name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                                    <tr><td align="center" style="padding: 2px;">Divison</td><td align="center" style="padding: 2px;">Réf. Contrat</td></tr>
+                                                    <tr><td align="center" style="padding: 5px;"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;">Uniforme</span></td><td align="center" style="padding: 5px;"></td></tr>
+                                                    <tr><td align="center" style="padding: 2px;font-size:14px;" colspan="2" width="100%">Prestation : Entretien et Lavage des Uniformes</td></tr>
+                                                </table>
+                                            </td>
+                                            <td style="float: right;font-size:12px;text-align:center;font-family:Calibri;border-top:50px;width:200px" align="right">
+                                                <table>
+                                                    <tr><td>
+                                                        <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 100px;text-align:center;">
+                                                            <span t-field="rl.client_id.nom_commercial"/><br/>
+                                                            <span t-field="rl.client_id.contact_address"/><br/>
+                                                            <span t-if="rl.client_id.phone is not False">Tél: <span t-field="rl.client_id.phone"/></span> <span t-if="rl.client_id.fax is not False">Fax: <span t-field="rl.client_id.fax"/></span><br/>
+                                                            <span t-if="rl.client_id.numero_ice is not False">ICE:</span> <span t-field="rl.client_id.numero_ice"/>
+                                                            <span t-if="rl.client_id.code_client is not False">Code client:</span> <span t-field="rl.client_id.code_client"/>
+                                                        </div>
+                                                    </td></tr>
+                                                </table>
+                                            </td>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>N°</th>
+                                    <th class="text-center">Bon Client/Porteur</th>
+                                    <th class="text-center">Désignation</th>
+                                    <th class="text-center">Quantité</th>
+                                </tr>
+                           </thead>
+                           <tbody class="sale_tbody">
+                               <t t-set="ligne" t-value="0"/>
+                               <t t-set="sum_pieces" t-value="0"/>
+                               <t t-set="categ_en_cours" t-value="a"/>
+                               <t t-foreach="rl.livraison_lines_ids.sorted(key=lambda b : (b.reception_line_id.reception_id.n_bon_client, b.reception_line_id.product_vt_id.departement_id.name,b.reception_line_id.product_vt_id.fonction_id.name,b.reception_line_id.n_porteur))" t-as="l">
+                                    <t t-if="bon_client_en_cours!=l.reception_line_id.reception_id.n_bon_client">
+                                        <tr>
+                                            <td></td><td colspan="2" class="text-left" style="font-size:15px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"><span t-field="l.reception_line_id.reception_id.n_bon_client"/></td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="fonction_en_cours!=l.reception_line_id.product_vt_id.fonction_id.name or departement_en_cours!=l.reception_line_id.product_vt_id.departement_id.name">
+                                        <tr>
+                                            <td colspan="3" class="text-left" style="font-size:15px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"><span t-field="l.reception_line_id.product_vt_id.departement_id.name"/>-<span t-field="l.reception_line_id.product_vt_id.fonction_id.name"/></td>
+                                        </tr>
+                                    </t>
+                                    <t t-set="fonction_en_cours" t-value="l.reception_line_id.product_vt_id.fonction_id.name"/>
+                                    <t t-set="departement_en_cours" t-value="l.reception_line_id.product_vt_id.departement_id.name"/>
+                                    <t t-set="bon_client_en_cours" t-value="l.reception_line_id.reception_id.n_bon_client"/>
+
+                                    <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                        <t t-set="ligne" t-value="ligne+1"/>
+                                        <t t-set="sum_pieces" t-value="sum_pieces+l.to_deliver_quantity"/>
+                                        <td class="text-left" width="10%"><span t-esc="ligne"/></td>
+                                        <t t-if="porteur_en_cours!=l.reception_line_id.n_porteur">
+                                            <td colspan="1" class="text-left" style="font-size:14px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;">Porteur n° <span t-field="l.reception_line_id.n_porteur"/> : </td>
+                                        </t>
+                                        <t t-if="porteur_en_cours==l.reception_line_id.n_porteur">
+                                            <td></td>
+                                        </t>
+                                        <t t-set="porteur_en_cours" t-value="l.reception_line_id.n_porteur"/>
+                                        <td class="text-left" width="50%"><span t-field="l.vt_product_name"/></td>
+                                        <td class="text-right" width="20%"><span t-field="l.to_deliver_quantity"/></td>
+                                    </tr>
+                               </t>
+                            </tbody>
+                            <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                <td class="text-left" width="10%"></td>
+                                <td width="20%"></td>
+                                <td class="text-left" width="50%"></td>
+                                <td class="text-right" width="20%">Total : <span t-esc="sum_pieces"/> Pièces</td>
+                            </tr>
+
+                        </table>
+                        <table width="100%">
+                            <tr><td colspan="2">Observation</td></tr>
+                            <tr style="font-size:14px;text-align:left;font-family:Calibri;align:right" width="100%">
+                                <td width="100%" colspan="2">
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;height: 57px; display: block;">
+                                        <span t-field="rl.observation"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr height="10px"><td> </td></tr>
+                            <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right" width="100%">
+                                <td width="50%">
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                        VISA NETLINE
+                                    </div>
+                                </td>
+                                <td width="50%">
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                        VISA + CACHET CLIENT
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="livraison_vt_table_template">
+        <t t-call="report.html_container">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <table width="100%">
+                        <tr>
+                            <td width="80%"><img src='/netline/static/src/img/logo.png' style="max-height: 100px;"/></td>
+                            <td width="20%" style="font-size:11px;text-align:center;font-family:Calibri;align:right;">
+                                Usine : Zone Industrielle Gzenaya
+                                <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                <br/>Tél. / Fax : 0212 539 39 39 03
+                                <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                <br/>.R.C: 29797 - IF : 04922966
+                                <br/>N° I.C.E. : 001530545000001
+                            </td>
+                        </tr>
+                        <tr style="border: 5px solid white;">
+                            <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de livraison </td>
+                        </tr>
+                    </table>
+                    <table width="100%" style="margin-top: 0px;">
+                        <tr>
+                            <td width="65%" style="font-size:12px;text-align:center;font-family:Calibri;" >
+                                <table>
+                                    <tr><td align="center" style="padding: 1px;">Date B.L.</td><td align="center" style="padding: 1px;">N° B.L.</td></tr>
+                                    <tr><td align="center" style="padding: 3px;"><span t-field="livraison.date_livraison" style="border: 1px solid;border-radius:5px;padding:3px;width: 130px; display: block;"/></td><td align="center" style="padding: 3px;"><span t-field="livraison.sale_order_name" style="border: 1px solid;border-radius:5px;padding: 3px;width: 130px; display: block;"/></td></tr>
+
+                                    <tr><td align="center" style="padding: 1px;">Divison</td><td align="center" style="padding: 1px;"></td></tr>
+                                    <tr><td align="center" style="padding: 3px;"><span style="border: 1px solid;border-radius:5px;padding:3px;width: 130px; display: block;">Uniforme</span></td>
+                                        <td align="center" style="padding: 3px;"></td></tr>
+                                </table>
+                            </td>
+                            <td width="35%" style="font-size:14px;text-align:center;font-family:Calibri;border-top:50px;float:center">
+                                <br/>
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 87px; display: block;">
+                                        <span t-field="rl.client_id.nom_commercial"/><br/>
+                                        <span t-field="rl.client_id.contact_address"/><br/>
+                                        <span t-if="rl.client_id.phone is not False">Tél: <span t-field="rl.client_id.phone"/></span> <span t-if="rl.client_id.fax is not False">Fax: <span t-field="rl.client_id.fax"/></span><br/>
+                                    </div>
+                                    Code client: <span t-field="livraison.client_id.code_client"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="margin-top: 10px;" width="100%">
+                        <thead style="font-family:Calibri;font-size=14px">
+                            <tr style="line-height: 20px;">
+                                <!-- Date , n bon entré -->
+                                <th width="1%"></th>
+                                <th width="10%"></th>
+                                <th width="13%">Date/N° B.E.</th>
+                                <t t-set="roomlenght" t-value="len(chambres)"/>
+                                <th t-att-colspan="roomlenght" style="padding-left:5px;border: 1px solid black"><span t-esc="livraison.reception_pressing_ids.date_reception"/>/<span t-esc="livraison.reception_pressing_ids.product_order_name"/></th>
+                                <th rowspan="4" style="text-align: center;border: 1px solid black">Total</th>
+                            </tr>
+                            <tr style="line-height: 20px;">
+                                <!-- Numero de chambre -->
+                                <th></th>
+                                <th></th>
+                                <th>N° n_porteur</th>
+                                <t t-foreach="chambres" t-as="ch">
+                                    <th  style="text-align: center;border: 1px solid black"><span t-esc="ch['chambre']"/></th>
+                                </t>
+                            </tr>
+                            <tr style="line-height: 20px;">
+                                <!-- Nom du client -->
+                                <th></th>
+                                <th></th>
+                                <th style="text-align: center">Nom Client</th>
+                                <t t-foreach="chambres" t-as="ch">
+                                    <th  style="text-align: center;border: 1px solid black"></th>
+                                </t>
+                            </tr>
+                            <tr style="line-height: 20px;">
+                                <!-- Traitement effectué -->
+                                <th></th>
+                                <th></th>
+                                <th>Traitement</th>
+                                <t t-foreach="chambres" t-as="ch">
+                                    <th style="text-align: center;border: 1px solid black"><span t-esc="ch['traitement']"/></th>
+                                </t>
+                                <th></th>
+                            </tr>
+
+                        </thead>
+                        <tbody  style="font-family:Calibri;font-size=14px">
+                            <t t-set="departement_en_cours" t-value="notdefined"/>
+                            <t t-set="fonction_en_cours" t-value="notdefined"/>
+                            <t t-foreach="docs" t-as="line">
+                                <t t-if="departement_en_cours != line['article'].departement_id or fonction_en_cours != line['article'].fonction_id">
+                                    <tr  style="line-height: 20px;">
+                                        <td></td><td style="padding-left:5px;background-color: #3F51B5;color:white;" colspan="2"><span t-esc="line['article'].departement_id.name" /> - <span t-esc="line['article'].fonction_id.name" /></td><td t-att-colspan="roomlenght+1" style="background-color: #3F51B5;color:white;text-align: center;border: 1px solid black">Quantité</td>
+                                    </tr>
+                                </t>
+                                <tr style="line-height: 20px;">
+                                    <td><span t-esc="line['article'].n_ligne"/></td><td style="padding-left:5px;border-bottom: 1px solid black;border-left: 1px solid black"><span t-esc="line['article'].product_id.name"/></td><td style="border-bottom: 1px solid black;border-right: 1px solid black;text-align: left;padding-right:5px;"><span t-esc="line['article'].designation_client"/> </td>
+                                    <t t-foreach="line['chambres']" t-as="chambre">
+                                        <t t-if="chambre['quantity']>0">
+                                            <td style="text-align: center;border: 1px solid black"><span t-esc="chambre['quantity']"/> Pcs</td>
+                                        </t>
+                                        <t t-if="chambre['quantity']==0">
+                                            <td style="text-align: center;border: 1px solid black"></td>
+                                        </t>
+                                    </t>
+                                    <t t-if="line['total']>0">
+                                        <td style="text-align: center;border: 1px solid black"><span t-esc="line['total']"/> Pcs </td>
+                                    </t>
+                                    <t t-if="line['total']==0">
+                                        <td style="text-align: center;border: 1px solid black"> </td>
+                                    </t>
+                                </tr>
+                                <t t-set="departement_en_cours" t-value="line['article'].departement_id"/>
+                                <t t-set="fonction_en_cours" t-value="line['article'].fonction_id"/>
+                            </t>
+                            <tr style="line-height: 14px;"></tr>
+                            <tr style="line-height: 20px;">
+                                <td></td><td></td><td>Total</td>
+                                <t t-foreach="total" t-as="tot">
+                                    <t t-if="tot['quantity']>0">
+                                        <td style="text-align: center;border: 1px solid black"><span t-esc="tot['quantity']"/> Pcs</td>
+                                    </t>
+                                    <t t-if="tot['quantity']==0">
+                                        <td style="text-align: center;border: 1px solid black"></td>
+                                    </t>
+                                </t>
+                                <td style="text-align: center;border: 1px solid black"><span t-esc="total_general"/> Pcs</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                    <table width="100%">
+                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right" width="100%">
+                            <td width="50%">
+                                <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                    VISA NETLINE
+                                </div>
+                            </td>
+                            <td width="50%">
+                                <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                    VISA + CACHET CLIENT
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="footer"></div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</openerp>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="netline_client_products_form_view">
+        <field name="name">netline.product</field>
+        <field name="model">netline.product</field>
+        <field name="arch" type="xml">
+            <form string="Produit Client">
+                <sheet>
+                    <group>
+                        <field name="product_id" />
+                        <field name="designation_client" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_client_products_tree_view">
+        <field name="name">netline.product</field>
+        <field name="model">netline.product</field>
+        <field name="arch" type="xml">
+            <tree string="Produit Client" editable="bottom" default_order="n_ligne, product_id">
+                <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                <field name="designation_client" />
+                <field name="type_id" />
+                <field name="couleur_id" string="Coloris" />
+                <field name="longueur" string="Larg (cm)"/>
+                <field name="largeur" string="Long (cm)"/>
+                <field name="poids" string="PMA (g)"/>
+                <field name="composition_id" />
+                <field name="grammage" />
+                <field name="matiere_id" />
+                <field name="marque_id"  widget="many2many_tags"/>
+                <field name="prix_lavage" groups="netline.group_admin"/>
+                <field name="prix_decatissage" groups="netline.group_admin"/>
+                <field name="prix_repassage" groups="netline.group_admin"/>
+                <field name="prix_detachage" groups="netline.group_admin"/>
+                <field name="prix_lavage_sec" groups="netline.group_admin"/>
+                <field name="n_ligne" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_search_products_tree_view">
+        <field name="name">product.product</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="default_code" position="after">
+                <field name="categ_id"/>
+            </field>
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="default_order">categ_id, name</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--<menuitem id="netline_client_products_menu" name="Produits Client" parent="products_menu" action="netline_client_products_list_action" />
+-->
+</odoo>

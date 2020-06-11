@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="porteur_form_view" model="ir.ui.view">
+            <field name="name">netline.porteur.form</field>
+            <field name="model">netline.porteur</field>
+            <field name="arch" type="xml">
+                <form string="Porteurs">
+                    <sheet>
+                        <h1><field name="n_porteur"/></h1>
+                        <field name="nom"/>
+                        <field name="prenom"/>
+                        <field name="product_ids"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="porteur_tree_view">
+            <field name="name">netline.porteur.tree</field>
+            <field name="model">netline.porteur</field>
+            <field name="arch" type="xml">
+                <tree name="Porteurs">
+                    <field name="n_porteur"/>
+                    <field name="nom"/>
+                    <field name="prenom"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

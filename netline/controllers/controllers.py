@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from odoo import http
 
-# class CpsColisEmballageV13(http.Controller):
-#     @http.route('/cps_colis_emballage_v13/cps_colis_emballage_v13/', auth='public')
+# class Openacademy(http.Controller):
+#     @http.route('/openacademy/openacademy/', auth='public')
 #     def index(self, **kw):
 #         return "Hello, world"
 
-#     @http.route('/cps_colis_emballage_v13/cps_colis_emballage_v13/objects/', auth='public')
+#     @http.route('/openacademy/openacademy/objects/', auth='public')
 #     def list(self, **kw):
-#         return http.request.render('cps_colis_emballage_v13.listing', {
-#             'root': '/cps_colis_emballage_v13/cps_colis_emballage_v13',
-#             'objects': http.request.env['cps_colis_emballage_v13.cps_colis_emballage_v13'].search([]),
+#         return http.request.render('openacademy.listing', {
+#             'root': '/openacademy/openacademy',
+#             'objects': http.request.env['openacademy.openacademy'].search([]),
 #         })
 
-#     @http.route('/cps_colis_emballage_v13/cps_colis_emballage_v13/objects/<model("cps_colis_emballage_v13.cps_colis_emballage_v13"):obj>/', auth='public')
+#     @http.route('/openacademy/openacademy/objects/<model("openacademy.openacademy"):obj>/', auth='public')
 #     def object(self, obj, **kw):
-#         return http.request.render('cps_colis_emballage_v13.object', {
+#         return http.request.render('openacademy.object', {
 #             'object': obj
 #         })
