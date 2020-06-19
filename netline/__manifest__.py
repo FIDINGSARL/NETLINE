@@ -9,7 +9,6 @@
         Gestion compléte de laverie industrielle :
            - Gestion Lavage.
            - Gestion Pressing.
-           - Gestion des produits de vente.
     """,
 
     'author': "NETBEAM IT",
