@@ -12,9 +12,9 @@
     </data>
 
     <template id="reception_report_template">
-        <t t-call="report.html_container">
+        <t t-call="web.html_container">
             <t t-foreach="docs" t-as="rl">
-                <t t-call="report.external_layout">
+                <t t-call="web.external_layout">
                     <div class="page">
                         <div class="oe_structure"/>
                         <table width="100%">
@@ -52,7 +52,7 @@
                                                         <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 100px;text-align:center;">
                                                             <span t-field="rl.client_id.nom_commercial"/><br/>
                                                             <span t-field="rl.client_id.contact_address"/><br/>
-                                                            <span t-if="rl.client_id.phone is not False">Tél: <span t-field="rl.client_id.phone"/></span> <span t-if="rl.client_id.fax is not False">Fax: <span t-field="rl.client_id.fax"/></span><br/>
+                                                            <span t-if="rl.client_id.phone is not False">Tél: <span t-field="rl.client_id.phone"/></span> <br/>
                                                             <span t-if="rl.client_id.code_client is not False">Code client:</span> <span t-field="rl.client_id.code_client"/>
                                                         </div>
                                                     </td></tr>

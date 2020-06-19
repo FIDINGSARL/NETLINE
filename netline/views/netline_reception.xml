@@ -92,20 +92,21 @@
         <field name="name">netline.reception.line.laundry</field>
         <field name="model">netline.reception.line</field>
         <field name="arch" type="xml">
-            <tree name="Réception line">
-<!--                <field name="n_chambre" invisible="context.get('is_pressing',0)"/>-->
-                <field name="nom_porteur"  invisible="context.get('is_pressing',0)"/>
-                <field name="n_porteur" string="Numéro Porteur" invisible="context.get('is_vt',0)"/>
+            <tree name="Réception line" editable="bottom">
+                <field name="n_chambre" invisible="context.get('is_pressing')==0"/>
+                <field name="nom_porteur"  invisible="context.get('is_pressing')==0"/>
+                <field name="n_porteur" string="Numéro Porteur" invisible="context.get('is_vt')==0"/>
                 <field name="categ_name" string="Catégorie" readonly="1" invisible="context.get('is_laundry')==0"/>
-                <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_laundry', 0)" filter_domain="[('name', '=', self)]"/>
-                <field name="product_pressing_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_pressing', 0)"/>
-                <field name="product_vt_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_vt', 0)"/>
+                <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_laundry')==0" filter_domain="[('name', '=', self)]"/>
+                <field name="product_pressing_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_pressing')==0"/>
+                <field name="product_vt_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}" invisible="context.get('is_vt')==0"/>
                 <field name="quantity" string="Quantité déclarée" sum="Total quantité"/>
                 <field name="declared_quantity"  />
                 <field name="diff_quantity"/>
                 <field name="quality_quantity" string="Quantité en réparation" readonly="1"/>
                 <field name="delivered_quantity"/>
                 <field name="available_quantity"/>
+                <field name="traitement"/>
                 <field name="is_controlled"/>
                 <!--<field name="copy_it"/>-->
             </tree>

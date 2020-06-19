@@ -33,9 +33,9 @@ class Netline_reception(models.Model):
     purchase_order_id = fields.Many2one('purchase.order', "Ordre d'achat")
     product_order_name = fields.Char(related="purchase_order_id.name", readonly=True, store=True)
 
-    livraison_ids = fields.Many2many('netline.livraison', 'reception_laundry_ids', 'Livraisons laundry')
-    livraison_pressing_ids = fields.Many2many('netline.livraison', 'reception_pressing_ids', 'Livraisons pressing')
-    livraison_vt_ids = fields.Many2many('netline.livraison', 'reception_vt_ids', 'Livraisons V.T.')
+    livraison_ids = fields.One2many('netline.livraison', 'reception_laundry_ids', 'Livraisons laundry')
+    livraison_pressing_ids = fields.One2many('netline.livraison', 'reception_pressing_ids', 'Livraisons pressing')
+    livraison_vt_ids = fields.One2many('netline.livraison', 'reception_vt_ids', 'Livraisons V.T.')
 
     n_bon_client = fields.Char("N° Bon Client")
     reception_document= fields.Binary("Bon d'enlèvement", attachment=True)
@@ -63,28 +63,31 @@ class Netline_reception(models.Model):
     available_quantity = fields.Integer(compute="_compute_available_quantity", readonly=True)
 
     def _compute_original_quantity(self):
-        original_quantity = 0
-        for reception_line in self.receptionline_ids:
-            original_quantity += reception_line.quantity
-        self.original_quantity = original_quantity
+        for s in self:
+            original_quantity = 0
+            for reception_line in s.receptionline_ids:
+                original_quantity += reception_line.quantity
+            s.original_quantity = original_quantity
 
 
     def _compute_available_quantity(self):
-        original_quantity = 0
-        for reception_line in self.receptionline_ids:
-            original_quantity += reception_line.quantity
-        delivred_quantity = 0
-        for reception_line in self.receptionline_ids:
-            delivred_quantity += (reception_line.delivered_quantity)
-            # delivred_quantity += (reception_line.delivered_quantity+reception_line.quality_quantity)
-        self.available_quantity = original_quantity - delivred_quantity
+        for s in self:
+            original_quantity = 0
+            for reception_line in s.receptionline_ids:
+                original_quantity += reception_line.quantity
+            delivred_quantity = 0
+            for reception_line in s.receptionline_ids:
+                delivred_quantity += (reception_line.delivered_quantity)
+                # delivred_quantity += (reception_line.delivered_quantity+reception_line.quality_quantity)
+            s.available_quantity = original_quantity - delivred_quantity
 
 
     def _compute_delivred_quantity(self):
-        delivred_quantity = 0
-        for reception_line in self.receptionline_ids:
-            delivred_quantity += reception_line.delivered_quantity
-        self.delivred_quantity = delivred_quantity
+        for s in self:
+            delivred_quantity = 0
+            for reception_line in s.receptionline_ids:
+                delivred_quantity += reception_line.delivered_quantity
+            s.delivred_quantity = delivred_quantity
 
 
     def _compute_quality_quantity(self):

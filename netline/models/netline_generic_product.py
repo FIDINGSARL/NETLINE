@@ -50,7 +50,7 @@ class Netline_genericpressing_template(models.Model):
     _name = 'netline.genericproduct_pressing'
     product_generic_id = fields.Many2one('product.product', 'Netline Generic Product Pressing',  domain='[("is_pressing", "=", True)]')
     product_name = fields.Char("Nom Produit")
-    product_categ = fields.Many2one(related="product_generic_id.categ_id",store=True)
+    product_categ = fields.Many2one('product.category')
     is_pressing = fields.Boolean("pressing", default=True)
 
 
@@ -94,7 +94,7 @@ class Netline_genericvt_template(models.Model):
     _name = 'netline.genericproduct_vt'
     product_generic_id = fields.Many2one('product.product', 'Netline Generic Product Vetement Traival',  domain='[("is_pressing", "=", True)]')
     product_name = fields.Char("Nom Produit")
-    product_categ = fields.Many2one(related="product_generic_id.categ_id",store=True)
+    product_categ = fields.Many2one('product.category')
     is_vt = fields.Boolean("Vetement Travail", default=True)
 
 

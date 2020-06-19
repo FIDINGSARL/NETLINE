@@ -74,6 +74,8 @@ class Netline_livraison_line_transient(models.Model):
         is_pressing = False
         reception_line = self.env['netline.reception.line'].search([('id', '=', values.get('reception_line_id'))])
         product = None
+        print ('values.get --------------', values)
+        print ('reception line --------------', reception_line)
         print ('product id--------------', reception_line.product_id)
         print ('product id vt--------------', reception_line.product_vt_id)
         print ('product id pressing--------------', reception_line.product_pressing_id)

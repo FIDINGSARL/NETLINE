@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report id="cdm_cheque_report_id"
+                model="account.payment"
+                string="Chéque CDM"
+                report_type="qweb-pdf"
+                name="cps_account_invoice_v13.cdm_report_template"
+                paperformat="paperformat_a4_landscape"
+        />
+    </data>
+    <template id="cdm_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="l">
+                 <t t-call="web.external_layout">
+                    <div class="page" >
+                        <div class="oe_structure"/>
+                            <div width="100%" >
+                                 <table width="100%" height="100%" >
+                                     <tr>
+                                         <td width="100%" style="font-family:Arial;font-weight: bold;font-size:18px; padding-left:1246px;padding-top: 325px;height:60px" ><t t-esc="'{0:,.2f}'.format(l.amount).replace(',', ' ').replace('.',',')" /></td>
+                                     </tr>
+                                     <tr>
+                                         <td  style="font-family:Arial;font-weight: bold;font-size:18px;padding-right:120px;padding-left:820px;height:63px"><span t-field="l.check_amount_in_words"/></td>
+                                     </tr>
+                                    <tr>
+                                        <td width="100%" style="font-family:Arial;font-weight: bold;font-size:22px;padding-left:729px;height:45px">
+                                            <t t-if="l.partner_id">
+                                                <span t-field="l.partner_id.name"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span>Nous-meme</span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                         <td width="100%" style="font-family:Arial;font-weight: bold;font-size:18px;padding-left:1124px;"><span style="margin-right:90px">Tanger</span><span t-field="l.payment_date"/></td>
+                                    </tr>
+                                 </table>
+                        </div>
+                     </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</openerp>

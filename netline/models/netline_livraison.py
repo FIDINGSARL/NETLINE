@@ -24,9 +24,9 @@ class Netline_livraison(models.Model):
     date_livraison = fields.Datetime('Date', required=True)
     observation= fields.Char('Observation')
 
-    reception_laundry_ids = fields.Many2many('netline.reception', 'laundry_reception_rel', string="reception laundry", domain= '[("client_id", "=", client_id), ("state", "in", ["ready","partial_delivred"]), ("is_laundry", "=", True)]')
-    reception_pressing_ids = fields.Many2many('netline.reception', 'pressing_reception_rel', string="reception pressing", domain='[("client_id", "=", client_id), ("state", "in", ["ready","partial_delivred"]), ("is_pressing", "=", True)]')
-    reception_vt_ids = fields.Many2many('netline.reception', 'vt_reception_rel', string="reception vt", domain='[("client_id", "=", client_id), ("state", "in", ["ready","partial_delivred"]), ("is_vt", "=", True)]')
+    reception_laundry_ids = fields.Many2one('netline.reception', string="reception laundry", domain= '[("client_id", "=", client_id), ("state", "in", ["ready","partial_delivred"]), ("is_laundry", "=", True)]')
+    reception_pressing_ids = fields.Many2one('netline.reception', string="reception pressing", domain='[("client_id", "=", client_id), ("state", "in", ["ready","partial_delivred"]), ("is_pressing", "=", True)]')
+    reception_vt_ids = fields.Many2one('netline.reception', string="reception vt", domain='[("client_id", "=", client_id), ("state", "in", ["ready","partial_delivred"]), ("is_vt", "=", True)]')
 
     livraison_lines_ids = fields.One2many('netline.livraison.line', 'livraison_id', string="Produits")
 
@@ -99,7 +99,7 @@ class Netline_livraison(models.Model):
                 date = rec.create_date
                 if rec.date_livraison is not False:
                     date = rec.date_livraison
-                name = rec.sale_order_name + ' | ' + date
+                name = rec.sale_order_name + ' | ' + str(date)
             res.append((rec.id, name))
         return res
 
@@ -204,11 +204,15 @@ class Netline_livraison(models.Model):
             for reception_line in receptionLaundry.receptionline_ids:
                 done_qte = 0
                 previous_livraison_line = self.env['netline.livraison.line'].search([('reception_line_id', '=', reception_line.id)])
+                print('previous livraison line--------------------------', reception_line)
                 for pll in previous_livraison_line:
+                    print('previous livraison line qte--------------------------', pll)
                     done_qte += pll.to_deliver_quantity
                 available_quantity = reception_line.quantity - done_qte
                 #reception_line.id
+                print('reception_line id--------------------------------', reception_line[0][0].id)
                 new_line = (0, 0, {'reception_line_id': reception_line.id, 'original_quantity': reception_line.quantity, 'available_quantity': available_quantity, 'to_deliver_quantity': available_quantity})
+                print('new_line--------------------------------', new_line)
                 if available_quantity > 0:
                     livraison_lines.append(new_line)
         return {'value': {'livraison_lines_ids': livraison_lines}}
@@ -264,3 +268,97 @@ class Netline_livraison(models.Model):
                 if available_quantity > 0:
                     livraison_lines.append(new_line)
         return {'value': {'livraison_lines_ids': livraison_lines}}
+
+
+    def create_invoice(self):
+        sale_orders_list = []
+        livraison_ids = []
+        active_ids = self._context.get('active_ids')
+        for l in active_ids:
+            livraison_ids.append(l)
+        #livraison_ids
+        livraisons = self.env['netline.livraison'].browse(livraison_ids)
+        clients = []
+
+        for l in livraisons:
+            # l.update_product_prices()
+            #l.sale_order_id.netline_facturation_id
+            # if l.sale_order_id.netline_facturation_id.id is not False:
+            if l.state == 'invoiced':
+                raise UserError(_("Le bon de livraison " + l.sale_order_name + " est deja facture, selectionnez des bons non factures"))
+            if l.state == 'waiting':
+                raise UserError(_("Le bon de livraison " + l.sale_order_name + " n'est pas encore valide, selectionnez uniquement des bons valides"))
+            if l.delivred_quantity==0:
+                raise UserError(_("Le bon de livraison " + l.sale_order_name + " ne contient pas de livraison !"))
+            if l.client_id.id not in clients:
+                clients.append(l.client_id.id)
+            if l.state == 'ready':
+                sale_orders_list.append(l.sale_order_id.id)
+
+        #clients
+        if len(clients) > 1:
+            raise UserError(
+                _("Les bons sélectionnés doivent être du même client"))
+
+
+        orders = self.env['sale.order'].browse(sale_orders_list)
+
+        #"orders", orders
+        netline_facture = {
+            'client_id': clients[0],
+            'sale_order_ids' : orders,
+            'facturation_lines_ids': []
+        }
+        facture = self.env['account.invoice.sale'].create(netline_facture)
+        return {
+            'name': _('Your String'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'netline.facturation',
+            'res_id': facture.id,
+            'type': 'ir.actions.act_window',
+            'target': 'current'
+        }
+
+    # def create_invoice(self):
+    #     user = self.env['res.users'].browse(self.env.uid)
+    #     if user.has_group('netline.group_finance') is False:
+    #         raise UserError(_("Vous n'avez pas le droit de facturer cet OF !"))
+    #
+    #     cps_facturation_lines = []
+    #     clients = []
+    #     ateliers = []
+    #     active_ids = self._context.get('active_ids')
+    #     pps = self.env['cps.product.production'].search([('id', 'in', active_ids)])
+    #     if len(pps)>0:
+    #         ateliers.append(pps[0].atelier_id.id)
+    #     i=0
+    #     for l in pps:
+    #         i+=1
+    #         cps_facturation_lines.append((0, 0, { 'product_id': l.product_id.id, 'product_description' : l.product_id.name, 'sequence': i, 'qty_to_invoice': l.total_en_souffrance}))
+    #         if l.client_id.id not in clients:
+    #             clients.append(l.client_id.id)
+    #             # if len(clients) > 1:
+    #             #     raise UserError(
+    #             #         _("Les bons sélectionnés doivent être du même client"))
+    #
+    #     cps_facture = {
+    #         'client_id': clients[0],
+    #         'atelier_id' : ateliers[0],
+    #         'client_fact_id': clients[0],
+    #         'date_facture' : date.today().strftime('%Y-%m-%d'),
+    #         'facturation_lines_ids' : cps_facturation_lines
+    #     }
+    #     facture = self.env['account.invoice.sale'].create(cps_facture)
+    #     facture._compute_client_fact_id()
+    #
+    #
+    #     return {
+    #         'name': "Facture",
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_model': 'account.invoice.sale',
+    #         'res_id': facture.id,
+    #         'type': 'ir.actions.act_window',
+    #         'target': 'current'
+    #     }

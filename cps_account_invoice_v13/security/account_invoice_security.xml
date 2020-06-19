@@ -1,0 +1,21 @@
+<odoo>
+
+        <record id="invoices_sale_manager" model="res.groups">
+            <field name="name">Invoices Sale / Manager</field>
+        </record>
+<!--        <record id="only_responsible_can_modify" model="ir.rule">-->
+<!--            <field name="name">Only Responsible can modify invoices</field>-->
+<!--            <field name="model_id" ref="cps_account_invoice_v13.sale"/>-->
+<!--            <field name="groups" eval="[(4, ref('cps_account_invoice_v13.sale.group_manager'))]"/>-->
+<!--            <field name="perm_read" eval="0"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="0"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--            <field name="domain_force">-->
+<!--                ['|', ('responsible_id','=',False),-->
+<!--                      ('responsible_id','=',user.id)]-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+</odoo>

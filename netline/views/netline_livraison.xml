@@ -41,6 +41,15 @@
             </tree>
         </field>
     </record>
+
+    <record id="facturer_more_netline_livraison" model="ir.actions.server">
+            <field name="name">Facturer</field>
+            <field name="model_id" ref="model_netline_livraison"/>
+            <field name="state">code</field>
+            <field name="code">action = env["netline.livraison"].create_invoice()</field>
+            <field name="binding_model_id" ref="netline.model_netline_livraison" />
+    </record>
+
     <!--<record model="ir.values" id="ir_values_create_delivery_button">-->
             <!--<field name="model_id" ref="sale.model_sale_order_line" />-->
             <!--<field name="name">Facturer</field>-->
@@ -60,6 +69,7 @@
                     <button string="Maj des Prix" name="action_update_product_prices" type="object" states="ready"/>
                     <button string="Valider" name="set_ready" type="object" states="waiting"/>
                     <button string="En attente" name="set_waiting" type="object" states="ready"/>
+                    <button string="Facturer" name="create_invoice" type="object" states="ready"/>
                     <field name="state" widget="statusbar" statusbar_visible="cancelled,waiting,ready,invoiced"/>
                 </header>
                 <sheet>
@@ -92,13 +102,13 @@
         <field name="model">netline.livraison.line</field>
         <field name="arch" type="xml">
             <tree name="Livraison line" create="false" editable="bottom">
-                <field name="reception_line_id" invisible="1"/>
-                <field name="n_chambre" invisible="context.get('is_pressing_line')==0"/>
-                <field name="nom_porteur" invisible="context.get('is_pressing_line')==0"/>
-                <field name="n_porteur" invisible="context.get('is_vt_line')==0"/>
-                <field name="laundry_product_name" invisible="context.get('is_laundry_line')==0" string="Article"/>
-                <field name="pressing_product_name" invisible="context.get('is_pressing_line')==0" string="Article"/>
-                <field name="vt_product_name" invisible="context.get('is_vt_line')==0" string="Article"/>
+<!--                <field name="reception_line_id"/>-->
+                <field name="n_chambre" invisible="context.get('is_pressing')==0"/>
+                <field name="nom_porteur" invisible="context.get('is_pressing')==0"/>
+                <field name="n_porteur" invisible="context.get('is_vt')==0"/>
+                <field name="laundry_product_name" invisible="context.get('is_laundry')==0" string="Article"/>
+                <field name="pressing_product_name" invisible="context.get('is_pressing')==0" string="Article"/>
+                <field name="vt_product_name" invisible="context.get('is_vt')==0" string="Article"/>
                 <field name="original_quantity" string="Quantité reçue"/>
                 <field name="available_quantity"/>
                 <field name="to_deliver_quantity" sum="Quantité bon livraison"/>

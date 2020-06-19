@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="facture_report_id"
+                model="account.invoice.sale"
+                string="Facture Ecolo"
+                report_type="qweb-pdf"
+                name="cps_account_invoice_v13.facture_report_template"
+                paperformat="paperformat_a4_2"
+        />
+    </data>
+
+    <template id="facture_report_template" >
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="l">
+                <div class="oe_structure"/>
+                <div class="article">
+                    <div>
+                        <table width="100%" style="vertical-align:middle;font-size:12px;font-family:roboto;">
+                            <tr>
+                                <td width="50%" style="padding-top:20px;vertical-align:middle">
+                                    <img src='/cps_account_invoice_v13/static/src/img/logo2.png' style="height: 60px;"/>
+                                </td>
+                                <td width="30%" align="left" style="line-height: 17px;vertical-align:middle;padding-top:20px;">Route de Tétouan, Zone Ind. Mghogha
+                                    <br/>Alée 2 - Lot 58
+                                    <br/>90000 Tanger (Maroc)
+                                    <br/>Tél. : (00212) 539 35 15 05
+                                    <br/>Fax. : (00212) 539 35 14 83
+                                    <br/>abdellah@ecolo.ma
+                                    <br/>www.ecolo.ma
+                                </td>
+                            </tr>
+                        </table>
+                         <div  style="width:50%;float:left;margin-bottom:10px;">
+                            <table>
+                                 <tr>
+                                    <td style="padding-left:20px; padding-bottom:15px;">
+                                        <span style="margin-left: 20px">IF : 04921511</span>
+                                        <br/>
+                                        <div style="margin-left: 20px; width:200px; border:1px solid black;font-size:20px;text-align:center;font-family:roboto;font-weight:bold;">Facture</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  style="text-align:left;font-size:12px;font-family:roboto;font-weight:bold;padding:5px;">DATE : <span t-field="l.date_facture"/></td>
+                                </tr>
+                                <tr style="font-size:12px;font-family:roboto;font-weight:bold;">
+                                    <td style="text-align:left;padding:5px" >N° FACT : <span t-field="l.name_facture"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="width:48%;float:right;padding:2px;">
+                            <br/><br/>
+                            <div style="text-align:center;font-family:roboto;font-weight: bold;font-size:14px;"><span  t-field="l.client_id.name"/></div>
+                            <div style="text-align:center;font-size:12px;"><span   t-field="l.client_id.street"/></div>
+                            <div style="text-align:center;font-size:12px;"><span   t-field="l.client_id.city"/> <span  t-field="l.client_id.country_id.name"/></div>
+                            <t t-if="l.currency_id.name=='MAD'">
+                                <div style="text-align:center;padding:0px 20px"><span style="font-family:roboto;text-decoration:underline;">ICE :</span>  <span  t-field="l.client_id.numero_ice"/></div>
+                            </t>
+                        </div>
+                    </div>
+                    <style>
+                        .table2 td { border: 1px solid black; padding:2px;font-size : 12px;font-family:roboto;}
+                        .table3 tr td {  border: 0 ; padding:2px; }
+                        .table3 {font-size:12px;font-family:roboto;}
+                        .foot_foot {
+                          position: fixed;
+                          left: 0;
+                          bottom: 0;
+                          width: 100%;
+                          background-color: red;
+                          color: white;
+                          text-align: center;
+                        }
+                    </style>
+                    <div style="min-height:560px;margin-top:180px;">
+                         <table width="100%" style="text-align:center;font-family:roboto;font-size:12px;border-bottom: 1px solid black;">
+                            <thead  style="width:100%;" >
+                                <tr style="line-height:30px;border-bottom: 1px solid #000;">
+                                    <th style="text-align:center;padding-left:5px;" width="10%">OF</th>
+                                    <th style="text-align:center;padding-left:5px;" width="40%">DESCRIPTION</th>
+                                    <th style="text-align:center;padding-left:5px;" width="10%" >QUANTITE</th>
+                                    <th style="text-align:center;padding-left:5px;" width="10%" >PRIX H.T <t t-if="l.currency_id.name=='EUR'">€</t></th>
+                                    <th style="text-align:center;padding-left:5px;" width="20%">TOTAL H.T <t t-if="l.currency_id.name=='EUR'">€</t></th>
+                                </tr>
+                            </thead>
+                             <tbody >
+                                 <tr width="100%" style="line-height:30px;border-bottom: 1px solid #000;" >
+                                     <td colspan="5" style="text-align:left;padding-left:25px;font-weight: bold;">Atelier : <span t-field="l.atelier_id.name"/></td>
+                                 </tr>
+                                 <t t-set="sum_pieces" t-value="0"/>
+                                 <t t-foreach="l.facturation_lines_ids"  t-as="nfl" >
+                                    <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
+                                    <tr style="line-height:20px;border-bottom: 1px solid #000;">
+                                        <td style="text-align:center;padding-left:5px;vertical-align:top;" width="10%"><span t-field="nfl.product_id.production_ids.code_article"/></td>
+                                        <td style="text-align:left;padding-left:5px;vertical-align:top;" width="40%">
+                                            <span t-field="nfl.product_description"/>
+                                            <br/>
+                                            <t t-if="nfl.traitement is not False">
+                                                <span style="text-align:center;font-weight: bold;font-size:12px;" t-field="nfl.product_id.production_ids.type_de_traitement"/>
+                                            </t>
+                                        </td>
+                                        <td style="text-align:right;padding-right:5px;vertical-align:top;" width="10%"><span t-field="nfl.qty_to_invoice"/> </td>
+                                        <td style="text-align:right;padding-right:5px;vertical-align:top;" width="12%"><span t-field="nfl.price"/> <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td>
+                                        <td width="20%" style="padding-right:5px;text-align:right; font-weight: bold;vertical-align:top;" ><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')"/> <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td>
+                                    </tr>
+                                 </t>
+                            </tbody>
+                         </table>
+                    </div>
+                    <div style="min-height:310px;max-height:370px;">
+                        <table width="100%">
+                             <tr>
+                                <td colspan="5">
+                                    <div style="width:45%;float:left;margin-top:20px">
+                                         <t t-if="l.currency_id.name=='EUR'">
+                                            <table style="width : 100%;  border: 0 ;margin-bottom:30px;font-size:12px;font-family:roboto;" class="table3">
+                                                <tr><td>Cours de change : <t t-esc="'{0:,.2f}'.format(1/l.currency_id.rate).replace(',', ' ').replace('.',',')"/> DH</td></tr>
+                                                <tr><td>Valeur en DHS : <t t-esc="'{0:,.2f}'.format(l.invoice_totalttc/l.currency_id.rate).replace(',', ' ').replace('.',',')"/> DH</td></tr>
+                                            </table>
+                                         </t>
+                                        <div style="font-size:12px;font-family:roboto;">
+                                            Nous certifions que la prestation a été réalisée sur le territoire du Maroc et que la valeur mentionée est juste et conforme.
+                                            <br/>
+                                            La marchandise déstinée à l'exportation est éxonérée de la TVA suivant Dahir du 01/01/1986 vente en suspension de la taxe sur la valeur ajoutée en vertu de l'article 8 de la loi n° 30-85 relative à la TVA promulguée par le dahir n°
+                                            <table  style="border: 0 ;font-size:10px;" width="100%">
+                                                <tr><td width="80%">AT N°</td><td>DU</td></tr>
+                                                <tr><td width="80%">DUM N°</td><td>DU</td></tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div style="width:50%;float:left;margin-left:20px; margin-top:20px;">
+                                        <table style="width:100%; margin-bottom:20px;" class="table2">
+                                            <tr style="text-align:center;font-family:roboto;font-size:12px;">
+                                                <td>Total H.T <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t>
+                                                </td><td>Total Quantité</td>
+                                                <td>Total Facture <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td>
+                                            </tr>
+                                            <tr style="text-align:right;font-family:roboto;font-size:12px;">
+                                                <td style="padding-right : 5px ;" ><t t-esc="'{0:,.2f}'.format(l.invoice_totalht).replace(',', ' ').replace('.',',')"/> <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td>
+                                                <td><span t-esc="'{0:,}'.format(int(sum_pieces)).replace(',', ' ')"/> Pièces</td>
+                                                <td style="padding-right : 5px ;" ><t t-esc="'{0:,.2f}'.format(l.invoice_totalttc).replace(',', ' ').replace('.',',')"/> <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td></tr>
+                                        </table>
+                                        <table style="width:100%; margin-bottom:20px; border: 0 ;" class="table3">
+                                            <tr><td style="text-align:left;font-family:roboto;font-size:12px;">Echéance du :  <span t-field="l.account_move_id.invoice_date_due"/></td></tr>
+                                        </table>
+                                        <t t-if="l.client_id.comment is not False">
+                                            <table style="width : 100%; margin-bottom:20px; border: 0 ; " class="table3">
+                                                <tr>
+                                                    <td style="text-align:center;font-family:roboto;font-weight: bold;">
+                                                    <span t-field="l.client_id.comment"/>
+                                                    </td>
+                                                 </tr>
+                                            </table>
+                                        </t>
+                                        <t t-if="not l.client_id.invoice_warn_msg">
+                                            <table style="width : 100%;  border: 0 ;" class="table3">
+                                                <tr style="font-family:roboto;font-weight: bold;"><td style="text-align:left;padding-left:30px">Banque :   <span t-field="l.client_id.payment_journal_id.bank_id.name"/></td></tr>
+                                                <tr style="font-family:roboto;font-weight: bold;"><td style="text-align:left;padding-left:30px">RIB : <span t-field="l.client_id.payment_journal_id.bank_account_id.acc_number"/> <t t-if="l.currency_id.name=='EUR' and l.client_id.payment_journal_id.bank_id.bic is not False "> - <span t-field="l.client_id.payment_journal_id.bank_id.bic"/></t></td></tr>
+                                            </table>
+                                        </t>
+                                        <t t-if="l.client_id.invoice_warn_msg">
+                                            <table style="width : 100%;  border: 0 ;font-size:10px" class="table3">
+                                                <tr style="font-family:roboto;font-weight: bold;"><td style="text-align:left;padding-left:30px"><span t-field="l.client_id.invoice_warn_msg"/></td></tr>
+                                            </table>
+                                        </t>
+
+                                        <table style="width : 100%;  border: 0 ;" class="table3">
+                                            <tr><td style="text-align:left;padding-left:30px"></td></tr>
+                                             <img src='/cps_account_invoice_v13/static/src/img/cachet.png' style="position absolute; top: 10px ; height: 150px;"/>
+                                        </table>
+                                     </div>
+                                </td>
+                             </tr>
+                        </table>
+                    </div>
+                    <table style="width:100%;" class="table3" colspan="2">
+                        <tr>
+                            <td colspan="5"  style="padding-top:10px"> <hr style="width:100%;padding-top:0px;margin:0px;border:1px solid black" /></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:10px">SARL au capital de 10.000.000 DH </td>
+                            <td style="padding-left:10px">Patente : 57220888 </td>
+                            <td style="padding-left:10px">R.C : 20359 </td>
+                            <td style="padding-left:10px">ICE : 000066916000087</td>
+                            <td style="padding-left:10px">IF. 4921511</td>
+                        </tr>
+                    </table>
+                </div></t>
+        </t>
+    </template>
+</odoo>
