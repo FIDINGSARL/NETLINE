@@ -3,6 +3,7 @@ from odoo import models, fields, api, exceptions
 
 class Netline_compteur_template(models.Model):
     _name = 'netline.compter'
+    _description = 'Gestion des compteurs'
 
     product_cpt_id = fields.Many2one('product.product', 'Netline Compteur', domain='[("is_compteur", "=", True)]')
     product_name = fields.Char("Nom Compteur")

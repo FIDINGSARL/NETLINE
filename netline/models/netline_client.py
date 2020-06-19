@@ -5,7 +5,6 @@ import datetime
 class Netline_clients(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
-
     product_ids = fields.One2many('netline.product', 'client_id')
     latitude = fields.Float('latitude', digits=(3, 8))
     longitude = fields.Float('longitude', digits=(3, 8))
