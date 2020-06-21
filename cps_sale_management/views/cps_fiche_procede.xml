@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <record id="cps_procede_tree_view" model="ir.ui.view">
+        <field name="name">fiche.procede.tree</field>
+        <field name="model">fiche.procede</field>
+        <field name="arch" type="xml">
+            <tree string="Fiches procedés">
+                <field name="create_date" string="Créé le"/>
+                <field name="template_id" string="Commande/Echan."/>
+                <field name="pantone_code"/>
+                 <field name="pantone_name"/>
+                <field name="type_teinture" />
+                <field name="poids_machine"/>
+                <field name="qte_machine"/>
+                <field name="create_uid" />
+                <field name="traitement_id"/>
+                <field name="section"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cps_fiche_procede_form_view">
+        <field name="name">fiche.procede.form</field>
+        <field name="model">fiche.procede</field>
+        <field name="arch" type="xml">
+            <form string="Procédé">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="pantone_id" options="{'no_quick_create':True}" domain="[('state','=','ok')]" />
+                            <field name="pantone_name"/>
+                            <field name="pantone_code"/>
+                            <field name="traitement_id" readonly="context.get('quick_create')==1"/>
+                            <field name="section"/>
+                        </group>
+                        <group>
+                            <field name="poids_machine"/>
+                            <field name="poids_article"/>
+                            <field name="qte_machine" />
+                            <field name="type_teinture"/>
+<!--                            <field name="final_textil_ids" string="OF"/>-->
+<!--                            <field name="final_echantillon_ids" string="Echantillon"/>-->
+                            <field name="create_uid" />
+                            <field name="version" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="procede_line_ids" widget="one2many_list" context="{'values' : procede_line_ids}">
+                            <tree name="Lignes fiche procédé"  create="true" delete="true" editable="bottom" >
+                                <field name="sequence" widget="handle"/>
+                                <field name="etape_id"/>
+                                <field name="rb" string="RB 1X"  />
+                                <field name="eau" string="Eau (l)"/>
+                                <field name="temps"/>
+                                <field name="temperature" string="T°C" options="{'currency_field': 'valeur'}"/>
+                                <field name="gltr" />
+                                <field name="gkg" />
+                                <field name="quimicos"  options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                                <field name="dosification" string="Qté"/>
+                                <field name="unite_mesure"/>
+                                <field name="kcal" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="cps_fiche_procede_list_action">
+        <field name="name">Fiche procédé</field>
+        <field name="res_model">fiche.procede</field>
+        <field name="view_mode">tree,form</field>
+	</record>
+
+    <record id="cps_fiche_procede_search_view" model="ir.ui.view">
+        <field name="name">fiche.procede.search</field>
+        <field name="model">fiche.procede</field>
+        <field name="arch" type="xml">
+            <search string="Recherche OF">
+                <field name="name"/>
+                <field string="Article" name="template_id"/>
+                <separator/>
+                <field name="traitement_id"/>
+                <separator/>
+                <field name="pantone_name"/>
+                <field name="pantone_code"/>
+                <separator/>
+                <field name="create_uid" string="Créateur"/>
+                <separator/>
+                <group expand="1" name="group_by" string="Grouper par">
+                    <filter string="Commande/Echan." name="template_id" domain="[]" context="{'group_by' : 'template_id'}"/>
+                    <filter string="Traitement" name="traitement_id" domain="[]" context="{'group_by' : 'traitement_id'}"/>
+                    <filter name="pantone_name" string="Nom pantone" domain="[]" context="{'group_by' : 'pantone_name'}"/>
+                    <filter name="pantone_code" string="Code pantone" domain="[]" context="{'group_by' : 'pantone_code'}"/>
+                    <filter name="create_uid" string="Créateur" domain="[]" context="{'group_by' : 'create_uid'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+</odoo>

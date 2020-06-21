@@ -1,0 +1,66 @@
+<odoo>
+  <data>
+
+     <record model="ir.ui.view" id="chariot_tree_view">
+        <field name="name">cps.chariot.tree</field>
+        <field name="model">cps.chariot</field>
+        <field name="arch" type="xml">
+            <tree name="Chariots" >
+                <field name="numero" />
+                <field name="product_production_id" />
+                 <field name="poids" />
+                 <field name="qte" />
+                <field name="qte_reel" />
+                <field name="create_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="chariot_form_view">
+        <field name="name">cps.chariot.form</field>
+        <field name="model">cps.chariot</field>
+        <field name="arch" type="xml">
+            <form string="Chariot">
+                <header>
+                    <button name="%(fiche_route_id)d" string="Imprimer" type="action"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,ready,printed"/>
+                </header>
+
+                <sheet>
+                    <group>
+                          <field name="numero" />
+                          <field name="product_production_id"/>
+                          <field name="poids" />
+                          <field name="qte" />
+                          <field name="qte_reel" />
+                    </group>
+                </sheet>
+<!--                <div class="oe_chatter">-->
+<!--                    <field name="message_follower_ids" widget="mail_followers"/>-->
+<!--                    <field name="activity_ids" widget="mail_activity"/>-->
+<!--                    <field name="message_ids" widget="mail_thread"/>-->
+<!--                </div>-->
+
+            </form>
+        </field>
+    </record>
+
+    <!--<record id="seq_cp_chariot" model="ir.sequence">
+        <field name="name">chariot_sequencer</field>
+        <field name="code">cps.chariot</field>
+        <field name="prefix">00</field>
+        <field name="padding">3</field>
+    </record>-->
+
+
+
+     <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="cps_chariot_action">
+      <field name="name">Chariots</field>
+      <field name="res_model">cps.chariot</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

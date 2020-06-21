@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+        <record id="product_attribute_color" model="product.attribute">
+            <field name="name">Couleur article</field>
+            <field name="display_type">color</field>
+        </record>
+        <record id="product_attribute_marque" model="product.attribute">
+            <field name="name">Marque article</field>
+            <field name="display_type">select</field>
+        </record>
+        <record id="product_attribute_matiere" model="product.attribute">
+            <field name="name">Matière article</field>
+            <field name="display_type">select</field>
+        </record>
+        <record id="product_attribute_composition" model="product.attribute">
+            <field name="name">Composition article</field>
+            <field name="display_type">select</field>
+        </record>
+        <record id="product_product_eau" model="product.product">
+            <field name="name">Eau</field>
+            <field name="default_code">EAU</field>
+            <field name="type">consu</field>
+            <field name="sale_ok">False</field>
+            <field name="purchase_ok">True</field>
+        </record>
+        <record id="product_product_fuel" model="product.product">
+            <field name="name">Fuel</field>
+            <field name="default_code">FUEL</field>
+            <field name="type">product</field>
+            <field name="sale_ok">False</field>
+            <field name="purchase_ok">True</field>
+        </record>
+        <record id="product_product_electricite" model="product.product">
+            <field name="name">Electricité</field>
+            <field name="default_code">ELEC</field>
+            <field name="type">consu</field>
+            <field name="sale_ok">False</field>
+            <field name="purchase_ok">True</field>
+        </record>
+        <record id="product_product_charge_fixes_del" model="product.product">
+            <field name="name">Charges fixes délavage</field>
+            <field name="default_code">FIXES DEL</field>
+            <field name="type">consu</field>
+            <field name="sale_ok">False</field>
+            <field name="purchase_ok">True</field>
+            <field name="standard_price">1</field>
+        </record>
+        <record id="product_product_charge_fixes_tein" model="product.product">
+            <field name="name">Charges fixes teinture</field>
+            <field name="default_code">FIXES TEIN</field>
+            <field name="type">consu</field>
+            <field name="sale_ok">False</field>
+            <field name="purchase_ok">True</field>
+            <field name="standard_price">2</field>
+        </record>
+        <record id="product_product_charge_fixes_ts" model="product.product">
+            <field name="name">Charges fixes TS</field>
+            <field name="default_code">FIXES TS</field>
+            <field name="type">consu</field>
+            <field name="sale_ok">False</field>
+            <field name="purchase_ok">True</field>
+            <field name="standard_price">3</field>
+        </record>
+    </data>
+</odoo>

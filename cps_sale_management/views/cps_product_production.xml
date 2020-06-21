@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="cps_product_production_form_view">
+        <field name="name">cps.product.production.form</field>
+        <field name="model">cps.product.production</field>
+        <field name="arch" type="xml">
+            <form string="Commande production">
+                <header>
+                    <button string="Solder" name="set_solde" type="object" states="pret"/>
+                    <button string="Désolder" name="set_unsolde" type="object" states="solde"/>
+                    <button name="action_creer_livraison_emballage" string="Créer colis" type="object" groups="cps_sale_management.group_admin,cps_sale_management.group_emballage"/>
+                    <button name="action_creer_chariot" string="Créer chariot" type="object" groups="cps_sale_management.group_admin,cps_sale_management.group_labo"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pret,traitement,fait,solde"/>
+                    <field name="state_fact" widget="statusbar" statusbar_visible="to_fact,fact_part,fact" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box" position="inside">
+                        <!--<button type="object"
+                            name="action_view_receptions"
+                            class="oe_stat_button" icon="fa-arrow-left">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_entree" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">pcs reçues</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_livraisons"
+                            class="oe_stat_button" icon="fa-arrow-right">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_sortie" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">pcs livrées</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_retours"
+                            class="oe_stat_button" icon="fa-arrow-right">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_retour" widget="statinfo" nolabel="1" class="mr4"/> pcs
+                                </span>
+                                <span class="o_stat_text">retour S.T.</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_retours_correction"
+                            class="oe_stat_button" icon="fa-arrow-right">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_retour_correction" widget="statinfo" nolabel="1" class="mr4"/> pcs
+                                </span>
+                                <span class="o_stat_text">Corrections</span>
+                            </div>
+                        </button>-->
+                        <button type="object"
+                            name="action_view_livraisons_emballage"
+                            class="oe_stat_button" icon="fa-arrow-right">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_sortie_emballage_2" widget="statinfo" nolabel="1" class="mr4"/> pcs
+                                </span>
+                                <span class="o_stat_text">Emballées</span>
+                            </div>
+                        </button>
+                         <button type="object"
+                            name="action_view_chariot"
+                            class="oe_stat_button" icon="fa-arrow-right">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_chariot_cree" widget="statinfo" nolabel="1" class="mr4"/> pcs
+                                </span>
+                                <span class="o_stat_text">Chariots</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_flux"
+                            class="oe_stat_button" icon="fa-arrows-h">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_encours" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Encours</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_factures"
+                            class="oe_stat_button" icon="fa-arrows-h">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_facturee" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Facturé</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_procede"
+                            class="oe_stat_button" icon="fa-flask">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="procede_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Procédés</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_route"
+                            class="oe_stat_button" icon="fa-gears">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="route_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Routes</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_bom"
+                            class="oe_stat_button" icon="fa-puzzle-piece">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="bom_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">P.R.I.</span>
+                            </div>
+                        </button>
+
+
+                    </div>
+                     <div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Nom du produit"/>
+                        <h1><field name="name" placeholder="Product Name"/></h1>
+                     </div>
+                    <group>
+                        <group name="left">
+                            <field name="code_article" string="N° commande"/>
+                        </group>
+                        <group name="right">
+                            <field name="traitement_name"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Information général" name="general_information">
+                             <group>
+                                <group name="left" string="Partenaire">
+                                    <field name="client_principal_id" options="{'no_create_edit':True, 'no_quick_create':True}" context="{'default_is_client_principal': True, 'default_is_company' : True, 'search_default_customer' : 1, 'default_customer_rank': 1}"/>
+                                    <field name="client_id" options="{'no_create_edit':True, 'no_quick_create':True}" context="{'default_is_client_principal': False, 'default_is_company' : True, 'search_default_customer' : 1, 'default_customer_rank': 1}"/>
+                                    <field name="atelier_id" options="{'no_create_edit':True, 'no_quick_create':True}" context="{'default_is_company' : True, 'default_is_atelier' : True, 'default_customer' : 1, 'default_customer_rank': 1}"/>
+                                    <!--<field name="of_name" string="Transformé en O.F."/>-->
+                                </group>
+                                <group name="right" string="Modèle">
+                                    <field name="type_article_id" options="{'no_create_edit':True, 'no_quick_create':True}" readonly="" domain="[('id', 'child_of', 2)]"/>
+                                    <field name="marque" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="reference" />
+                                    <field name="segment" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="coloriss_client" />
+                                    <field name="commande_client" />
+                                    <field name="type_de_traitement" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="date_ok"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="date_export" />
+                                    <field name="ctw"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="qte"/>
+                                    <label for="price" groups="cps_sale_management.group_commercial,cps_sale_management.group_admin,cps_sale_management.group_finance" />
+                                    <div name="standard_price_uom" groups="cps_sale_management.group_commercial,cps_sale_management.group_admin,cps_sale_management.group_finance" class="o_row">
+                                        <field name="price" widget='monetary' options="{'currency_field': 'devise'}"/>
+                                        <span groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_finance" class="oe_read_only">soit
+                                            <field name="montant_cde" widget="monetary" options="{'currency_field': 'devise'}"/>
+                                        </span>
+                                        <field name="devise" invisible="1"/>
+                                    </div>
+                                    <field name="montant_en_souffrance_mad" string="Souffrance" widget="monetary" options="{'currency_field': 'devise'}" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_finance"/>
+                                    <field name="product_id" groups="cps_sale_management.group_admin"/>
+                                </group>
+                                <group name="left" string="Tissu"  colspan="1">
+                                    <field name="composition_id"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="matiere_id" />
+                                    <field name="poids" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                </group>
+
+                            </group>
+                        </page>
+
+                        <page string="Photos" name="Photos">
+                            <group name="left">
+                                <field name="image_devant" widget="image" string="Photo devant"/>
+                            </group>
+                            <group name="right">
+                                <field name="image_dos" widget="image" string="Photo dos"/>
+                            </group>
+                        </page>
+                        <page string="Route" groups="cps_sale_management.group_admin,cps_sale_management.group_labo">
+                                <group>
+                                    <field name="traitement_ids" />
+                                </group>
+                                <group>
+                                    <button string ="Générer la fiche procédé" name="action_generer_fiche_procede" type="object" />
+                                </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cps_product_production_tree_view">
+        <field name="name">cps.product.production.tree</field>
+        <field name="model">cps.product.production</field>
+        <field name="arch" type="xml">
+            <tree string="Commande production" default_order="total_encours desc">
+                <field name="active" invisible="1"/>
+                <field name="code_article" string="Cde. ECOLO"/>
+<!--                <field name="name"/>-->
+                <field name="client_name"/>
+                <field name="atelier_id"/>
+                <field name="type_article_name"/>
+                <field name="reference"/>
+                <field name="commande_client"/>
+                <field name="coloriss_client"/>
+                <field name="procede_given" string="pr." groups="cps_sale_management.group_admin,cps_sale_management.group_labo"/>
+                <field name="qte" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" sum="Total qté" widget="monetary"/>
+                <field name="price" widget="monetary" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" options="{'currency_field': 'devise'}"/>
+                <field name="total_entree" string="Ent." sum="Total entrées" />
+                <!--<field name="total_entree_jour" string="Ent. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>-->
+                <field name="total_sortie" string="Sor." sum="Total sorties"/>
+                <!--<field name="total_sortie_jour" string="Sor. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>-->
+                <field name="total_retour" string="Sor. S.T." sum="Total retour st" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
+                <field name="total_retour_correction" string="Corr." sum="Total correction" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
+                <field name="total_encours" string="Enc." sum="Total encours" />
+                <field name="total_sortie_emballage_2" sum="Total emballage" groups="cps_sale_management.group_admin,cps_sale_management.group_emballage"/>
+                <!--<field name="total_sortie_emballage_jour"/>-->
+                <field name="total_facturee" string="Fact." sum="Total facturé" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="total_en_souffrance" string="Souff." sum="Total souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="montant_en_souffrance" string= "Souff. Dev." widget="monetary" sum="Montant souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" options="{'currency_field': 'devise'}"/>
+                <field name="montant_en_souffrance_mad" string= "Souff. MAD" widget="monetary" sum="Montant souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="derniere_sortie" groups="cps_sale_management.group_admin,cps_sale_management.group_finance,cps_sale_management.group_commercial"/>
+                <!--<field name="image_given" string="Photo"/>-->
+                <field name="devise" invisible="1"/>
+                <field name="state"/>
+                <field name="create_uid" string="Créé par"/>
+                <button string="E/S" name="action_view_flux" type="object"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cps_product_production_souffrance_tree_view">
+        <field name="name">cps.product.production.souffrance.tree</field>
+        <field name="model">cps.product.production</field>
+        <field name="arch" type="xml">
+            <tree string="Commandes en souffrance" default_order="total_encours desc">
+                <field name="active" invisible="1"/>
+                <field name="code_article" string="Cde. ECOLO"/>
+<!--                <field name="name"/>-->
+                <field name="client_name"/>
+                <field name="atelier_id"/>
+                <field name="type_article_name"/>
+                <field name="reference"/>
+                <field name="commande_client"/>
+                <field name="qte" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" sum="Total qté" widget="monetary"/>
+                <field name="price" widget="monetary" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" options="{'currency_field': 'devise'}"/>
+                <field name="total_entree" string="Ent." sum="Total entrées" />
+                <field name="total_sortie" string="Sor." sum="Total sorties"/>
+                <field name="total_encours" string="Enc." sum="Total encours" />
+                <field name="total_facturee" string="Fact." sum="Total facturé" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="total_en_souffrance" string="Souff." sum="Total souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="montant_en_souffrance" string= "Souff. Dev." widget="monetary" sum="Montant souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" options="{'currency_field': 'devise'}"/>
+                <field name="montant_en_souffrance_mad" string= "Souff. MAD" widget="monetary" sum="Montant souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="derniere_sortie" groups="cps_sale_management.group_admin,cps_sale_management.group_finance,cps_sale_management.group_commercial"/>
+                <field name="devise" invisible="1"/>
+                <field name="state"/>
+                <field name="create_uid" string="Créé par"/>
+                <button string="E/S" name="action_view_flux" type="object"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cps_product_production_livraisons_tree_view">
+        <field name="name">cps.product.production.livraison.tree</field>
+        <field name="model">cps.product.production</field>
+        <field name="arch" type="xml">
+            <tree string="Sorties production">
+                <field name="active" invisible="1"/>
+                <field name="code_article" string="N° commande"/>
+                <field name="name"/>
+                <field name="client_name"/>
+                <field name="total_sorties_magasin_dynamique" string="Sorties"/>
+                <field name="state"/>
+                <field name="create_uid" string="Créé par"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cps_product_production_receptions_tree_view">
+        <field name="name">cps.product.production.reception.tree</field>
+        <field name="model">cps.product.production</field>
+        <field name="arch" type="xml">
+            <tree string="Entrées production">
+                <field name="active" invisible="1"/>
+                <field name="code_article" string="N° commande"/>
+                <field name="name"/>
+                <field name="client_name"/>
+                <field name="total_entrees_magasin_dynamique"/>
+                <field name="state"/>
+                <field name="create_uid" string="Créé par"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cps_product_production_emballagesss_tree_view">
+        <field name="name">cps.product.production.emballages.trees</field>
+        <field name="model">cps.product.production</field>
+        <field name="arch" type="xml">
+            <tree string="Sorties emballage">
+                <field name="active" invisible="1"/>
+                <field name="code_article" string="N° commande"/>
+                <field name="name"/>
+                <field name="client_name"/>
+                <field name="total_sorties_emballage_dynamique"/>
+                <field name="state"/>
+                <field name="create_uid" string="Créé par"/>
+            </tree>
+        </field>
+    </record>
+
+	<record model="ir.actions.act_window" id="cps_product_production_tree_list_action">
+		<field name="name">Gestion cde. production</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="res_model">cps.product.production</field>
+        <field name="view_id" ref="cps_product_production_tree_view"/>
+	</record>
+
+	<record model="ir.actions.act_window" id="cps_product_production_souffrance_tree_list_action">
+		<field name="name">Livraisons en souffrance</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="res_model">cps.product.production</field>
+        <field name="domain">[('total_en_souffrance', '>', 0)]</field>
+        <field name="view_id" ref="cps_product_production_souffrance_tree_view"/>
+	</record>
+
+	<record model="ir.actions.act_window" id="cps_product_production_livraisons_list_action">
+		<field name="name">Sorties magasin</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="res_model">cps.product.production</field>
+		<field name="context">{"no_client":1}</field>
+        <field name="domain">[('total_sorties_magasin_dynamique', '>', 0)]</field>
+        <field name="view_id" ref="cps_product_production_livraisons_tree_view"/>
+	</record>
+
+	<record model="ir.actions.act_window" id="cps_product_production_receptions_list_action">
+		<field name="name">Entrées magasin</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="res_model">cps.product.production</field>
+		<field name="context">{"no_client":1}</field>
+        <field name="domain">[('total_entrees_magasin_dynamique', '>', 0)]</field>
+        <field name="view_id" ref="cps_product_production_receptions_tree_view"/>
+	</record>
+
+	<record model="ir.actions.act_window" id="cps_product_production_emballage_listes_action">
+		<field name="name">Sorties emballage</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="res_model">cps.product.production</field>
+        <field name="view_id" ref="cps_product_production_emballagesss_tree_view"/>
+	</record>
+
+    <record model="ir.ui.view" id="cps_product_production_kanban_view">
+        <field name="name">cps.product.production.kanban</field>
+        <field name="model">cps.product.production</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="id"/>
+                <field name="code_article"/>
+                <field name="name"/>
+                <field name="client_name"/>
+                <field name="active"/>
+                <field name="image_devant"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('cps.product.template', 'image_devant', record.id.raw_value)" alt="Product" class="o_image_64_contain"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li class="mb4">
+                                        <h6><strong><field name="code_article"/> - <field name="name"/></strong></h6>
+                                    </li>
+                                    <li>Client : <field name="client_name" string="Ent."/></li>
+                                    <li>Prix : <field name="price" string="Ent."/></li>
+                                    <li>Entrés : <field name="total_entree" string="Ent."/></li>
+                                    <li>Sorties : <field name="total_sortie" string="Sor."/></li>
+                                    <li>Encours : <field name="total_encours" string="Enc."/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="cps_product_productions_search_view" model="ir.ui.view">
+        <field name="name">cps.product.production.search</field>
+        <field name="model">cps.product.production</field>
+        <field name="arch" type="xml">
+            <search string="Recherche OF">
+                <field string="Ordre de fabrication" name="code_article" domain="[]" />
+                <field name="name" string="Nom article"/>
+                <separator/>
+                <field string="Etat de l'article" name="state"/>
+                <separator/>
+                <field string="Article" name="product_id"/>
+                <separator/>
+                <field name="reference"/>
+                <field name="commande_client"/>
+                <separator/>
+                <field name="coloriss_client"/>
+                <separator/>
+                <filter string="Aujourd'hui" name="total_sorties_emballage_dynamique" domain="[('total_sorties_emballage_dynamique', '=', 'today')]"/>
+                <filter string="Hier" name="total_sorties_emballage_dynamique" domain="[('total_sorties_emballage_dynamique', '=', 'yesterday')]"/>
+                <separator/>
+                <filter string="Cette semaine" name="total_sorties_emballage_dynamique" domain="[('total_sorties_emballage_dynamique', '=', 'this_week')]"/>
+                <filter string="Semaine dernière" name="total_sorties_emballage_dynamique" domain="[('total_sorties_emballage_dynamique', '=', 'last_week')]"/>
+                <separator/>
+                <filter string="Ce mois" name="total_sorties_emballage_dynamique" domain="[('total_sorties_emballage_dynamique', '=', 'this_month')]"/>
+                <filter string="Mois dernier" name="total_sorties_emballage_dynamique" domain="[('total_sorties_emballage_dynamique', '=', 'last_month')]"/>
+                <separator/>
+                <filter string="Cette année" name="total_sorties_emballage_dynamique" domain="[('total_sorties_emballage_dynamique', '=', 'this_year')]"/>
+                <filter string="Année dernière" name="total_sorties_emballage_dynamique" domain="[('total_sorties_emballage_dynamique', '=', 'last_year')]"/>
+                <group expand="0" name="group_by" string="Grouper par">
+                    <filter string="Traitement" name="state" domain="[]" context="{'group_by' : 'type_de_traitement'}"/>
+                    <filter string="Etat de l'article" name="state" domain="[]" context="{'group_by' : 'state'}"/>
+                    <filter name="client_name" string="Client" domain="[]" context="{'group_by' : 'client_name'}"/>
+                    <filter name="atelier_id" string="Atelier" domain="[]" context="{'group_by' : 'atelier_id'}"/>
+                    <filter name="commande_client" string="Commmande client" domain="[]" context="{'group_by' : 'commande_client'}"/>
+                    <filter name="reference" string="Référence" domain="[]" context="{'group_by' : 'reference'}"/>
+                    <filter name="coloriss_client" string="Couleur" domain="[]" context="{'group_by' : 'coloriss_client'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <record id="facturer_more_product_production_action" model="ir.actions.server">
+            <field name="name">Facturer</field>
+            <field name="model_id" ref="model_cps_product_production"/>
+            <field name="state">code</field>
+            <!--<field name="condition">True</field>-->
+            <field name="code">action = env["cps.product.production"].create_invoice()</field>
+            <field name="binding_model_id" ref="cps_sale_management.model_cps_product_production" />
+    </record>
+
+    <record id="solder_more_product_production_action" model="ir.actions.server">
+            <field name="name">Solder</field>
+            <field name="model_id" ref="model_cps_product_production"/>
+            <field name="state">code</field>
+            <field name="code">action = env["cps.product.production"].set_solde_multi()</field>
+            <field name="binding_model_id" ref="cps_sale_management.model_cps_product_production" />
+    </record>
+
+    <record id="desolder_more_product_production_action" model="ir.actions.server">
+            <field name="name">Désolder</field>
+            <field name="model_id" ref="model_cps_product_production"/>
+            <field name="state">code</field>
+            <field name="code">action = env["cps.product.production"].set_unsolde_multi()</field>
+            <field name="binding_model_id" ref="cps_sale_management.model_cps_product_production" />
+    </record>
+
+</odoo>

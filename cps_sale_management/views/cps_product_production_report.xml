@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="cps_product_production_pivot">
+        <field name="name">cps.product.production.pivot</field>
+        <field name="model">cps.product.production.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Etas de production" disable_linking="True">
+<!--                <field name="statut" type="row"/>-->
+                <field name="client_id" type="row"/>
+<!--                <field name="marque" type="row"/>-->
+                <field name="code_article" type="row"/>
+                <!--<field name="product_order_name" type="row"/>-->
+                <field name="date" type="col"/>
+<!--                <field name="designation" type="col"/>-->
+<!--                <field name="traitement_name" type="col"/>-->
+                <!--<field name="qte_cde" type="col"/>-->
+                <!--<field name="export" type="col"/>-->
+                <!--<field name="qte" type="measure"/>-->
+<!--                <field name="entree" type="measure"/>-->
+                <field name="sortie" type="measure"/>
+                <field name="valeur" type="measure"/>
+<!--                <fiel name="encours" type="measure"/>-->
+            </pivot>
+        </field>
+    </record>
+<!--    <record model="ir.ui.view" id="view_textil_report_graph">-->
+<!--        <field name="name">netline.textil.graph</field>-->
+<!--        <field name="model">netline.textil.report</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <graph string="Purchase Orders Statistics">-->
+<!--                <field name="statut" type="row"/>-->
+<!--                <field name="client_id" type="row"/>-->
+<!--                <field name="code_article" type="row"/>-->
+<!--                <field name="product_order_name" type="row"/>-->
+<!--                &lt;!&ndash;<field name="modele" type="col"/>&ndash;&gt;-->
+<!--                &lt;!&ndash;<field name="designation" type="col"/>&ndash;&gt;-->
+<!--                &lt;!&ndash;<field name="traitement_name" type="col"/>&ndash;&gt;-->
+<!--                &lt;!&ndash;<field name="qte_cde" type="col"/>&ndash;&gt;-->
+<!--                &lt;!&ndash;<field name="export" type="col"/>&ndash;&gt;-->
+<!--                &lt;!&ndash;<field name="qte" type="measure"/>&ndash;&gt;-->
+<!--                <field name="recu" type="measure"/>-->
+<!--                <field name="arecevoir" type="measure"/>-->
+<!--                <field name="livre" type="measure"/>-->
+<!--                <field name="encours" type="measure"/>-->
+<!--            </graph>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="view_textil_search" model="ir.ui.view">-->
+<!--        <field name="name">report.textil.search</field>-->
+<!--        <field name="model">netline.textil.report</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Manques">-->
+<!--                <field name="client_id"/>-->
+<!--                <group expand="0" string="Extended Filters">-->
+<!--                    <field name="client_id"/>-->
+<!--                    <field name="code_article"/>-->
+<!--                </group>-->
+<!--                <group expand="1" string="Group By">-->
+<!--                    <filter name="Client" context="{'group_by':'client_id'}"/>-->
+<!--                </group>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="action_cps_product_production_report" model="ir.actions.act_window">
+        <field name="name">Etat des Flux des commandes</field>
+        <field name="res_model">cps.product.production.report</field>
+        <field name="view_mode">pivot,graph</field>
+<!--        <field name="help">Purchase Analysis allows you to easily check and analyse your company purchase history and performance. From this menu you can track your negotiation performance, the delivery performance of your vendors, etc.</field>-->
+    </record>
+
+</odoo>

@@ -1,0 +1,10 @@
+<odoo>
+  <data>
+
+<!--    <record id="purchase.purchase_rfq" model="ir.actions.act_window">-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="domain">[('is_commande', '=', True)]</field>-->
+<!--    </record>-->
+
+  </data>
+</odoo>

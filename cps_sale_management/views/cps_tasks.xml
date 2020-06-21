@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_sorties_jours_compute_all" model="ir.cron">
+        <field name="name">Compute All</field>
+        <field name="model_id" ref="model_cps_product_template"/>
+        <field name="state">code</field>
+        <field name="code">model.compute_all_schedule()</field>
+        <field name='interval_number'>600</field>
+        <field name='interval_type'>minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True"/>
+<!--        <field name="doall" eval="False"/>-->
+<!--        <field name="nextcall" >2020-03-10 23:31:00</field>-->
+    </record>
+    <record id="ir_cron_solder_of" model="ir.cron">
+        <field name="name">Solder les modéles</field>
+        <field name="model_id" ref="model_cps_product_production"/>
+        <field name="state">code</field>
+        <field name="code">model.compute_solde_schedule()</field>
+        <field name='interval_number'>60</field>
+        <field name='interval_type'>minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="True"/>
+<!--        <field name="nextcall" >2020-03-23 19:50:00</field>-->
+    </record>
+
+</odoo>
