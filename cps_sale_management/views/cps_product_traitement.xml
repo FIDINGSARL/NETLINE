@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cps_product_traitement_tree_view" model="ir.ui.view">
+        <field name="name">cps.product.traitement.tree</field>
+        <field name="model">cps.product.traitement</field>
+        <field name="arch" type="xml">
+            <tree string="Traitements" create="true" delete="true" editable="bottom" >
+                <field name="name"/>
+                 <field name="section_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="cps_product_traitement_action">
+		<field name="name">Liste des traitements</field>
+        <field name="view_mode">tree</field>
+		<field name="res_model">cps.product.traitement</field>
+	</record>
+</odoo>

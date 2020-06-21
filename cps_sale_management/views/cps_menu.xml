@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem name="Chariots" id="cps_chariot" parent="stock.menu_stock_warehouse_mgmt"  action="cps_chariot_action" sequence="4" />
+        <menuitem name="Colis d'emballage" id="cps_colis_emballage_v4" parent="stock.menu_stock_warehouse_mgmt"  action="cps_colis_emballage_action" sequence="3" />
+        <!--<menuitem name="Colis d'emballage paramètres" id="cps_colis_emballage_config" parent="stock.menu_stock_config_settings"  action="cps_colis_config_action" sequence="5" />-->
+        <menuitem id="menu_config_v4" name="General Settings" parent="base.menu_administration" sequence="0" action="your_settings_action" groups="base.group_system"/>
+    	<menuitem id="cps_sale_menu_v4" name="Ventes" sequence="1" web_icon="cps_sale_management,static/description/icon.png"/>
+            <menuitem id="cps_commande_menu_v4" name="Commandes" parent="cps_sale_menu_v4" sequence="1"/>
+                <menuitem id="commande_production" name="Gestion cde. production" parent="cps_commande_menu_v4" action="cps_product_production_tree_list_action" sequence="1"/>
+                <menuitem id="commande_echantillon_v4" name="Gestion cde. échantillon" parent="cps_commande_menu_v4" action="cps_product_echantillon_list_action" sequence="2"/>
+                <menuitem id="cps_clients_principal_v4" name="Clients principaux" parent="cps_commande_menu_v4" action="cps_clients_principal_list_action" sequence="3"/>
+                <menuitem id="cps_clients_v4" name="Clients" parent="cps_commande_menu_v4" action="cps_clients_list_action" sequence="4"/>
+                <menuitem id="cps_ateliers_v4" name="Ateliers" parent="cps_commande_menu_v4" action="cps_ateliers_list_action" sequence="5"/>
+            <menuitem id="stock_en_cours_v4" name="Stock" parent="cps_sale_menu_v4" sequence="2"/>
+                <menuitem id="receptions_production_v4" name="Receptions magasin" parent="stock_en_cours_v4" action="cps_product_production_receptions_list_action" sequence="1"/>
+                <menuitem id="sorties_emballage_v4" name="Sorties emballage" parent="stock_en_cours_v4" action="cps_product_production_emballage_listes_action" sequence="2"/>
+                <menuitem id="livraisons_production_v4" name="Livraisons magasin" parent="stock_en_cours_v4" action="cps_product_production_livraisons_list_action" sequence="3"/>
+                <menuitem id="settings_menu" name="Bons a valider" parent="stock_en_cours_v4" action="stock_picking_type_action_inherit" sequence="4"/>
+            <menuitem id="cps_analuse_commande_menu" name="Analyse des Commandes" parent="cps_sale_menu_v4" sequence="3"/>
+                <menuitem id="cps_analuse_commande" name="Etats des commandes" parent="cps_analuse_commande_menu" action="action_cps_product_production_report" sequence="1"/>
+
+
+            <menuitem id="settings_menu_v4" name="Paramétres" parent="cps_sale_menu_v4" sequence="4"/>
+                <menuitem id="fiche_procede_v4" name="Fiches procédés" parent="settings_menu_v4" action="cps_fiche_procede_list_action" sequence="1"/>
+                <menuitem id="catalog_pantone_v4" name="Catalogue pantone" parent="settings_menu_v4" action="cps_pantone_list_action" sequence="2"/>
+                <menuitem id="traitements_v4" name="Traitements" parent="settings_menu_v4" action="cps_product_traitement_action" sequence="3"/>
+
+            <menuitem id="correction_pointage" name="Correction pointage" parent="hr_attendance.menu_hr_attendance_manage_attendances" action="cps_hr_correction_action" sequence="11"/>
+            <menuitem name="Livraisons en souffrance" id="account_invoice_sale_tree" parent="account.menu_finance_receivables" action="cps_product_production_souffrance_tree_list_action" sequence="2" />
+
+
+    </data>
+</odoo>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cps_chariot_helper_form_view">
+            <field name="name">cps.chariot.helper.form</field>
+            <field name="model">cps.chariot.helper</field>
+            <field name="arch" type="xml">
+                <form string="Chariot">
+                    <group>
+                        <h3>Merci de saisir le poids et la quantite de chariot</h3>
+                        <field name="product_id" invisible="1"/>
+                        <field name="poids"/>
+                        <field name="qte"/>
+                        <field name="qte_reel"/>
+                    </group>
+                    <footer>
+                        <button string="Valider" name="create_chariot" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="res_partner_form_view">
+        <field name="name">res.partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="is_client_principal"/>
+                <field name="is_atelier"/>
+            </field>
+            <field name="vat" position="after">
+                <field name="numero_rc" />
+                <field name="numero_ice" />
+                <field name="numero_if" />
+            </field>
+            <field name="category_id" position="after">
+                    <field name="numero_cnss" />
+                    <field name="numero_tp" />
+            </field>
+            <field name="property_account_payable_id" position="after">
+                 <field name="payment_journal_id" />
+            </field>
+
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="cps_clients_principal_list_action">
+		<field name="name">Clients</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="res_model">res.partner</field>
+		<field name="context">{'is_client_principal':1,'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+        <field name="domain">[('is_client_principal', '=', True)]</field>
+	</record>
+
+     <record model="ir.actions.act_window" id="cps_clients_list_action">
+		<field name="name">Clients</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="res_model">res.partner</field>
+        <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+        <field name="domain">[('is_client_principal', '=', False),('is_atelier', '=', False)]</field>
+	</record>
+
+    <record model="ir.actions.act_window" id="cps_ateliers_list_action">
+		<field name="name">Ateliers</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="res_model">res.partner</field>
+		<field name="context">{'default_is_atelier':1,'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+        <field name="domain">[('is_atelier', '=', True)]</field>
+	</record>
+
+</odoo>

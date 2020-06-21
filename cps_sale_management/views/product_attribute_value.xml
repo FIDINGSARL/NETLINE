@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="product_attribute_value_form_inherit_view">
+        <field name="name">product.attribute.value.inherit.form</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="attribute_id" position="after">
+                <field name="attribute_name"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

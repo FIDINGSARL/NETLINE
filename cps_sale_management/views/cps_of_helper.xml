@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cps_of_helper_form_view">
+            <field name="name">cps.of.helper.form</field>
+            <field name="model">cps.of.helper</field>
+            <field name="arch" type="xml">
+                <form string="Livaison">
+                    <group>
+                        <h3>Merci de saisir la quantité a produire</h3>
+                        <field name="product_id"/>
+                        <field name="qte"/>
+                    </group>
+                    <footer>
+                        <button string="Valider" name="create_of" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

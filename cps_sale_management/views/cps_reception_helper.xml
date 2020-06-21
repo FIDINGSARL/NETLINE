@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cps_reception_helper_form_view">
+            <field name="name">cps.reception.helper.form</field>
+            <field name="model">cps.reception.helper</field>
+            <field name="arch" type="xml">
+                <form string="Recéption">
+                    <group>
+                        <h3>Merci de saisir la quantité de la réception</h3>
+                        <field name="partner_id" domain="[('is_company', '=', True),('is_client_principal', '=', False)]" invisible="1"/>
+                        <field name="product_id" invisible="1"/>
+                        <field name="n_bon_client"/>
+                        <field name="qte"/>
+                    </group>
+                    <footer>
+                        <button string="Valider" name="create_stock_move_in" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

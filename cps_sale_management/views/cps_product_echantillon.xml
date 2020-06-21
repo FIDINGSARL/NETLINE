@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="cps_product_echantillon_form_view">
+        <field name="name">cps.product.echantillon.form</field>
+        <field name="model">cps.product.echantillon</field>
+        <field name="arch" type="xml">
+            <form string="Commande Echantillon">
+                <header>
+                    <button string="Traitement" name="set_traitement" type="object" states="recu"/>
+                    <button string="Traite" name="set_traite" type="object" states="traitement"/>
+                    <button string="Control" name="set_controle" type="object" states="fait"/>
+                    <button string="Expedié" name="set_expedie" type="object" states="controle"/>
+                    <button string="valider" name="set_valide" type="object" states="expedie,annule"/> <!--groups="netline.group_admin"/>-->
+                    <button string="Sans suite" name="set_annule" type="object" states="expedie,valide"/>
+                    <button string="Passer en prod" name="action_transformer_en_production" type="object" states="valide,prod"/> <!--groups="netline.group_admin,netline.group_gestionnaire"/>-->
+                    <button name="action_creer_reception" string="Créer réception" type="object"/>
+                    <button name="action_creer_livraison" string="Créer livraison" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pret,recu,traitement,fait,controle,expedie,valide,annule,prod"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box" position="inside">
+                        <button type="object"
+                            name="action_view_receptions"
+                            class="oe_stat_button" icon="fa-arrow-left">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_entree" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">pcs reçues</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_livraisons"
+                            class="oe_stat_button" icon="fa-arrow-right">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_sortie" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">pcs livrées</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_retours"
+                            class="oe_stat_button" icon="fa-arrow-right">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_retour" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">pcs retournées</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_flux"
+                            class="oe_stat_button" icon="fa-arrows-h">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_encours" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Encours</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_product_production"
+                            class="oe_stat_button" icon="fa-book">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="production_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Commandes</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_procede"
+                            class="oe_stat_button" icon="fa-flask">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="procede_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Procédés</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_route"
+                            class="oe_stat_button" icon="fa-gears">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="route_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">Routes</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_bom"
+                            class="oe_stat_button" icon="fa-puzzle-piece">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="bom_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                </span>
+                                <span class="o_stat_text">P.R.I.</span>
+                            </div>
+                        </button>
+
+                    </div>
+                     <div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Nom de l'échantillon"/>
+                        <h1><field name="name" placeholder="Product Name"/></h1>
+                     </div>
+                    <group>
+                        <group name="left">
+                            <field name="numero_demande" readonly="1"/>
+                        </group>
+                        <group name="right">
+                            <field name="traitement_name"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Information général" name="general_information">
+                             <group>
+                                <group name="left" string="Partenaire">
+                                    <field name="client_principal_id" domain="[('is_company', '=', True),('is_client_principal', '=', True)]" context="{'default_is_client_principal': True, 'default_is_company' : True}"/>
+                                    <field name="client_id" domain="[('is_company', '=', True),('is_client_principal', '=', False)]"/>
+                                    <!--<field name="of_name" string="Transformé en O.F."/>-->
+                                </group>
+                                <group name="right" string="Modèle">
+                                    <!--<field name="devise_client" invisible="1"/>-->
+                                    <!--<field name="isFacturable"/>-->
+
+                                    <field name="type_article_id" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                                    <field name="marque" options="{'no_create_edit':True}" context="{'default_attribute_id': 19, 'order_display': 'name desc'}"/>
+                                    <field name="reference" />
+                                    <field name="segment"  context="{'order_display': 'name desc'}"/>
+                                    <field name="coloriss_client" options="{'no_create_edit':True}"  context="{'default_attribute_id': 6, 'order_display': 'name desc'}"/>
+                                    <field name="qte" />
+                                    <label for="price"/>
+                                    <div name="standard_price_uom" groups="base.group_user" class="o_row">
+                                        <field name="price" widget='monetary'/>
+                                        <span groups="uom.group_uom" class="oe_read_only">soit
+                                            <field name="montant_cde" widget="monetary" options="{'currency_field': 'devise'}"/>
+                                        </span>
+                                        <field name="devise" invisible="1"/>
+                                    </div>
+                                </group>
+                                <group name="left" string="Tissu"  colspan="1">
+                                    <field name="composition_id" context="{'default_attribute_id': 21, 'order_display': 'name desc'}"/>
+                                    <field name="matiere_id" context="{'default_attribute_id': 20, 'order_display': 'name desc'}"/>
+                                    <field name="poids"/>
+                                </group>
+
+                            </group>
+                        </page>
+
+                        <page string="Photos" name="Photos">
+                            <group name="left">
+                                <field name="image_devant" widget="image" string="Photo devant"/>
+                            </group>
+                            <group name="right">
+                                <field name="image_dos" widget="image" string="Photo dos"/>
+                            </group>
+                        </page>
+                        <page string="Route">
+                                <group>
+                                    <field name="traitement_ids" />
+                                </group>
+                                <group>
+                                    <button string ="Générer la fiche procédé" name="action_generer_fiche_procede" type="object" />
+                                </group>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cps_product_echantillon_tree_view">
+        <field name="name">cps.product.echantillon.tree</field>
+        <field name="model">cps.product.echantillon</field>
+        <field name="arch" type="xml">
+            <tree string="Commande echantillon">
+                <field name="active" invisible="1"/>
+                <field name="numero_demande"/>
+                <field name="name"/>
+                <field name="client_name"/>
+                <!--<field name="traitement_name" />-->
+                <!--<field name="procede_given" string="pr."/>-->
+                <field name="coloriss_client" />
+                <!--<field name="designation" />-->
+                <field name="poids"/>
+                <field name="qte"/>
+                <!--<field name="devise_client" invisible="1"/>-->
+                <field name="price" widget="monetary"/>
+                <field name="montant_cde" widget="monetary"/>
+                <field name="total_entree" string="Ent."/>
+                <field name="total_sortie" string="Sor."/>
+                <field name="total_encours" string="Enc."/>
+                <!--<field name="image_given" string="Photo"/>-->
+                <field name="state"/>
+                <field name="create_uid" string="Créé par"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="cps_product_echantillon_kanban_view">
+        <field name="name">cps.product.echantillon.kanban</field>
+        <field name="model">cps.product.echantillon</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="state">
+                <field name="id"/>
+                <field name="numero_demande"/>
+                <field name="name"/>
+                <field name="client_name"/>
+                <field name="active"/>
+                <field name="image_devant"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('cps.product.template', 'image_devant', record.id.raw_value)" alt="Product" class="o_image_64_contain"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li class="mb4">
+                                        <h6><strong><field name="numero_demande"/> - <field name="name"/></strong></h6>
+                                    </li>
+                                    <li>Client : <field name="client_name" string="Ent."/></li>
+                                    <li>Prix : <field name="price" string="Ent."/></li>
+                                    <li>Entrés : <field name="total_entree" string="Ent."/></li>
+                                    <li>Sorties : <field name="total_sortie" string="Sor."/></li>
+                                    <li>Encours : <field name="total_encours" string="Enc."/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="cps_product_echantillon_list_action">
+        <field name="name">Commandes échantillon</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="res_model">cps.product.echantillon</field>
+        <field name="context">{"no_client":1}</field>
+    </record>
+
+    <record id="cps_product_echantillon_search_view" model="ir.ui.view">
+        <field name="name">cps.product.echantillon.search</field>
+        <field name="model">cps.product.echantillon</field>
+        <field name="arch" type="xml">
+            <search string="Recherche OF">
+                <field name="name"/>
+                <field string="Etat de l'article" name="state"/>
+                <separator/>
+                <field string="Article" name="product_id"/>
+                <field string="Demande" name="code_article" domain="[]" />
+                <separator/>
+                <field name="reference"/>
+                <separator/>
+                <field name="coloriss_client"/>
+                <separator/>
+                <group expand="0" name="group_by" string="Grouper par">
+                    <filter string="Traitement" name="state" domain="[]" context="{'group_by' : 'type_de_traitement'}"/>
+                    <filter string="Etat de l'article" name="state" domain="[]" context="{'group_by' : 'state'}"/>
+                    <filter name="client_id" string="Client" domain="[]" context="{'group_by' : 'client_id'}"/>
+                    <filter name="reference" string="Référence" domain="[]" context="{'group_by' : 'reference'}"/>
+                    <filter name="coloriss_client" string="Couleur" domain="[]" context="{'group_by' : 'coloriss_client'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+</odoo>
+
+
+
+
