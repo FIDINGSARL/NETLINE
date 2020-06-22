@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="livraison_report_id"
+                model="stock.picking"
+                string="Bon de livraison ECOLO"
+                report_type="qweb-pdf"
+                name="cps_sale_management.livraison_report_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+
+    <template id="livraison_report_template">
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="rl">
+                <t t-call="web.external_layout">
+
+                    <div class="page" >
+                        <div class="oe_structure"/>
+                            <table width="100%" >
+                                <tr height="630px" >
+                                    <td width="100%">
+                                            <table width="100%">
+                                                <tr style="padding-top:20px;"><td></td><td align="right">Le <span  t-field="rl.scheduled_date"/></td></tr>
+                                                <tr>
+                                                    <td width="30%"><img src='/cps_sale_management/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                                    <td width="70%" align="left" style="font-size:22px;"><strong>BON DE SORTIE N° <span t-field="rl.name"/></strong></td>
+                                                </tr>
+                                            </table>
+                                            <table  style="margin-top: 2px;" width="100%">
+                                                <tr>
+                                                    <td width="15%" align="center" style="padding: 2px; "><strong>Atelier : </strong></td><td width="35%" style="padding: 2px; "><span  t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.name"/></td>
+                                                    <td width="15%" align="center" style="padding: 2px;"><strong>Client : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.partner_id"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="15%" align="center" style="padding: 5px;"><strong>Traitement : </strong> </td><td colspan="3" style="padding: 2px; "><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>
+                                                </tr>
+                                            </table>
+                                             <table  style="margin-top: 50px;margin-bottom: 50px;border-collapse:collapse" width="100%" >
+                                                <thead>
+                                                    <tr style="border: 1px solid;">
+                                                        <th class="text-center" style="border: 1px solid;">N° OF</th>
+                                                        <th class="text-center" style="border: 1px solid;">Désignation</th>
+                                                        <th class="text-center" style="border: 1px solid;">Quantité</th>
+                                                    </tr>
+                                               </thead>
+                                               <tbody>
+                                                   <t t-foreach="rl.move_ids_without_package" t-as="l">
+                                                        <tr style="font-size:16px;text-align:center;font-family:Calibri;align:right;">
+                                                            <td width="10%" style="border: 1px solid;"><span t-field="rl.product_template_livraison_id.code_article"/></td>
+                                                            <td class="text-left" width="80%" style="border: 1px solid;padding-left:10px;"><span t-field="l.product_id.name"/></td>
+                                                            <td class="text-right" width="10%" style="border: 1px solid;padding-right:10px"><t t-esc="'{0:,.0f}'.format(l.product_uom_qty)" /></td>
+                                                        </tr>
+                                                   </t>
+                                               </tbody>
+                                            </table>
+                                            <table width="100%">
+                                                <tr style="font-size:16px;text-align:center;font-family:Calibri;align:right" width="100%">
+                                                    <td width="33%">Signature et cachet du magasinnier</td>
+                                                    <td width="33%"> Transporteur de la marchandise</td>
+                                                    <td width="33%">Signature et cachet du client</td>
+                                                </tr>
+                                            </table>
+                                    </td>
+                                </tr>
+                                 <tr height="630px" style="border-top:dashed; 2px black">
+                                    <td width="100%">
+                                        <table width="100%">
+                                            <tr><td style="padding-top:50px;"></td><td style="padding-top:20px;" align="right">Le <span  t-field="rl.scheduled_date"/></td></tr>
+                                            <tr>
+                                                <td width="30%"><img src='/cps_sale_management/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                                <td width="70%" align="left" style="font-size:22px;"><strong>BON DE SORTIE N° <span t-field="rl.name"/></strong></td>
+                                            </tr>
+                                        </table>
+                                        <table  style="margin-top: 2px;" width="100%">
+                                            <tr>
+                                                <td width="15%" align="center" style="padding: 2px; "><strong>Atelier : </strong></td><td width="35%" style="padding: 2px; "><span  t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.name"/></td>
+                                                <td width="15%" align="center" style="padding: 2px;"><strong>Client : </strong></td><td width="35%" style="padding: 2px;"><span t-field="rl.partner_id"/></td>
+                                            </tr>
+                                             <tr>
+                                                    <td width="15%" align="center" style="padding: 5px;"><strong>Traitement : </strong> </td><td colspan="3" style="padding: 2px; "><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>
+                                             </tr>
+                                        </table>
+                                         <table  style="margin-top: 50px;margin-bottom: 50px;border-collapse:collapse" width="100%" >
+                                            <thead>
+                                                <tr style="border: 1px solid;">
+                                                    <th class="text-center" style="border: 1px solid;">N° OF</th>
+                                                    <th class="text-center" style="border: 1px solid;">Désignation</th>
+                                                    <th class="text-center" style="border: 1px solid;">Quantité</th>
+                                                </tr>
+                                           </thead>
+                                           <tbody>
+                                               <t t-foreach="rl.move_ids_without_package" t-as="l">
+                                                    <tr style="font-size:16px;text-align:center;font-family:Calibri;align:right;">
+                                                        <td width="10%" style="border: 1px solid;"><span t-field="rl.product_template_livraison_id.code_article"/></td>
+                                                        <td class="text-left" width="80%" style="border: 1px solid;padding-left:10px;"><span t-field="l.product_id.name"/><span t-field="l.product_id.name"/> <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.commande_client"/></td>
+                                                        <td class="text-right" width="10%" style="border: 1px solid;padding-right:10px"><t t-esc="'{0:,.0f}'.format(l.product_uom_qty)" /></td>
+                                                    </tr>
+                                               </t>
+                                           </tbody>
+                                        </table>
+                                        <table width="100%">
+                                            <tr style="font-size:16px;text-align:center;font-family:Calibri;align:right" width="100%">
+                                                <td width="33%">Signature et cachet du magasinnier</td>
+                                                <td width="33%"> Transporteur de la marchandise</td>
+                                                <td width="33%">Signature et cachet du client</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

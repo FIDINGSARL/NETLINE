@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <!-- base structure of product.template, common with product.product -->
+    <record id="compteur_form_view" model="ir.ui.view">
+        <field name="name">product.compteur.form</field>
+        <field name="model">netline.compter</field>
+        <field name="arch" type="xml">
+            <form string="Product">
+                
+                <sheet>
+                    <field name="id" invisible="True"/>
+                    <div class="oe_title">
+                        <label class="oe_edit_only" for="product_name" string="Product Name"/>
+                        <h1><field name="product_name" placeholder="Product Name"/></h1>
+                        <label class="oe_edit_only" for="product_type" string="Type Compteur"/>
+                        <div>
+                            <field name="product_type"/>
+                        </div>
+                        <group name="group_standard_price">
+                            <label for="product_price" groups="base.group_user"/>
+                            <div name="standard_price_uom" groups="base.group_user">
+                                <field name="product_price" widget='monetary' class="oe_inline"/>
+                            </div>
+                            <field name="product_unit_id" string="Unité de mesure"/>
+                            <field name="compteur_principale"/>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="netline_compteur_list_action" model="ir.actions.act_window">
+        <field name="name">Liste des compteurs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">netline.compter</field>
+        <field name="context">{'creationtype': 2}</field>
+        <field name="domain">[('is_compteur', '=', True)]</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to define a new product.
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_compteur_trees_view">
+        <field name="name">netline.compteur.tree</field>
+        <field name="model">netline.compter</field>
+        <field name="arch" type="xml">
+            <tree name="Compteur">
+                <field name="product_name" string="Nom compteur"/>
+                <field name="product_type" string="Type compteur"/>
+                <field name="product_price" string="Prix unitaire"/>
+            </tree>
+        </field>
+    </record>
+
+    </data> 
+</odoo>

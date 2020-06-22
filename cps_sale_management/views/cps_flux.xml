@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="cps_flux_view_form">
+            <field name="name">cps.flux.form</field>
+            <field name="model">cps.flux</field>
+            <field name="arch" type="xml">
+                <form string="Gestion des flux">
+                    <header>
+                        <button name="action_creer_reception" string="Créer réception" type="object" groups="cps_sale_management.group_admin,cps_sale_management.group_mes"/>
+                        <button name="action_creer_livraison" string="Créer livraison" type="object" groups="cps_sale_management.group_admin,cps_sale_management.group_mes"/>
+                        <button name="action_creer_reception_correction" string="Créer correction" type="object" groups="cps_sale_management.group_admin,cps_sale_management.group_mes"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="client_id"/>
+                                <field name="atelier_id"/>
+                                <field name="type_article_id"/>
+                            </group>
+                            <group>
+                                <field name="reference"/>
+                                <field name="commande_client"/>
+                                <field name="total_encours"/>
+                            </group>
+                        </group>
+                        <div class="app_settings_block" >
+                            <h2>Flux standards</h2>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="reception_line_ids"/>
+                            </group>
+                            <group>
+                                <label for="livraison_line_ids"/>
+                            </group>
+                            <div name="left">
+
+                                <field name="reception_line_ids" default_order="date_expected">
+                                    <tree string="Stock Moves" >
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="state" invisible="1" readonly="0"/>
+                                        <field name="picking_type_id" invisible="1"/>
+                                        <field name="location_id" invisible="1"/>
+                                        <field name="location_dest_id" invisible="1"/>
+                                        <field name="scrapped" invisible="1"/>
+                                        <field name="picking_code" invisible="1"/>
+                                        <field name="product_type" invisible="1"/>
+                                        <field name="show_details_visible" invisible="1"/>
+                                        <field name="show_reserved_availability" invisible="1"/>
+                                        <field name="show_operations" invisible="1" readonly="1"/>
+                                        <field name="additional" invisible="1"/>
+                                        <field name="has_move_lines" invisible="1"/>
+                                        <field name="is_locked" invisible="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="has_tracking" invisible="1"/>
+                                        <field name="display_assign_serial" invisible="1"/>
+                                        <field name="date_expected" string="Date"/>
+                                        <field name="reference" string="N° Bon"/>
+                                        <field name="n_bon_client"/>
+                                        <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}" invisible="1"/>
+                                        <!--<field name="description_picking" string="Description" optional="hide"/>-->
+                                        <!--<field name="date_expected" optional="hide"/>-->
+                                        <field name="is_initial_demand_editable" invisible="1"/>
+                                        <field name="is_quantity_done_editable" invisible="1"/>
+    <!--                                        <field name="to_refund"  />-->
+                                        <field name="product_uom_qty" string="Demand" sum="Total"/>
+                                        <!--<field name="reserved_availability" string="Reserved" />-->
+                                        <!--<field name="quantity_done" string="Qté" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}" sum="Total Qté"/>-->
+                                        <!--<field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>-->
+                                        <button name="open_line" type="object" String="Livraison" icon="fa-pencil-square-o"/>
+                                    </tree>
+                                </field>
+
+                            </div>
+                            <div name="right">
+
+                                <field name="livraison_line_ids">
+                                    <tree string="Stock Moves" default_order="date_expected">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="state" invisible="1" readonly="0"/>
+                                        <field name="picking_type_id" invisible="1"/>
+                                        <field name="location_id" invisible="1"/>
+                                        <field name="location_dest_id" invisible="1"/>
+                                        <field name="scrapped" invisible="1"/>
+                                        <field name="picking_code" invisible="1"/>
+                                        <field name="product_type" invisible="1"/>
+                                        <field name="show_details_visible" invisible="1"/>
+                                        <field name="show_reserved_availability" invisible="1"/>
+                                        <field name="show_operations" invisible="1" readonly="1"/>
+                                        <field name="additional" invisible="1"/>
+                                        <field name="has_move_lines" invisible="1"/>
+                                        <field name="is_locked" invisible="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="has_tracking" invisible="1"/>
+                                        <field name="display_assign_serial" invisible="1"/>
+                                        <field name="date_expected" string="Date"/>
+                                        <field name="reference" string="N° Bon"/>
+                                        <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}" invisible="1"/>
+                                        <!--<field name="description_picking" string="Description" optional="hide"/>-->
+                                        <!--<field name="date_expected" optional="hide"/>-->
+                                        <field name="is_initial_demand_editable" invisible="1"/>
+                                        <field name="is_quantity_done_editable" invisible="1"/>
+                                        <field name="product_uom_qty" string="Demand" sum="Total"/>
+
+                                        <!--<field name="reserved_availability" string="Reserved" />-->
+                                        <!--<field name="quantity_done" string="Qté" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}" sum="Total Qté"/>-->
+                                        <!--<field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>-->
+                                        <button name="open_line" type="object" String="Livraison" icon="fa-pencil-square-o"/>
+                                    </tree>
+                                </field>
+
+                            </div>
+                        </group>
+                        <group>
+                            <group>
+                            </group>
+                            <group>
+                                <label for="retourSansTraitment_line_ids"/>
+                            </group>
+                            <div name="left"></div>
+                            <div name="right">
+                                <field name="retourSansTraitment_line_ids" default_order="date_expected">
+                                    <tree string="Stock Moves" >
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="state" invisible="1" readonly="0"/>
+                                        <field name="picking_type_id" invisible="1"/>
+                                        <field name="location_id" invisible="1"/>
+                                        <field name="location_dest_id" invisible="1"/>
+                                        <field name="scrapped" invisible="1"/>
+                                        <field name="picking_code" invisible="1"/>
+                                        <field name="product_type" invisible="1"/>
+                                        <field name="show_details_visible" invisible="1"/>
+                                        <field name="show_reserved_availability" invisible="1"/>
+                                        <field name="show_operations" invisible="1" readonly="1"/>
+                                        <field name="additional" invisible="1"/>
+                                        <field name="has_move_lines" invisible="1"/>
+                                        <field name="is_locked" invisible="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="has_tracking" invisible="1"/>
+                                        <field name="display_assign_serial" invisible="1"/>
+                                        <field name="date_expected" string="Date"/>
+                                        <field name="reference" string="N° Bon"/>
+                                        <field name="n_bon_client"/>
+                                        <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}" invisible="1"/>
+                                        <!--<field name="description_picking" string="Description" optional="hide"/>-->
+                                        <!--<field name="date_expected" optional="hide"/>-->
+                                        <field name="is_initial_demand_editable" invisible="1"/>
+                                        <field name="is_quantity_done_editable" invisible="1"/>
+    <!--                                        <field name="to_refund"  />-->
+                                        <field name="product_uom_qty" string="Demand" sum="Total"/>
+                                        <!--<field name="reserved_availability" string="Reserved" />-->
+                                        <!--<field name="quantity_done" string="Qté" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}" sum="Total Qté"/>-->
+                                        <!--<field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>-->
+                                        <button name="open_line" type="object" String="Livraison" icon="fa-pencil-square-o"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </group>
+                        <div class="app_settings_block" >
+                            <h2>Flux des corrections</h2>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="retourReparation_line_ids"/>
+                            </group>
+                            <group>
+                                <label for="livraison_line_ids"/>
+                            </group>
+                            <div name="left">
+                                <field name="retourReparation_line_ids" >
+                                    <tree string="Stock Moves"  default_order="date_expected">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="state" invisible="1" readonly="0"/>
+                                        <field name="picking_type_id" invisible="1"/>
+                                        <field name="location_id" invisible="1"/>
+                                        <field name="location_dest_id" invisible="1"/>
+                                        <field name="scrapped" invisible="1"/>
+                                        <field name="picking_code" invisible="1"/>
+                                        <field name="product_type" invisible="1"/>
+                                        <field name="show_details_visible" invisible="1"/>
+                                        <field name="show_reserved_availability" invisible="1"/>
+                                        <field name="show_operations" invisible="1" readonly="1"/>
+                                        <field name="additional" invisible="1"/>
+                                        <field name="has_move_lines" invisible="1"/>
+                                        <field name="is_locked" invisible="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="has_tracking" invisible="1"/>
+                                        <field name="display_assign_serial" invisible="1"/>
+                                        <field name="date_expected" string="Date"/>
+                                        <field name="reference" string="N° Bon"/>
+                                        <field name="n_bon_client"/>
+                                        <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}" invisible="1"/>
+                                        <!--<field name="description_picking" string="Description" optional="hide"/>-->
+                                        <!--<field name="date_expected" optional="hide"/>-->
+                                        <field name="is_initial_demand_editable" invisible="1"/>
+                                        <field name="is_quantity_done_editable" invisible="1"/>
+    <!--                                        <field name="to_refund"  />-->
+                                        <field name="product_uom_qty" string="Demand" sum="Total"/>
+                                        <!--<field name="reserved_availability" string="Reserved" />-->
+                                        <!--<field name="quantity_done" string="Qté" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}" sum="Total Qté"/>-->
+                                        <!--<field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>-->
+                                        <button name="open_line" type="object" String="Livraison" icon="fa-pencil-square-o"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <div name="right">
+                                <field name="livraisonReparation_line_ids">
+                                    <tree string="Stock Moves" default_order="date_expected">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="state" invisible="1" readonly="0"/>
+                                        <field name="picking_type_id" invisible="1"/>
+                                        <field name="location_id" invisible="1"/>
+                                        <field name="location_dest_id" invisible="1"/>
+                                        <field name="scrapped" invisible="1"/>
+                                        <field name="picking_code" invisible="1"/>
+                                        <field name="product_type" invisible="1"/>
+                                        <field name="show_details_visible" invisible="1"/>
+                                        <field name="show_reserved_availability" invisible="1"/>
+                                        <field name="show_operations" invisible="1" readonly="1"/>
+                                        <field name="additional" invisible="1"/>
+                                        <field name="has_move_lines" invisible="1"/>
+                                        <field name="is_locked" invisible="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="has_tracking" invisible="1"/>
+                                        <field name="display_assign_serial" invisible="1"/>
+                                        <field name="date_expected" string="Date"/>
+                                        <field name="reference" string="N° Bon"/>
+                                        <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}" invisible="1"/>
+                                        <!--<field name="description_picking" string="Description" optional="hide"/>-->
+                                        <!--<field name="date_expected" optional="hide"/>-->
+                                        <field name="is_initial_demand_editable" invisible="1"/>
+                                        <field name="is_quantity_done_editable" invisible="1"/>
+                                        <field name="product_uom_qty" string="Demand" sum="Total"/>
+                                        <!--<field name="reserved_availability" string="Reserved" />-->
+                                        <!--<field name="quantity_done" string="Qté" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}" sum="Total Qté"/>-->
+                                        <!--<field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>-->
+                                        <button name="open_line" type="object" String="Livraison" icon="fa-pencil-square-o"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+</odoo>

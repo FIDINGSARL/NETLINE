@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <menuitem name="Assistant facturation" id="account_invoice_sale_tree" parent="account.menu_finance_receivables"
+              action="account_invoice_sale" sequence="1" />
+
+</data>
+</odoo>

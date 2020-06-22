@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cps_product_traitement_liste_tree_view_1" model="ir.ui.view">
+        <field name="name">cps.product.traitement.liste.tree</field>
+        <field name="model">cps.product.traitement.liste</field>
+        <field name="arch" type="xml">
+            <tree string="Traitements" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="traitement_id"/>
+                    <field name="section"/>
+                    <field name="fiche_procede_id" options="{'no_open': True,}" context="{'default_traitement_id': traitement_id, 'default_poids_article': poids_article, 'quick_create':1}"/>
+                    <field name="poids_article" invisible="1"/>
+                    <field name="gslide"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

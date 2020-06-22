@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="detail_es_report_id"
+                model="cps.product.production"
+                string="Detail des E/S"
+                report_type="qweb-pdf"
+                name="cps_sale_management.detail_es_report_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+
+    <template id="detail_es_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="rl">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family:Arial;font-size:15px;">
+                        <div class="oe_structure"/>
+                            <table width="100%">
+                                <tr style="padding-top:20px;font-size:12px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>  <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%H:%M:%S')"/></td></tr>
+                                <tr>
+                                    <td width="30%"><img src='/cps_sale_management/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                    <td width="70%" align="left" style="font-size:22px;"><strong>DETAIL DES ENTREES ET DES SORTIES</strong></td>
+                                </tr>
+                            </table>
+                            <table  style="margin-top: 2px;" width="100%">
+                                <tr>
+                                    <td width="15%" align="center" style="padding: 2px;"><strong>Client : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.client_name"/></td>
+                                    <td width="15%" align="center" style="padding: 2px;"><strong>OF ECOLO : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.code_article"/></td>
+                                </tr>
+                                 <tr>
+                                    <td width="15%" align="center" style="padding: 2px;"><strong>OF Client : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.commande_client"/></td>
+                                    <td width="15%" align="center" style="padding: 2px;"><strong>Désignation : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td width="15%" align="center" style="padding: 2px;"><strong>Modéle : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.reference"/></td>
+                                    <td width="15%" align="center" style="padding: 2px;"><strong>Date Livraison : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.date_export"/></td>
+                                </tr>
+                                <tr>
+                                    <td width="15%" align="center" style="padding: 5px;"><strong>Traitement : </strong> </td><td width="35%" style="padding: 2px; "><t t-set="c" t-value="0"/><t t-foreach="rl.traitement_ids" t-as="t" ><t t-set="c" t-value="c+1"/><span t-field="t.traitement_id.name" /><t t-if="c  &lt; len(rl.traitement_ids)">+</t></t></td>
+                                    <td width="15%" align="center" style="padding: 2px;"><strong>Qté Cde : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.qte"/></td>
+
+                                </tr>
+                            </table>
+                            <table  style="margin-bottom: 50px;" >
+                                <thead>
+                                    <table>
+                                        <tr>
+                                        <td class="text-center" style="border: 1px solid;" colspan="5"><span t-field="rl.atelier_id.name"/></td><td class="text-center" style="border: 1px solid;" colspan="4">ECOLO</td>
+                                        </tr>
+                                        <tr style="border: 1px solid;">
+                                            <th class="text-center" style="width:100px;padding-left:10px; border: 1px solid;">Date</th>
+                                            <th class="text-center" style="width:140px;border: 1px solid;">Bon Ecolo</th>
+                                            <th class="text-center" style="width:100px;border: 1px solid;">Bon Client</th>
+                                            <th class="text-center" style="width:70px;padding-right:10px; border: 1px solid;">Entrée</th>
+                                            <th class="text-center" style="width:80px;border: 1px solid;">Entrée S.T</th>
+                                            <th class="text-center" style="width:100px;padding-left:10px;  border: 1px solid;">Date</th>
+                                            <th class="text-center" style="width:140px;border: 1px solid;">N° Bon</th>
+                                            <th class="text-center" style="width:70px;padding-right:10px; border: 1px solid;">Sortie</th>
+                                            <th class="text-center" style="width:80px;border: 1px solid;">Sortie S.T</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left" style="padding-left:10px; border: 1px solid;" colspan="5">Entrée Normal</th><th class="text-left" style="padding-left:10px;border: 1px solid;" colspan="4">Sortie Normal</th>
+                                        </tr>
+                                    </table>
+                               </thead>
+                               <tbody>
+                                   <table>
+                                       <tr>
+                                           <td style="border: 1px solid;">
+                                               <table>
+                                                   <t t-foreach="rl.flux_id.reception_line_ids.sorted(key=lambda b: b.date_expected)" t-as="r">
+                                                       <tr style="border: 1px solid;">
+                                                           <td style="padding-left:10px;border-left: 1px solid;border-right: 1px dashed;width:100px"><t t-if="r.date_expected is not False"><span t-esc="context_timestamp(r.date_expected).strftime('%d/%m %H:%M')"/></t></td>
+                                                           <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:140px"> <span t-field="r.reference"/></td>
+                                                           <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:100px"><span t-field="r.n_bon_client"/></td>
+                                                           <td class="text-right" style="padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(r.product_uom_qty).replace(',', ' ')" /></td>
+                                                           <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+                                                       </tr>
+                                                   </t>
+                                               </table>
+                                            </td>
+                                           <td style="border: 1px solid;">
+                                               <table>
+                                                  <t t-foreach="rl.flux_id.livraison_line_ids.sorted(key=lambda b: b.date_expected)" t-as="l">
+                                                       <tr style="border: 1px solid;">
+                                                           <td style="padding-left:10px; border-left: 1px solid;border-right: 1px dashed;width:100px"><t t-if="l.date_expected is not False "><span t-esc="context_timestamp(l.date_expected).strftime('%d/%m %H:%M')"/></t></td>
+                                                           <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:140px"><span t-field="l.reference"/></td>
+                                                           <td class="text-right" style="padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(l.product_uom_qty).replace(',', ' ')" /></td>
+                                                           <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+        <!--                                                   <td>reste</td>-->
+                                                       </tr>
+                                                   </t>
+                                               </table>
+                                            </td>
+                                        </tr>
+                                       <tr style="border-top: 1px solid;border-bottom: 1px solid;">
+                                       <td>
+                                           <table>
+                                               <tr style="border: 1px solid;">
+                                                   <td style="padding-left:10px;border-left: 1px solid;border-right: 1px dashed;width:240px">Somme Normal</td>
+                                                   <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:100px"></td>
+                                                   <td class="text-right" style="font-weight:bold; padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(rl.total_entree).replace(',', ' ')" /></td>
+                                                   <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+                                               </tr>
+                                           </table>
+                                       </td>
+                                       <td>
+                                           <table>
+                                               <tr style="border: 1px solid;">
+                                                   <td style="padding-left:10px; border-left: 1px solid;border-right: 1px dashed;width:240px"></td>
+                                                   <td class="text-right" style="font-weight:bold; padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(rl.total_sortie).replace(',', ' ')" /></td>
+                                                   <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+                                               </tr>
+                                           </table>
+                                       </td>
+                                   </tr>
+
+                               </table>
+                            </tbody>
+                        </table>
+                        <t t-if="len (rl.flux_id.retourSansTraitment_line_ids) > 0 " >
+                            <div style="margin-top:50px;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td></td><td class="text-center" style="border: 1px solid;" colspan="4">ECOLO</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center" style="width:490px;"></th>
+                                            <th class="text-center" style="padding-left:10px;  width:100px;border: 1px solid;">Date</th>
+                                            <th class="text-center" style="width:140px;border: 1px solid;">N° Bon</th>
+                                            <th class="text-center" style="padding-right:10px; width:70px;border: 1px solid;">Sortie</th>
+                                            <th class="text-center" style="width:80px;border: 1px solid;">Sortie S.T</th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th class="text-left" style="padding-left:10px;border: 1px solid;" colspan="5">Retours sans traitement</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                              <t t-foreach="rl.flux_id.retourSansTraitment_line_ids.sorted(key=lambda b: b.date_expected)" t-as="l">
+                                                   <tr>
+                                                       <td style="width:500px"></td>
+                                                       <td style="padding-left:10px; border-left: 1px solid;border-right: 1px dashed;width:100px"><t t-if="l.date_expected is not False "><span t-esc="context_timestamp(l.date_expected).strftime('%d/%m %H:%M')"/></t></td>
+                                                       <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:80px"><span t-field="l.reference"/></td>
+                                                       <td class="text-right" style="padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(l.product_uom_qty).replace(',', ' ')" /></td>
+                                                       <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+                                                   </tr>
+                                               </t>
+                                               <tr>
+                                                       <td style="width:500px"></td>
+                                                       <td colspan="2" style="border-top: 1px solid;border-bottom: 1px solid;border-left: 1px solid;"></td><td style="border-top: 1px solid;border-bottom: 1px solid;font-weight:bold;padding-right:10px;" class="text-right"><t t-esc="'{0:,.0f}'.format(rl.total_retour).replace(',', ' ')" /></td><td style="border-top: 1px solid;border-bottom: 1px solid;;border-right: 1px solid;"></td>
+                                               </tr>
+                                   </tbody>
+                                </table>
+                            </div>
+                    </t>
+                    <t t-if="len (rl.flux_id.retourReparation_line_ids ) > 0 or len (rl.flux_id.livraisonReparation_line_ids ) > 0 " >
+<!--                        ***********Table Correction******************** -->
+                                <table  style="margin-bottom: 50px;" >
+                                    <thead>
+
+                                        <table>
+                                            <tr>
+                                            <td class="text-center" style="border: 1px solid;" colspan="5"><span t-field="rl.atelier_id.name"/></td><td class="text-center" style="border: 1px solid;" colspan="4">ECOLO</td>
+                                            </tr>
+                                            <tr style="border: 1px solid;">
+                                                <th class="text-center" style="width:100px;padding-left:10px; border: 1px solid;">Date</th>
+                                                <th class="text-center" style="width:140px;border: 1px solid;">Bon Ecolo</th>
+                                                <th class="text-center" style="width:100px;border: 1px solid;">Bon Client</th>
+                                                <th class="text-center" style="width:70px;padding-right:10px; border: 1px solid;">Entrée</th>
+                                                <th class="text-center" style="width:80px;border: 1px solid;">Entrée S.T</th>
+
+                                                <th class="text-center" style="width:100px;padding-left:10px;  border: 1px solid;">Date</th>
+                                                <th class="text-center" style="width:140px;border: 1px solid;">N° Bon</th>
+                                                <th class="text-center" style="width:70px;padding-right:10px; border: 1px solid;">Sortie</th>
+                                                <th class="text-center" style="width:80px;border: 1px solid;">Sortie S.T</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-left" style="padding-left:10px; border: 1px solid;" colspan="5">Entrée Correction</th><th class="text-left" style="padding-left:10px;border: 1px solid;" colspan="4">Sortie Correction</th>
+                                            </tr>
+                                        </table>
+
+                                   </thead>
+                                   <tbody>
+
+                                       <table>
+                                             <tr>
+                                                 <td style="border: 1px solid;">
+                                                       <table>
+                                                           <t t-foreach="rl.flux_id.retourReparation_line_ids.sorted(key=lambda b: b.date_expected)" t-as="r">
+                                                               <tr style="border: 1px solid;">
+                                                                   <td style="padding-left:10px;border-left: 1px solid;border-right: 1px dashed;width:100px"><t t-if="r.date_expected is not False"><span t-esc="context_timestamp(r.date_expected).strftime('%d/%m %H:%M')"/></t></td>
+                                                                   <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:140px"> <span t-field="r.reference"/></td>
+                                                                   <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:100px"><span t-field="r.n_bon_client"/></td>
+                                                                   <td class="text-right" style="padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(r.product_uom_qty).replace(',', ' ')" /></td>
+                                                                   <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+                                                               </tr>
+                                                           </t>
+                                                       </table>
+
+                                                </td>
+
+                                                <td style="border: 1px solid;">
+                                                       <table>
+                                                          <t t-foreach="rl.flux_id.livraisonReparation_line_ids.sorted(key=lambda b: b.date_expected)" t-as="l">
+                                                               <tr style="border: 1px solid;">
+                                                                   <td style="padding-left:10px; border-left: 1px solid;border-right: 1px dashed;width:100px"><t t-if="l.date_expected is not False "><span t-esc="context_timestamp(l.date_expected).strftime('%d/%m %H:%M')"/></t></td>
+                                                                   <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:140px"><span t-field="l.reference"/></td>
+                                                                   <td class="text-right" style="padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(l.product_uom_qty).replace(',', ' ')" /></td>
+                                                                   <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+                                                               </tr>
+                                                           </t>
+
+                                                       </table>
+                                                </td>
+                                            </tr>
+                                           <tr style="border-top: 1px solid;border-bottom: 1px solid;">
+                                           <td >
+                                               <table>
+                                                   <tr style="border: 1px solid;">
+                                                                  <td style="padding-left:10px;border-left: 1px solid;border-right: 1px dashed;width:240px">Total correction</td>
+
+                                                                   <td class="text-center" style="border-left: 1px dashed;border-right: 1px dashed;width:100px"></td>
+                                                                   <td class="text-right" style="font-weight:bold; padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(rl.total_entree_correction).replace(',', ' ')" /></td>
+                                                                   <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+                                                   </tr>
+                                               </table>
+                                            </td>
+                                            <td >
+                                               <table>
+                                                   <tr style="border: 1px solid;">
+                                                       <td style="padding-left:10px; border-left: 1px solid;border-right: 1px dashed;width:240px"></td>
+
+                                                       <td class="text-right" style="font-weight:bold; padding-right:10px; border-left: 1px dashed;border-right: 1px dashed;width:70px"><t t-esc="'{0:,.0f}'.format(rl.total_sortie_correction).replace(',', ' ')" /></td>
+                                                       <td style="background-color: #C0C0C0;border-left: 1px dashed;border-right: 1px solid;width:80px"></td>
+                                                   </tr>
+                                               </table>
+                                            </td>
+                                           </tr>
+                                        </table>
+                                   </tbody>
+                                </table>
+                    </t>
+
+
+
+
+
+                            <div style="width:100%;margin-top:100px;">
+                                <table width="100%" >
+                                    <tr>
+                                        <td style="padding-left:50px:padding-right : 100px">SOLDE NORMAL : <t t-esc="'{0:,.0f}'.format(rl.total_encours).replace(',', ' ')" /> </td>
+                                        <td style="padding-left:10px">SOLDE RETOUR CORRECTION : <t t-esc="'{0:,.0f}'.format(rl.total_retour_correction).replace(',', ' ')" /> </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                    </div>
+
+                    <div class="footer" style="font-family:Arial;font-size:18px;" >
+
+                    </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

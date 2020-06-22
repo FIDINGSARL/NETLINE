@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <template id="livraison_header_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="rl">
+                <div class="header">
+                    <div class="oe_structure"/>
+                    <table width="100%">
+                        <tr>
+                            <td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                            <td width="50%" style="font-size:11px;text-align:center;font-family:calibri;align:right" align="right">
+                                Usine : Zone Industrielle Gzenaya
+                                <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                <br/>Tél. / Fax : 0212 539 39 39 03
+                                <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                <br/>.R.C: 29797 - IF : 04922966
+                                <br/>N° I.C.E. : 001530545000001
+                            </td>
+                        </tr>
+                        <tr style="border: 20px solid white;">
+                            <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:calibri" colspan="2">Bon de livraison</td>
+                        </tr>
+                    </table>
+                    <table width="100%" style="margin-top: 30px;">
+                        <tr>
+                            <td width="50%" style="font-size:12px;text-align:center;font-family:calibri" >
+                                <table>
+                                    <tr><td align="center" style="padding: 2px;">Date B.L.</td><td align="center" style="padding: 2px;">N° B.L.</td></tr>
+                                    <tr><td align="center" style="padding: 5px;"><span t-field="rl.create_date" style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="rl.sale_order_name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                    <tr><td align="center" style="padding: 2px;">Divison</td><td align="center" style="padding: 2px;">Notre B.R.</td></tr>
+                                    <tr><td align="center" style="padding: 5px;"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;">Laundry</span></td><td align="center" style="padding: 5px;"><span t-field="rl.reception_laundry_ids.product_order_name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                </table>
+                            </td>
+                            <td width="50%" style="font-size:14px;text-align:center;font-family:calibri;border-top:50px" align="right">
+                                <br/>
+                                <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 87px; display: block;">
+                                    <span t-field="rl.client_name"/><br/>
+                                    <span t-field="rl.client_id.contact_address"/><br/>
+                                    <span t-if="rl.client_id.phone is not False">Tél: <span t-field="rl.client_id.phone"/></span> <span t-if="rl.client_id.fax is not False">Fax: <span t-field="rl.client_id.fax"/></span><br/>
+                                </div>
+                                Code client: <span t-field="rl.client_id.code_client"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</openerp>

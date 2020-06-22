@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="emballage_report_id"
+                model="cps.colis.emballage"
+                string="Tickets d'emballage"
+                report_type="qweb-pdf"
+                name="cps_sale_management.emballage_report_template"
+                paperformat="paperformat_zebra"
+        />
+    </data>
+
+    <template id="emballage_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="d">
+                <t t-call="web.external_layout">
+                <div class="page">
+                     <div class="oe_structure"/>
+                               <t t-foreach="d.colis_details" t-as="l">
+                                    <div style="page-break-after: always;">
+                                        <table width="100%">
+                                           <tbody>
+                                               <tr  style="height: 20px;">
+                                                    <td><span style="font-size:12px;font-weight:bold;font-family:Calibri;padding-right:20px">Ecolo Rentel</span><span style="font-size:10px;font-family:Calibri;" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/> <span style="font-size:10px;font-family:Calibri;" t-esc="context_timestamp(datetime.datetime.now()).strftime('%H:%M:%S')"/></td>
+                                                </tr>
+                                               <tr  style="height: 20px;">
+                                                   <td style="text-align:center; font-size:10px;font-weight:bold;font-family:Calibri;" ><span t-field="d.product_production_id.product_tmpl_id.client_name"/> / <span t-field="d.product_production_id.atelier_id.name"/></td>
+                                                </tr>
+                                               <tr  style="height: 20px;">
+                                                    <td style="text-align:center; font-size:12px;font-weight:bold;font-family:Calibri;"> <span t-field="d.product_production_id.product_tmpl_id.code_article"/></td>
+                                                </tr>
+                                               <tr  style="height: 40px;">
+                                                    <td style="font-size:10px;font-family:Calibri;text-align:center"><span t-field="d.product_production_id.name"/></td>
+                                                </tr>
+                                               <tr  style="height: 15px;">
+                                                   <td style="text-align:center;font-family:Calibri;font-size:13px;font-weight:bold;color:white; background-color:black;"><span t-field="l.qte_emballer" /></td>
+                                               </tr>
+                                               <tr  style="height: 15px;">
+                                                    <td style="text-align:center;font-family:Calibri;font-size:13px;font-weight:bold;color:white; background-color:black;"><span t-field="d.type_sortie" /></td>
+                                               </tr>
+                                           </tbody>
+                                        </table>
+                                    </div>
+                               </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

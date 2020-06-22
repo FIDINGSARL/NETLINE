@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="netline_client_products_form_view">
+        <field name="name">netline.liste_prix</field>
+        <field name="model">netline.liste_prix</field>
+        <field name="arch" type="xml">
+            <form string="Produit Client">
+                <sheet>
+                    <group>
+                        <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                        <field name="prix" groups="netline.group_admin"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_liste_prix_tree_view">
+        <field name="name">netline.liste_prix</field>
+        <field name="model">netline.liste_prix</field>
+        <field name="arch" type="xml">
+            <tree string="Produit Vente" editable="bottom">
+                <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                <field name="prix" groups="netline.group_admin"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--<menuitem id="netline_client_products_menu" name="Produits Client" parent="products_menu" action="netline_client_products_list_action" />
+-->
+</odoo>

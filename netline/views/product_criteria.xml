@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- view procédé -->
+    <record model="ir.actions.act_window" id="netline_client_prestation_list_action">
+        <field name="name">Type Préstation</field>
+        <field name="res_model">netline.prestation_client</field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_client_prestation_form_view">
+        <field name="name">netline.prestation_client</field>
+        <field name="model">netline.prestation_client</field>
+        <field name="arch" type="xml">
+            <form string="Procede">
+                <sheet>
+                    <group>
+                        <field name="type_prestation_value" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- vues marque -->
+    <record model="ir.actions.act_window" id="netline_product_marques_list_action">
+        <field name="name">Marques</field>
+        <field name="res_model">netline.product.marque</field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_product_marques_form_view">
+        <field name="name">netline.product.marque</field>
+        <field name="model">netline.product.marque</field>
+        <field name="arch" type="xml">
+            <form string="Marque">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="netline_product_marques_tree_view">
+        <field name="name">netline.product.marque.tree</field>
+        <field name="model">netline.product.marque</field>
+        <field name="arch" type="xml">
+            <tree name="Marque">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- vues couleurs -->     
+    <record model="ir.actions.act_window" id="netline_product_couleurs_list_action">
+        <field name="name">Couleurs</field>
+        <field name="res_model">netline.product.couleur</field>
+    </record>
+    
+    <record model="ir.ui.view" id="netline_product_couleurs_form_view">
+        <field name="name">netline.product.couleur</field>
+        <field name="model">netline.product.couleur</field>
+        <field name="arch" type="xml">
+            <form string="Couleur">
+                <header>
+                    <button string="valider" name="set_valide" type="object" groups="netline.group_admin" states="nok,annule"/>
+                    <button string="annuler" name="set_annule" type="object" groups="netline.group_admin" states="ok"/>
+                    <field name="state" widget="statusbar" statusbar_visible="nok,ok,annule"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="netline_product_couleur_tree_view">
+        <field name="name">netline.product.couleur.tree</field>
+        <field name="model">netline.product.couleur</field>
+        <field name="arch" type="xml">
+            <tree name="Couleurs">
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- vues tailles -->
+    <record model="ir.actions.act_window" id="netline_product_tailles_list_action">
+        <field name="name">Tailles</field>
+        <field name="res_model">netline.product.taille</field>
+    </record>
+    
+    <record model="ir.ui.view" id="netline_product_tailles_form_view">
+        <field name="name">netline.product.taille</field>
+        <field name="model">netline.product.taille</field>
+        <field name="arch" type="xml">
+            <form string="Taille">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- vues compositions -->
+    <record model="ir.actions.act_window" id="netline_product_compositions_list_action">
+        <field name="name">Compositions</field>
+        <field name="res_model">netline.product.composition</field>
+    </record>
+       
+    <record model="ir.ui.view" id="netline_product_compositions_form_view">
+        <field name="name">netline.product.composition</field>
+        <field name="model">netline.product.composition</field>
+        <field name="arch" type="xml">
+            <form string="Composition">
+                <header>
+                    <button string="valider" name="set_valide" type="object" groups="netline.group_admin" states="nok,annule"/>
+                    <button string="annuler" name="set_annule" type="object" groups="netline.group_admin" states="ok"/>
+                    <field name="state" widget="statusbar" statusbar_visible="nok,ok,annule"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="netline_product_composition_tree_view">
+        <field name="name">netline.product.composition.tree</field>
+        <field name="model">netline.product.composition</field>
+        <field name="arch" type="xml">
+            <tree name="Composition">
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- vuew matieres -->
+    <record model="ir.actions.act_window" id="netline_product_matieres_list_action">
+        <field name="name">Matières</field>
+        <field name="res_model">netline.product.matiere</field>
+    </record>
+       
+    <record model="ir.ui.view" id="netline_product_matieres_form_view">
+        <field name="name">netline.product.matiere</field>
+        <field name="model">netline.product.matiere</field>
+        <field name="arch" type="xml">
+            <form string="Matière">
+                <header>
+                    <button string="valider" name="set_valide" type="object" groups="netline.group_admin" states="nok,annule"/>
+                    <button string="annuler" name="set_annule" type="object" groups="netline.group_admin" states="ok"/>
+                    <field name="state" widget="statusbar" statusbar_visible="nok,ok,annule"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="netline_product_matiere_tree_view">
+        <field name="name">netline.product.matiere.tree</field>
+        <field name="model">netline.product.matiere</field>
+        <field name="arch" type="xml">
+            <tree name="Matiere">
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- vuew types -->
+    <record model="ir.actions.act_window" id="netline_product_types_list_action">
+        <field name="name">Types</field>
+        <field name="res_model">netline.product.type</field>
+    </record>
+       
+    <record model="ir.ui.view" id="netline_product_type_form_view">
+        <field name="name">netline.product.type</field>
+        <field name="model">netline.product.type</field>
+        <field name="arch" type="xml">
+            <form string="Type">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="netline_product_departement_list_action">
+        <field name="name">Departement</field>
+        <field name="res_model">netline.vt_product.departement</field>
+    </record>
+       
+</odoo>

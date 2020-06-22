@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="netline_forfait_tree_view" model="ir.ui.view">
+            <field name="name">netline.forfait</field>
+            <field name="model">netline.forfait</field>
+            <field name="arch" type="xml">
+                <tree string="Forfaits">
+                    <field name="client_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="netline_forfait_form_view">
+            <field name="name">netline.forfait</field>
+            <field name="model">netline.forfait</field>
+            <field name="arch" type="xml">
+                <form name="forfait">
+                    <header>
+                        <button string="Génerer facture" name="action_generate_invoice" type="object" />
+                    </header>
+                    <sheet>
+                        <group>
+                                <group>
+                                    <field name="client_id" domain="[('is_client', '=', True),('is_company', '=', True)]"/>
+                                </group>
+                                <group>
+                                    <field name="periode_debut"/>
+                                    <field name="periode_fin"/>
+                                </group>
+                        </group>
+                        <field name="netline_forfait_lines" context="{'is_laundry_line':context.get('is_laundry'), 'is_vt_line':context.get('is_vt')}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="netline_forfait_line_tree_view">
+            <field name="name">netline.forfait.line</field>
+            <field name="model">netline.forfait.line</field>
+            <field name="arch" type="xml">
+                <tree name="Lignes forfait" editable="bottom">
+                    <field name="product_id" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                    <field name="product_name"/>
+                    <field name="price_ht"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

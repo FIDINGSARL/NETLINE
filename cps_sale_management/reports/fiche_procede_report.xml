@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report id="fiche_procede_id"
+                model="fiche.procede"
+                string="Fiche procédé"
+                report_type="qweb-pdf"
+                name="cps_sale_management.fiche_procede_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+    <template id="fiche_procede_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="l">
+                 <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <table width="100%">
+                            <tr>
+                                <td width="30%" height="145px" ><img src='/cps_sale_management/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                <td width="40%" align="left" style="font-size:25px;text-decoration:underline;font-family:Calibri"><strong><span t-field="l.section"/> - <span t-field="l.traitement_id.name"/>  <span t-field="l.template_id.product_tmpl_production_ids.code_article"/></strong></td>
+                                <td width="30%" align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/><br/><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%H:%M:%S')"/></td>
+                            </tr>
+                        </table>
+                        <table width="100%" style="font-size:15px;">
+                            <tr>
+                                <td width="50%"><strong>Client : </strong><span t-field="l.template_id.client_name"/></td><td width="40%"><strong>Code Coloris : </strong><span t-field="l.pantone_id.code_pantone"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Atelier : </strong><span t-field="l.template_id.product_tmpl_production_ids.atelier_id.name"/></td><td><strong>Désignation Coloris : </strong><span t-field="l.pantone_name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Poids machine : </strong><span t-esc="l.poids_machine"/><strong> Soit </strong><span t-field="l.qte_machine"/></td><td></td>
+                            </tr>
+                        </table>
+                        <table width="100%" class="table-bordered" style="margin-top: 30px;">
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th width="10%" class="text-center">Phase</th>-->
+<!--                                    <th width="10%" class="text-center">Etape</th>-->
+<!--                                    <th width="10%" class="text-center">Opération</th>-->
+<!--                                    <th width="10%" class="text-center">Valeur</th>-->
+<!--                                    <th width="10%" class="text-right">Durée</th>-->
+<!--                                    <th width="10%" class="text-right">RB</th>-->
+<!--                                    <th width="10%" class="text-right">Eau</th>-->
+<!--                                    <th width="10%" class="text-right">T°</th>-->
+<!--                                    <th width="10%" class="text-right">Kcal</th>-->
+<!--                                    <th width="10%" class="text-right">Rot. D.</th>-->
+<!--                                    <th width="10%" class="text-right">Rot. G.</th>-->
+<!--                                    <th width="10%" class="text-right">V.</th>-->
+<!--                                    <th width="10%" class="text-right">Nom commercial</th>-->
+<!--                                    <th width="10%" class="text-right">Fonction</th>-->
+<!--                                    <th width="10%" class="text-right">Gr/Kg %</th>-->
+<!--                                    <th width="10%" class="text-right">Gr/l %</th>-->
+<!--                                    <th width="10%" class="text-right">Qté</th>-->
+<!--                                </tr>-->
+<!--                           </thead>-->
+<!--                           <tbody>-->
+                               <t t-set="etape_encours" t-value="a"/>
+                               <t t-foreach="l.procede_line_ids.sorted(key=lambda b : (b.sequence, b.id))" t-as="s">
+                                   <t t-if="etape_encours!=s.etape_id.name and s.etape_id.name is not False">
+                                            <tr style="height:30px;">
+                                                <td colspan="9"  style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;background-color: #808080;color: white;padding:4px"><span t-field="s.etape_id.name"/></td>
+                                            </tr>
+                                   </t>
+                                   <t t-set="etape_encours" t-value="s.etape_id.name"/>
+                                    <tr style="height:30px;;font-size:15px;text-align:center;font-family:arial;vertical-align: center;">
+                                        <td class="text-right" style="vertical-align: center;padding:2px" width="15%"><t t-if="s.gkg!=0"><span t-field="s.gkg"/> gr/Kg </t><t t-if="s.gltr!=0"><span t-field="s.gltr"/> gr/L </t></td>
+                                        <td class="text-right" style="vertical-align: center;padding:2px" width="35%"><t t-if="s.quimicos!=0"><span t-field="s.quimicos"/></t> </td>
+                                        <td class="text-right" style="vertical-align: center;padding:2px" width="10%"><t t-if="s.dosification!=0"><t t-esc="'{0:,.3f}'.format(s.dosification).replace(',', ' ').replace('.',',')"/> g </t></td>
+                                        <td class="text-center" style="vertical-align: center;padding:2px" width="10%"><t t-if="s.eau!=0"><span t-field="s.eau"/> l</t></td>
+                                        <td class="text-center" style="vertical-align: center;padding:2px" width="10%"><t t-if="s.temps!=0"><span t-field="s.temps"/> min</t></td>
+                                        <td class="text-right" style="vertical-align: center;padding:2px" width="8%"><t t-if="s.temperature!=0"><span t-field="s.temperature"/> °C </t></td>
+                                        <td class="text-right" style="vertical-align: center;padding:2px" width="12%"></td>
+                                    </tr>
+                               </t>
+<!--                            </tbody>-->
+                        </table>
+                    </div>
+                    <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</openerp>

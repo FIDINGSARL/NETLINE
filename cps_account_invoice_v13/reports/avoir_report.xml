@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="avoir_report_id"
+                model="account.move"
+                string="Avoir Ecolo"
+                report_type="qweb-pdf"
+                name="cps_account_invoice_v13.avoir_report_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+
+    <template id="avoir_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="l">
+                 <t t-call="web.external_layout">
+                     <table width="100%" style="vertical-align::top">
+                        <tr>
+                            <td width="50%" >
+                                <img src='/cps_sale_management/static/src/img/logo.png' style="position absolute; top: 10px ; height: 200px;"/>
+                                <br/>
+                                <span style="margin-left: 20px">IF : 04921511</span>
+                                <br/>
+                                <div style="margin-left: 20px; width:200px; border:1px solid black;font-size:20px;text-align:center;font-family:Calibri;font-weight:bold;">Avoir</div>
+                            </td>
+                            <td width="30%" align="left">Route de Tétouan, Zone Ind. Mghogha
+                                <br/>Aliée 2 - Lot 58
+                                <br/>90000 Tanger (Maroc)
+                                <br/>Tél. : (00212) 539 35 15 05
+                                <br/>Fax. : (00212) 539 35 14 83
+                                <br/>abdellah@ecolo.ma
+                                <br/>www.ecolo.ma</td>
+                        </tr>
+                    </table>
+                    <div  style="width:50%;float:left;margin-bottom:10px;">
+                        <table>
+                            <tr>
+                                <td width="25%" style="font-size:15px;text-align:right;font-family:Calibri;font-weight:bold;padding:10px;">DATE: </td><td><span t-field="l.invoice_date"/></td>
+                            </tr>
+                            <tr style="font-size:15px;font-family:Calibri;font-weight:bold;">
+                                <td width="25%" style="text-align:right;padding:10px" >N° FACT: </td><td><span t-field="l.name"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="width:48%;float:right;margin-bottom:10px;padding:2px;">
+                        <br/><br/>
+                        <div style="text-align:center;font-family:Calibri;font-weight: bold;font-size:18px;"><span  t-field="l.partner_id.name"/></div>
+                        <div style="text-align:center;font-size:15px;"><span   t-field="l.partner_id.street"/></div>
+                        <div style="text-align:center;font-size:15px;"><span   t-field="l.partner_id.city"/> <span  t-field="l.partner_id.country_id.name"/></div>
+                        <t t-if="l.currency_id.name=='MAD'">
+                            <div style="text-align:center;padding:0px 20px"><span style="font-family:Calibri;text-decoration:underline;">ICE :</span>  <span  t-field="l.partner_id.numero_ice"/></div>
+                        </t>
+                    </div>
+                    <div class="page">
+                            <style>
+                                .table2 td { border: 1px solid black; padding:2px; }
+                                .table3 tr td {  border: 0 ; padding:2px; }
+                            </style>
+
+                             <table width="100%" style="height:850px;vertical-align: top;">
+                                <thead style="width:100%;" >
+                                        <tr>
+                                            <th style="text-align:center;" width="10%">OF</th>
+                                            <th style="text-align:left;" width="40%">DESCRIPTION</th>
+                                            <th style="text-align:right;" width="10%" >QUANTITE</th>
+                                            <th style="text-align:right;" width="10%" >PRIX H.T <t t-if="l.currency_id.name=='EUR'">€</t></th>
+                                            <th style="text-align:right;" width="20%">TOTAL H.T <t t-if="l.currency_id.name=='EUR'">€</t></th>
+                                        </tr>
+                                 </thead>
+
+                                <tbody style="vertical-align: top;">
+                                    <tr><td colspan="5">
+                                    <table width="100%" class="table">
+                                        <t t-set="ligne" t-value="0"/>
+<!--                                             <tr   width="100%"><td colspan="5"><span style="text-align:center;font-family:Calibri;font-weight: bold;font-size:15px;" t-field="l.atelier_id.name" /></td></tr>-->
+                                             <t t-foreach="l.invoice_line_ids"  t-as="nfl" >
+                                                 <t t-if="nfl.price_unit != 0 " >
+                                                    <tr   style="font-size:12px;font-family:Arial;">
+                                                        <td   style="text-align:center;" width="10%"><span t-field="nfl.product_id.production_ids.code_article"/></td>
+                                                        <td   style="text-align:left;" width="40%"><span t-field="nfl.name"/><br/><span t-field="nfl.product_id.production_ids.traitement_name"/></td>
+                                                        <td   style="text-align:right;" width="10%"><span t-field="nfl.quantity"/> </td>
+                                                        <td    style="text-align:right;" width="10%"><span t-field="nfl.price_unit"/></td>
+                                                        <td    width="20%" style="text-align:right; font-family:Arial;font-weight: bold;" ><t t-esc="'{0:,.2f}'.format(nfl.price_subtotal).replace(',', ' ').replace('.',',')"/></td>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="nfl.price_unit == 0 ">
+                                                    <tr    style="font-size:12px;font-family:Arial;">
+                                                            <td  colspan="5" style="text-align:left;background-color:#ccc" width="40%"><span t-field="nfl.name"/><br/><span t-field="nfl.product_id.production_ids.traitement_name"/></td>
+                                                    </tr>
+
+                                                </t>
+
+                                             </t>
+                                    </table>
+                                    </td></tr>
+                                    <tr><td> </td></tr>
+
+
+
+                                </tbody>
+
+                                 <tfoot style="display: table-row-group;font-size:12px;font-family:Arial;">
+                                         <tr>
+                                            <td colspan="5">
+                                                <div style="width:45%;float:left;margin-top:20px">
+                                                     <t t-if="l.currency_id.name=='EUR'">
+                                                        <table style="width : 100%;  border: 0 ;margin-bottom:30px" class="table3">
+                                                            <tr><td>Cours de change : <t t-esc="'{0:,.2f}'.format(1/l.currency_id.rate).replace(',', ' ').replace('.',',')"/> DH</td></tr>
+                                            t                <tr><td>Valeur en DHS : <t t-esc="'{0:,.2f}'.format(l.amount_total/l.currency_id.rate).replace(',', ' ').replace('.',',')"/> DH</td></tr>
+                                                        </table>
+                                                     </t>
+                                                    <div>
+                                                        Nous certifions que la prestation a été réalisée sur le territoire du Maroc et que la valeur mentionée est juste et conforme.
+                                                        <br/>
+                                                        La marchandise déstinée à l'exportation est éxonérée de la TVA suivant Dahir du 01/01/1986 vente en suspension de la taxe sur la valeur ajoutée en vertu de l'article 8 de la loi n° 30-85 relative à la TVA promulguée par le dahir n°
+
+                                                        <table  style="border: 0 ;" class="table3" width="100%">
+                                                            <tr><td width="80%">AT N°</td><td>DU</td></tr>
+                                                            <tr><td width="80%">DUM N°</td><td>DU</td></tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div style="width:50%;float:left;margin-left:20px; margin-top:20px;">
+                                                    <table  style="width:100%; margin-bottom:20px;" class="table2">
+                                                        <tr style="text-align:center;font-family:Calibri;font-weight: bold;"><td>TOTAL. H.T <t t-if="l.currency_id.name=='EUR'">€</t></td><td>% Escpte</td><td>Total Facture <t t-if="l.currency_id.name=='EUR'">€</t></td></tr>
+                                                        <tr style="text-align:right;font-family:Calibri;font-weight: bold;"><td style="padding-right : 5px ;" ><t t-esc="'{0:,.2f}'.format(l.amount_untaxed).replace(',', ' ').replace('.',',')"/></td><td></td><td style="padding-right : 5px ;" ><t t-esc="'{0:,.2f}'.format(l.amount_residual).replace(',', ' ').replace('.',',')"/></td></tr>
+                                                    </table>
+                                                    <table style="width:100%; margin-bottom:20px; border: 0 ;" class="table3">
+                                                        <tr><td style="text-align:left;font-family:Arial;font-weight: bold;">Echéance du :  <span t-field="l.invoice_date_due"/></td></tr>
+<!--                                                        <tr><td style="text-align:left;font-family:Arial;font-weight: bold;">Mode paiement :  <span t-field="l.payment_method.name"/></td></tr>-->
+                                                    </table>
+                                                <t t-if="l.partner_id.comment is not False">
+                                                    <table style="width : 100%; margin-bottom:20px; border: 0 ; " class="table3">
+                                                        <tr>
+                                                            <td style="text-align:center;font-family:Calibri;font-weight: bold;">
+                                                            <span t-field="l.partner_id.comment"/>
+                                                            </td>
+                                                         </tr>
+                                                    </table>
+                                                </t>
+                                                <t t-if="not l.partner_id.comment">
+                                                    <table style="width : 100%;  border: 0 ;" class="table3">
+                                                        <tr style="font-family:Calibri;font-weight: bold;"><td style="text-align:left;padding-left:30px">Banque :   <span t-field="l.partner_id.payment_journal_id.bank_id.name"/></td></tr>
+                                                        <tr style="font-family:Calibri;font-weight: bold;"><td style="text-align:left;padding-left:30px">RIB : <span t-field="l.partner_id.payment_journal_id.bank_account_id.acc_number"/> <t t-if="l.currency_id.name=='EUR' and l.partner_id.payment_journal_id.bank_id.bic is not False "> - <span t-field="l.partner_id.payment_journal_id.bank_id.bic"/></t></td></tr>
+                                                    </table>
+                                                </t>
+                                             </div>
+                                            </td>
+                                         </tr>
+                                 </tfoot>
+                            </table>
+                    </div>
+
+                    <div class="footer">
+                            <table width="100%">
+                                    <tr>
+                                        <td colspan="5"  style="padding-top:10px"> <hr style="width:100%;padding-top:0px;margin:0px;border:1px solid black" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left:10px">SARL au capital de 10.000.000 DH </td>
+                                        <td style="padding-left:10px">Patente : 57220888 </td>
+                                        <td style="padding-left:10px">R.C : 20359 </td>
+                                        <td style="padding-left:10px">ICE : 000066916000087</td>
+                                        <td style="padding-left:10px">IF. 4921511</td>
+                                    </tr>
+                            </table>
+                    </div>
+                 </t>
+            </t>
+        </t>
+    </template>
+</odoo>

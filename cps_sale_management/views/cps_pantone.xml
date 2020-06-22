@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cps_pantone_form_view">
+            <field name="name">cps.pantone.form</field>
+            <field name="model">cps.pantone</field>
+            <field name="arch" type="xml">
+                <form string="Print/Motif">
+                    <header>
+                        <button string="valider" name="set_valide" type="object" groups="base.group_system" states="nok,annule"/>
+                        <button string="annuler" name="set_annule" type="object" groups="base.group_system" states="ok"/>
+                        <field name="state" widget="statusbar" statusbar_visible="nok,ok,annule"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="code_pantone" options="{'no_create_edit':True, 'no_quick_create':True}" />
+                            <field name="page_pantone" />
+                            <field name="couleur_id"/>
+                            <field name="type_couleur" />
+                            <field name="echantillon_ids"/>
+                            <!--<field name="coloriss_client" />-->
+                        </group>
+                        <!--<group>-->
+                        <!--<field name="couleur_client_ids" colspan="4" nolabel="1">-->
+                            <!--<tree string="Code client" editable="bottom">-->
+                                <!--<field name="code_couleur"/>-->
+                                <!--<field name="name"/>-->
+                                <!--<field name="state"/>-->
+                            <!--</tree>-->
+                        <!--</field>-->
+                        <!--</group>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="cps_pantone_tree_view">
+            <field name="name">cps.pantone.tree</field>
+            <field name="model">cps.pantone</field>
+            <field name="arch" type="xml">
+                <tree name="Print/Motif">
+                    <field name="name" string="Nom pantone"/>
+                    <field name="code_pantone" />
+                    <field name="page_pantone" />
+<!--                    <field name="couleur_id" />-->
+                    <field name="type_couleur" />
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+<!--    <record id="view_cps_pantone_search" model="ir.ui.view">-->
+<!--        <field name="name">cps.pantone.search</field>-->
+<!--        <field name="model">cps.pantone</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Recherche OF">-->
+<!--                <field name="name"/>-->
+<!--           </search>-->
+<!--        </field>-->
+<!--    </record>-->
+    <record model="ir.actions.act_window" id="cps_pantone_list_action">
+        <field name="name">Catalogue pantone</field>
+        <field name="res_model">cps.pantone</field>
+    </record>
+
+    </data>
+</odoo>

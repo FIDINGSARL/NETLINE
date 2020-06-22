@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="netline_vt_products_form_view">
+        <field name="name">netline.vt_product</field>
+        <field name="model">netline.vt_product</field>
+        <field name="arch" type="xml">
+            <form string="Produit Pressing">
+                <sheet>
+                    <group>
+                        <field name="product_id" />
+                        <field name="designation_client" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_vt_products_tree_view">
+        <field name="name">netline.vt_product</field>
+        <field name="model">netline.vt_product</field>
+        <field name="arch" type="xml">
+            <tree string="Produit Pressing" editable="bottom" default_order="n_ligne, product_id">
+                <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                <field name="designation_client" />
+                <field name="couleur_id" />
+                <field name="fonction_id" />
+                <field name="departement_id" />
+                <field name="poids" />
+                <field name="code_article" />
+                <field name="ref_unif" />
+                <field name="prix_lavage" groups="netline.group_admin"/>
+                <field name="prix_lavage_sec" groups="netline.group_admin"/>
+                <field name="prix_repassage" groups="netline.group_admin"/>
+                <field name="prix_detachage" groups="netline.group_admin"/>
+                <field name="n_ligne" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

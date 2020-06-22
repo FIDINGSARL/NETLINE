@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="cps_hr_correction_form_view">
+        <field name="name">cps.hr.correction.form</field>
+        <field name="model">cps.hr.correction</field>
+        <field name="arch" type="xml">
+            <form string="Commande production">
+                <header>
+                    <button string="Filtrer" name="action_filter_attendances" type="object"/>
+                    <button string="Appliquer" name="action_appliquer_horaire" type="object"/>
+                    <!--<button string="Corriger" name="action_corriger_pointage" type="object" states="pret"/>-->
+                </header>
+                <sheet>
+                    <group>
+                        <group name="left" string="Filtre">
+                            <field name="date_correction"/>
+                            <field name="societe_id"/>
+                            <field name="equipe"/>
+                            <field name="department_id"/>
+                        </group>
+                        <group name="right" string="Paramétres pointage">
+                            <field name="is_absents"/>
+                            <field name="horaire_id"/>
+                        </group>
+                    </group>
+                    <field name="attendance_ids">
+                        <tree editable="bottom">
+                            <field name="matricule" string="Mat."/>
+                            <field name="employee_id"/>
+                            <field name="is_absent" string="Ab."/>
+                            <field name="check_in" string="Entrée"/>
+                            <field name="checkin_corriged" optional="hide"/>
+                            <field name="checkin_anomalie"/>
+                            <field name="check_out" string="Sortie"/>
+                            <field name="checkout_corriged" optional="hide"/>
+                            <field name="checkout_anomalie"/>
+                            <button name="action_appliquer_horaire" type="object" class="oe_stat_button" icon="fa-list-ul icon"/>
+                            <field name="worked_hours" string="HN"/>
+                            <field name="h_25"/>
+                            <field name="h_50"/>
+                            <field name="h_100"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="cps_hr_correction_action">
+		<field name="name">Correction pointage</field>
+        <field name="view_mode">tree,form</field>
+		<field name="res_model">cps.hr.correction</field>
+	</record>
+
+</odoo>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="situation_general_report_id"
+                model="cps.product.production"
+                string="Situation générale"
+                report_type="qweb-pdf"
+                name="cps_sale_management.situation_generale_report_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+
+    <template id="situation_generale_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                                    .table1 th {font-size:8px;background-color:#D0A9F5;border:1px solid black;font-family:Calibri;font-weight: bold;vertical-align:middle; text-align:center;}
+                                    .table1 td {font-size:8px;border-left:1px solid black;border-right:1px solid black;}
+                                    .table1 { border-bottom: 1px solid black; }
+
+                                    .table1 tbody td  {font-size:8px;padding-left:20px;padding-right:20px;font-family:Arial}
+                                    .table1 thead tr { font-size:8px;padding-top:100px; color:black ; }
+                                    .table1 thead td { font-size:8px;text-align:center;border:1px solid black;color:black ; background-color:#CCC;font-weight: bold;font-family:Arial}
+                                </style>
+                     <table width="100%">
+                         <tr>
+                             <td width="30%"><img src='/cps_sale_management/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                             <td width="70%" align="left" style="font-size:22px;"><strong>SITUATION GENERAL</strong></td>
+                        </tr>
+                     </table>
+                     <table class="table1">
+                         <thead>
+                              <tr>
+                                <th style="border:0; background-color:#fff;" colspan="5"></th>
+                                <th colspan="2">Entree</th>
+                                <th colspan="2">Sortie</th>
+                                <th>Solde</th>
+                              </tr>
+                             <tr>
+                                <td style="width:30px">OF</td>
+                                <td style="width:100px">OF Client</td>
+                                <td style="width:200px">Modèle</td>
+                                <td style="width:200px">Traitement</td>
+                                <td>QteCde</td>
+                                <td>Jour</td>
+                                <td>Total</td>
+                                <td>Jour</td>
+                                <td>Total</td>
+                                <td>Total</td>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <t t-set="atelier" t-value=""/>
+                            <t t-set="client" t-value=""/>
+                            <t t-set="i" t-value="0"/>
+                            <t t-set="total_entree_jour" t-value="0"/>
+                            <t t-set="total_entree_total" t-value="0"/>
+                            <t t-set="total_sortie_jour" t-value="0"/>
+                            <t t-set="total_sortie_total" t-value="0"/>
+                            <t t-set="total_encours" t-value="0"/>
+                            <t t-set="total_entree_general_jour" t-value="0"/>
+                            <t t-set="total_entree_general_total" t-value="0"/>
+                            <t t-set="total_sortie_general_jour" t-value="0"/>
+                            <t t-set="total_sortie_general_total" t-value="0"/>
+                            <t t-set="total_general_encours" t-value="0"/>
+                             <t t-foreach="docs.sorted(key=lambda b: (b.client_id.name,b.atelier_id.name,b.code_article))" t-as="o">
+                                 <t t-if="atelier!=o.atelier_id.name and client!=o.client_id.name and i!=0">
+                                   <tr style="text-align:center;background-color:#E2A9F3">
+                                       <td colspan="5"><t t-esc="client"/> - <t t-esc="atelier"/> </td>
+                                       <td><t t-esc="total_entree_jour"/></td>
+                                       <td><t t-esc="total_entree_total"/></td>
+                                       <td><t t-esc="total_sortie_jour"/></td>
+                                       <td><t t-esc="total_sortie_total"/></td>
+                                       <td><t t-esc="total_encours"/></td>
+                                       <t t-set="total_entree_jour" t-value="0"/>
+                                        <t t-set="total_entree_total" t-value="0"/>
+                                        <t t-set="total_sortie_jour" t-value="0"/>
+                                        <t t-set="total_sortie_total" t-value="0"/>
+                                        <t t-set="total_encours" t-value="0"/>
+                                   </tr>
+                                </t>
+                                <t t-if="atelier!=o.atelier_id.name and client!=o.client_id.name">
+                                    <tr>
+                                        <td style="background-color:#81F7BE" colspan="10"><span t-field="o.client_id.name" /> - <span t-field="o.atelier_id.name" /> </td>
+                                    </tr>
+                                    <t t-set="atelier" t-value="o.atelier_id.name"/>
+                                    <t t-set="client" t-value="o.client_id.name"/>
+                                    <t t-set="i" t-value="1"/>
+                                </t>
+                                <tr>
+                                    <td><span t-field="o.code_article" /></td>
+                                    <td><span t-field="o.commande_client" /></td>
+                                    <td><span t-field="o.name" /></td>
+                                    <td><t t-set="c" t-value="0"/><t t-foreach="o.traitement_ids" t-as="t" ><t t-set="c" t-value="c+1"/><span t-field="t.traitement_id.name" /><t t-if="c  &lt; len(o.traitement_ids)">+</t></t></td>
+                                    <td align="right"><span t-field="o.qte" /></td>
+                                    <td align="right"><span t-field="o.total_entree_jour" /></td>
+                                    <td align="right"><span t-field="o.total_entree" /></td>
+                                    <td align="right"><span t-field="o.total_sortie_jour" /></td>
+                                    <td align="right"><span t-field="o.total_sortie" /></td>
+                                    <td align="right"><span t-field="o.total_encours" /></td>
+                                    <t t-set="total_entree_jour" t-value="total_entree_jour+o.total_entree_jour"/>
+                                    <t t-set="total_entree_total" t-value="total_entree_total+o.total_entree"/>
+                                    <t t-set="total_sortie_jour" t-value="total_sortie_jour+o.total_sortie_jour"/>
+                                    <t t-set="total_sortie_total" t-value="total_sortie_total+o.total_sortie"/>
+                                    <t t-set="total_encours" t-value="total_encours+o.total_encours"/>
+                                    <t t-set="total_entree_general_jour" t-value="total_entree_general_jour+o.total_entree_jour"/>
+                                    <t t-set="total_entree_general_total" t-value="total_entree_general_total+o.total_entree"/>
+                                    <t t-set="total_sortie_general_jour" t-value="total_sortie_general_jour+o.total_sortie_jour"/>
+                                    <t t-set="total_sortie_general_total" t-value="total_sortie_general_total+o.total_sortie"/>
+                                    <t t-set="total_general_encours" t-value="total_general_encours+o.total_encours"/>
+                                </tr>
+
+                            </t>
+                            <tr style="text-align:center;background-color:#E2A9F3">
+                                       <td colspan="5"><t t-esc="client"/> - <t t-esc="atelier"/> </td>
+                                       <td><t t-esc="total_entree_jour"/></td>
+                                       <td><t t-esc="total_entree_total"/></td>
+                                       <td><t t-esc="total_sortie_jour"/></td>
+                                       <td><t t-esc="total_sortie_total"/></td>
+                                       <td><t t-esc="total_encours"/></td>
+                            </tr>
+                            <tr style="text-align:center;background-color:#E2A9F3">
+                                       <td colspan="5">TOTAL GENERAL </td>
+                                       <td><t t-esc="total_entree_general_jour"/></td>
+                                       <td><t t-esc="total_entree_general_total"/></td>
+                                       <td><t t-esc="total_sortie_general_jour"/></td>
+                                       <td><t t-esc="total_sortie_general_total"/></td>
+                                       <td><t t-esc="total_general_encours"/></td>
+                            </tr>
+                        </tbody>
+                     </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
+

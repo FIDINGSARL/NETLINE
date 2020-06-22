@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="fiche_route_id"
+                model="cps.chariot"
+                string="Fiche de route"
+                report_type="qweb-pdf"
+                name="cps_sale_management.fiche_route_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+
+    <template id="fiche_route_template">
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="rl">
+
+
+                    <div class="page" >
+                         <style>
+                                    .table1 {border: 1px solid black; }
+                                    .table1 td {font-family:Calibri; }
+
+                                </style>
+                        <div class="oe_structure"/>
+
+                            <table width="100%" class="table1">
+                                <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Qté: <span  t-field="rl.qte_reel"/> PCs</td>
+                                </tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;">OF Client : <span  t-field="rl.product_production_id.reference"/> | Modele : <span  t-field="rl.product_production_id.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Poids : <span  t-field="rl.poids"/> Kg</td>
+                                </tr>
+
+                                 <tr style="height: 50px;text-align:center">
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                </tr>
+                            </table>
+
+                             <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
+
+                            <table width="100%" class="table1">
+                                <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Qté: <span  t-field="rl.qte_reel"/> PCs</td>
+                                </tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;">OF Client : <span  t-field="rl.product_production_id.reference"/> | Modele : <span  t-field="rl.product_production_id.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Poids : <span  t-field="rl.poids"/> Kg</td>
+                                </tr>
+
+                                 <tr style="height: 50px;text-align:center">
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                </tr>
+                            </table>
+
+                          <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
+
+                        <table width="100%" class="table1">
+                                <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Qté: <span  t-field="rl.qte_reel"/> PCs</td>
+                                </tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;">OF Client : <span  t-field="rl.product_production_id.reference"/> | Modele : <span  t-field="rl.product_production_id.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Poids : <span  t-field="rl.poids"/> Kg</td>
+                                </tr>
+
+                                 <tr style="height: 50px;text-align:center">
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                </tr>
+                            </table>
+
+                        <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
+
+                        <table width="100%" class="table1">
+                                <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Qté: <span  t-field="rl.qte_reel"/> PCs</td>
+                                </tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;">OF Client : <span  t-field="rl.product_production_id.reference"/> | Modele : <span  t-field="rl.product_production_id.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Poids : <span  t-field="rl.poids"/> Kg</td>
+                                </tr>
+
+                                 <tr style="height: 50px;text-align:center">
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                </tr>
+                        </table>
+
+                        <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
+
+                        <table width="100%" class="table1">
+                                <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Qté: <span  t-field="rl.qte_reel"/> PCs</td>
+                                </tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;">OF Client : <span  t-field="rl.product_production_id.reference"/> | Modele : <span  t-field="rl.product_production_id.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Poids : <span  t-field="rl.poids"/> Kg</td>
+                                </tr>
+
+                                 <tr style="height: 50px;text-align:center">
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                </tr>
+                        </table>
+
+                        <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
+
+                        <table width="100%" class="table1">
+                                <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Qté: <span  t-field="rl.qte_reel"/> PCs</td>
+                                </tr>
+                                <tr>
+                                    <td width="70%" style="border-right:1px solid black;">OF Client : <span  t-field="rl.product_production_id.reference"/> | Modele : <span  t-field="rl.product_production_id.name"/> </td>
+                                    <td width="30%" align="left" style="font-size:18px;font-weight: bold;">Poids : <span  t-field="rl.poids"/> Kg</td>
+                                </tr>
+
+                                 <tr style="height: 50px;text-align:center">
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                </tr>
+                        </table>
+
+
+
+
+
+
+                    </div>
+
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

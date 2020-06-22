@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report id="reception_report_id"
+                model="netline.reception"
+                string="Controle reception"
+                report_type="qweb-pdf"
+                name="netline.reception_report_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+
+    <template id="reception_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="rl">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <table width="100%">
+                            <tr>
+                                <td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                <td width="50%" style="font-size:11px;text-align:center;font-family:Calibri;align:right" align="right">
+                                    Usine : Zone Industrielle Gzenaya
+                                    <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                    <br/>Tél. / Fax : 0212 539 39 39 03
+                                    <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                    <br/>.R.C: 29797 - IF : 04922966
+                                    <br/>N° I.C.E. : 001530545000001
+                                </td>
+                            </tr>
+                            <tr style="border: 20px solid white;">
+                                <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">CONTROLE RECEPTION</td>
+                            </tr>
+                        </table>
+                        <table class="table table-condensed" style="margin-top: 1px;">
+                            <thead>
+                                <tr style="line-height: 500px;">
+                                    <td width="100%" style="font-size:14px;text-align:center;font-family:Calibri" colspan="6">
+                                        <table style="font-size:12px;margin-top: 5px;" border="2">
+                                            <td style="font-size:12px;text-align:center;font-family:Calibri;width:2200px">
+                                                <table style="font-size:12px;text-align:center;font-family:Calibri;width:200px">
+                                                    <tr><td align="center" style="padding: 2px;">Date reception</td><td align="center" style="padding: 2px;">N° reception</td></tr>
+                                                    <tr><td align="center" style="padding: 5px;"><span t-field="rl.date_reception"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="rl.product_order_name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                                    <tr><td align="center" style="padding: 2px;">Divison</td><td align="center" style="padding: 2px;">Réf. Contrat</td></tr>
+                                                    <tr><td align="center" style="padding: 5px;"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;">Laundry</span></td><td align="center" style="padding: 5px;"></td></tr>
+                                                </table>
+                                            </td>
+                                            <td style="float: right;font-size:12px;text-align:center;font-family:Calibri;border-top:50px;width:200px" align="right">
+                                                <table>
+                                                    <tr><td>
+                                                        <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 100px;text-align:center;">
+                                                            <span t-field="rl.client_id.nom_commercial"/><br/>
+                                                            <span t-field="rl.client_id.contact_address"/><br/>
+                                                            <span t-if="rl.client_id.phone is not False">Tél: <span t-field="rl.client_id.phone"/></span> <br/>
+                                                            <span t-if="rl.client_id.code_client is not False">Code client:</span> <span t-field="rl.client_id.code_client"/>
+                                                        </div>
+                                                    </td></tr>
+                                                </table>
+                                            </td>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr style="font-size:13px;text-align:center;font-family:Calibri;">
+                                    <th>N°</th>
+                                    <th class="text-center">ARTICLES</th>
+                                    <th class="text-center">Qté Annoncée</th>
+                                    <th class="text-center">Qte reçue</th>
+                                    <th class="text-center">Ecart</th>
+                                    <th class="text-center">Qte H.S.</th>
+                                    <th class="text-center">Qte Détachage</th>
+                                    <th class="text-center">Qte à livrer</th>
+                                    <th class="text-center">Qte Relavage</th>
+                                </tr>
+                           </thead>
+                           <tbody class="sale_tbody">
+                               <t t-set="ligne" t-value="0"/>
+                               <t t-set="sum_pieces" t-value="0"/>
+                               <t t-set="sum_declared_pieces" t-value="0"/>
+                               <t t-set="sum_quality_pieces" t-value="0"/>
+                               <t t-set="sum_diff_pieces" t-value="0"/>
+                               <t t-set="categ_en_cours" t-value="a"/>
+                               <t t-foreach="rl.receptionline_ids.sorted(key=lambda b: b.product_id.product_id.categ_id.name)" t-as="l">
+
+                                    <t t-if="categ_en_cours!=l.product_id.product_id.categ_id.name">
+                                        <tr>
+                                            <td colspan="3" class="text-left" style="font-size:12px;text-align:left;font-family:Calibri;align:right">Formule laundry : <span t-field="l.product_id.product_id.categ_id.name"/></td>
+                                        </tr>
+                                    </t>
+                                    <t t-set="categ_en_cours" t-value="l.product_id.product_id.categ_id.name"/>
+
+                                    <tr style="font-size:12px;text-align:center;font-family:Calibri;align:right">
+                                        <t t-set="ligne" t-value="ligne+1"/>
+                                        <t t-set="sum_pieces" t-value="sum_pieces+l.quantity"/>
+                                        <t t-set="sum_declared_pieces" t-value="sum_declared_pieces+l.declared_quantity"/>
+                                        <t t-set="sum_diff_pieces" t-value="sum_diff_pieces+l.diff_quantity"/>
+                                        <t t-set="sum_quality_pieces" t-value="sum_quality_pieces+l.quality_quantity"/>
+                                        <td class="text-left" width="5%"><span t-esc="ligne"/></td>
+                                        <td class="text-left" width="40%"><span t-field="l.product_id.name"/></td>
+                                        <td class="text-right" width="8%"><span t-field="l.quantity"/></td>
+                                        <td class="text-right" width="8%"><span t-field="l.declared_quantity"/></td>
+                                        <td class="text-right" width="8%"><span t-field="l.diff_quantity"/></td>
+                                        <td width="8%"></td>
+                                        <td class="text-right" width="8%"><span t-field="l.quality_quantity"/></td>
+                                        <td width="8%"></td>
+                                        <td width="8%"></td>
+                                    </tr>
+                               </t>
+                                <tr style="font-size:12px;text-align:center;font-family:Calibri;align:right" width="50%">
+                                    <td class="text-left"></td>
+                                    <td class="text-left">Total : </td>
+                                    <td class="text-right"><span t-esc="sum_pieces"/> Pcs</td>
+                                    <td class="text-right"> <span t-esc="sum_declared_pieces"/> Pcs</td>
+                                    <td class="text-right"><span t-esc="sum_diff_pieces"/> Pcs</td>
+                                    <td></td>
+                                    <td class="text-right"><span t-esc="sum_quality_pieces"/> Pcs</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</openerp>

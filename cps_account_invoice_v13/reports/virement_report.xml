@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report id="virement_cheque_report_id"
+                model="account.payment"
+                string="Ordre de virement"
+                report_type="qweb-pdf"
+                name="cps_account_invoice_v13.virement_report_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+    <template id="virement_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="l">
+                 <t t-call="web.external_layout">
+                    <div class="page" >
+                        <div class="oe_structure"/>
+                            <table width="100%"  style="font-size:20px;font-family:Calibri;margin-left:10%">
+                                     <tr>
+                                         <td width="50%" style="padding-top: 20%;vertical-align: middle;text-align:center  ">
+                                             <div style="padding-top: 10px;padding-bottom:10px;border : solid 1px black;"> <span style="font-size:20px;font-family:Calibri;font-weight:bold;">N.B : </span> Tous les frais seront à notre charge</div></td>
+                                         <td style="padding-top: 20%;text-align:center">Tanger le : <span t-field="l.payment_date"/>
+                                         <br/>
+                                         <br/>
+                                         <span style="font-size:20px;font-family:Calibri;font-weight:bold;">Crédit du Maroc</span>
+                                         <br/>
+                                         Agence TANGER LIGUE ARABE
+                                         <t t-if="l.currency_id.name=='EUR'">
+                                         <br/>
+                                         Service : Etranger
+                                         </t>
+                                         </td>
+
+                                     </tr>
+
+                            </table>
+
+                        <t t-if="l.currency_id.name=='MAD'">
+                        <table style="margin-top:50px;font-size:20px;font-family:Calibri;margin-left:10%">
+                            <tr style="height:80px">
+                                <td ><span style="font-size:20px;font-family:Calibri;font-weight:bold;">Objet </span>: Ordre de Virement</td>
+                            </tr>
+                            <tr style="height:60px">
+                                <td>
+                                    <span style="padding-left:50px;">Monsieur;</span>
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td>
+                                    <span style="padding-left:50px;">Par le débit de notre compte bancaire sur vos livres N° 000015703012038922,</span>
+                                    <br/>
+                                    veuillez effectuer un virement au crédit du compte de :
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="margin-top:50px;font-size:20px;font-family:Calibri;margin-left:10%">
+                            <tr style="height:50px">
+                                <td>Bénéficiaire</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.partner_id.name"/></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>Banque</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.partner_id.bank_ids[0].bank_id.name"/></td>
+                            </tr>
+                             <tr style="height:50px">
+                                <td>RIB Bénéficiaire</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.partner_id.bank_ids[0].acc_number"/></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>Montant</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.amount"/></td>
+                            </tr>
+                        </table>
+
+
+                        </t>
+                        <t t-if="l.currency_id.name=='EUR'">
+                        <table style="margin-top:50px;font-size:20px;font-family:Calibri;margin-left:10%">
+                            <tr style="height:80px">
+                                <td ><span style="font-size:20px;font-family:Calibri;font-weight:bold;">Objet </span>: Ordre de Virement à l'étranger.</td>
+                            </tr>
+                            <tr style="height:60px">
+                                <td>
+                                    <span style="padding-left:50px;">Monsieur;</span>
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td>
+                                    <span style="padding-left:50px;">Par le débit de notre compte bancaire sur vos livres N° 0000157242153127, veuillez effectuer</span>
+                                    <br/>
+                                    un virement par SWIFT au crédit du compte de :
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="margin-top:50px;font-size:20px;font-family:Calibri;margin-left:10%">
+                            <tr style="height:50px">
+                                <td>La société</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.partner_id.name"/></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>IBAN</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.partner_id.bank_ids[0].acc_number"/></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>Banque</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.partner_id.bank_ids[0].bank_id.name"/></td>
+                            </tr>
+                             <tr style="height:50px">
+                                <td>Adresse</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.partner_id.street"/> (<span t-field="l.partner_id.city"/>)- <span  t-field="l.partner_id.country_id.name"/></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>SWIFT</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.partner_id.bank_ids[0].bank_id.bic"/></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>Montant</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.amount"/></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td>Motif</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.communication"/></td>
+                            </tr>
+                        </table>
+                        </t>
+
+
+
+
+                        <table style="margin-top:200px;font-size:20px;font-family:Calibri;margin-left:70%">
+                            <tr>
+                                <td>
+                                    Administrateur Associé
+                                </td>
+                            </tr>
+                        </table>
+                     </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</openerp>
