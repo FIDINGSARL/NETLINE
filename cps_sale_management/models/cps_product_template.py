@@ -503,9 +503,10 @@ class CpsProductTemplate(models.Model):
                 total_eau = 0
                 total_kcal = 0
                 total_temps = 0
+                nb_lines = 0
                 line_value = ({})
                 for procedeline in fiche_procede.procede_line_ids:
-                    if len(procedeline.eau) > 0:
+                    if len(procedeline.quimicos) > 0:
                         trouve = False
                         for quimico in quimicos:
                             if quimico['product_id'] == procedeline.quimicos.id:
@@ -518,10 +519,12 @@ class CpsProductTemplate(models.Model):
                             })
                             quimicos.append(line_value)
                     total_eau += procedeline.eau / 1000
-                    total_kcal += procedeline.kcal
                     total_temps += procedeline.temps
-
-                fuel_lavage_teinture = (total_kcal * total_eau * 1000 / valJouleToFueloilequivalent)
+                    if procedeline.temperature>20:
+                        total_kcal+=(procedeline.temperature-20)
+                        nb_lines+=1
+                if nb_lines>0:
+                    fuel_lavage_teinture = ((total_kcal/nb_lines) * total_eau * 1000 / valJouleToFueloilequivalent)
                 fuel_sechage = ((valKwHVapeurSecadora * (tempsSechage / 60)) / 11.2) * 1.3
                 electricite_lavage_teinture = total_temps / 60 * valKWHMachine
                 electricite_centrifuge = tempsCentrifuge / 60 * valKWHCentrifuge
