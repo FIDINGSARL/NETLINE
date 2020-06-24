@@ -33,21 +33,20 @@
                                 <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de livraison</td>
                             </tr>
                         </table>
-                        <table class="table table-condensed" style="margin-top: 1px;">
+                        <table style="margin-top: 1px;width:500">
                             <thead>
-                                <tr style="line-height: 500px;">
+                                <tr style="line-height: 10px;">
                                     <td width="100%" style="font-size:14px;text-align:center;font-family:Calibri" colspan="6">
                                         <table style="font-size:12px;margin-top: 5px;" border="2">
-                                            <td style="font-size:12px;text-align:center;font-family:Calibri;width:2200px">
-                                                <table style="font-size:12px;text-align:center;font-family:Calibri;width:200px">
+                                            <td style="font-size:12px;text-align:center;font-family:Calibri;width:400px">
+                                                <table style="font-size:12px;text-align:center;font-family:Calibri;">
                                                     <tr><td align="center" style="padding: 2px;">Date livraison</td><td align="center" style="padding: 2px;">N° livraison</td></tr>
                                                     <tr><td align="center" style="padding: 5px;"><span t-field="rl.date_livraison"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="rl.sale_order_name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
                                                     <tr><td align="center" style="padding: 2px;">Divison</td><td align="center" style="padding: 2px;"></td></tr>
                                                     <tr><td align="center" style="padding: 5px;"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;">Laundry</span></td><td align="center" style="padding: 5px;"></td></tr>
                                                 </table>
                                             </td>
-                                            <td style="float: right;font-size:12px;text-align:center;font-family:Calibri;border-top:50px;width:200px" align="right">
-                                                <table>
+                                            <td style="float: right;font-size:12px;text-align:center;font-family:Calibri;border-top:50px;" align="right">
                                                     <tr><td>
                                                         <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 100px;text-align:center;">
                                                             <span t-field="rl.client_id.nom_commercial"/><br/>
@@ -57,7 +56,6 @@
                                                             <span t-if="rl.client_id.code_client is not False">Code client:</span> <span t-field="rl.client_id.code_client"/>
                                                         </div>
                                                     </td></tr>
-                                                </table>
                                             </td>
                                         </table>
                                     </td>
