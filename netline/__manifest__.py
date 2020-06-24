@@ -21,7 +21,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'crm', 'project', 'stock', 'point_of_sale', 'hr_timesheet', 'hr_holidays', 'website', 'purchase', 'purchase_requisition', 'hr', 'hr_attendance', 'hr_recruitment','hr_expense', 'board','survey', 'maintenance', 'fleet', 'product', 'sale', 'account', 'sale_stock', 'account_accountant'],
+    'depends': ['base', 'crm', 'stock', 'hr_holidays', 'website', 'purchase', 'purchase_requisition', 'hr', 'hr_attendance', 'hr_recruitment','hr_expense', 'board','survey', 'maintenance', 'fleet', 'product', 'sale', 'account', 'sale_stock', 'account_accountant'],
 
     # always loaded
     'data': [

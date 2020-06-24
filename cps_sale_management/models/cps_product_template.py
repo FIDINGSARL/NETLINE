@@ -504,6 +504,7 @@ class CpsProductTemplate(models.Model):
                 total_kcal = 0
                 total_temps = 0
                 nb_lines = 0
+                fuel_lavage_teinture=0
                 line_value = ({})
                 for procedeline in fiche_procede.procede_line_ids:
                     if len(procedeline.quimicos) > 0:
