@@ -20,6 +20,7 @@
         <field name="model">netline.product</field>
         <field name="arch" type="xml">
             <tree string="Produit Client" editable="bottom" default_order="n_ligne, product_id">
+                <field name="n_ligne" widget="handle"/>
                 <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}"/>
                 <field name="designation_client" />
                 <field name="type_id" />
@@ -36,7 +37,6 @@
                 <field name="prix_repassage" groups="netline.group_admin"/>
                 <field name="prix_detachage" groups="netline.group_admin"/>
                 <field name="prix_lavage_sec" groups="netline.group_admin"/>
-                <field name="n_ligne" />
             </tree>
         </field>
     </record>
