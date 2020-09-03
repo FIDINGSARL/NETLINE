@@ -36,6 +36,12 @@ class Netline_clients(models.Model):
     total_encours = fields.Integer("Total encours")
     total_detachage = fields.Integer("Total détachage")
 
+    state = fields.Selection(string="Etat du client", selection=[('pret', 'Pret'),
+                                                                       ('valide', 'Validé')], default='pret')
+
+    def action_validate_client(self):
+        self.state="valide"
+
     def action_creer_reception_laundry(self):
         netline_reception = self.env['netline.reception'].create({
             'client_id': self.id,
