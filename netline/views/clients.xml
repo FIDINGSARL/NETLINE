@@ -5,7 +5,12 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-        	
+            <sheet position="before">
+                <header>
+                    <button string="Valider" name="action_validate_client" type="object" states="pret" groups="netline.group_admin" />
+                    <field name="state" widget="statusbar" statusbar_visible="pret,valide"/>
+                </header>
+            </sheet>
             <field name="name" position="after">
                 <field name="nom_commercial"
                        invisible="context.get('is_client2', 0)"
