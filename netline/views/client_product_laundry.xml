@@ -32,11 +32,11 @@
                 <field name="grammage" />
                 <field name="matiere_id" />
                 <field name="marque_id"  widget="many2many_tags"/>
-                <field name="prix_lavage" groups="netline.group_admin"/>
-                <field name="prix_decatissage" groups="netline.group_admin"/>
-                <field name="prix_repassage" groups="netline.group_admin"/>
-                <field name="prix_detachage" groups="netline.group_admin"/>
-                <field name="prix_lavage_sec" groups="netline.group_admin"/>
+                <field name="prix_lavage" groups="netline.group_gestionnaire,netline.group_admin"/>
+                <field name="prix_decatissage" groups="netline.group_gestionnaire,netline.group_admin"/>
+                <field name="prix_repassage" groups="netline.group_gestionnaire,netline.group_admin"/>
+                <field name="prix_detachage" groups="netline.group_gestionnaire,netline.group_admin"/>
+                <field name="prix_lavage_sec" groups="netline.group_gestionnaire,netline.group_admin"/>
             </tree>
         </field>
     </record>
