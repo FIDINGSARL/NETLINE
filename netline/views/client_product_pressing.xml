@@ -24,10 +24,10 @@
                 <field name="designation_client" />
                 <field name="poids" />
                 <field name="sexe" />
-                <field name="prix_lavage" groups="netline.group_admin"/>
-                <field name="prix_lavage_sec" groups="netline.group_admin"/>
-                <field name="prix_repassage" groups="netline.group_admin"/>
-                <field name="prix_detachage" groups="netline.group_admin"/>
+                <field name="prix_lavage" groups="netline.group_gestionnaire,netline.group_admin"/>
+                <field name="prix_lavage_sec" groups="netline.group_gestionnaire,netline.group_admin"/>
+                <field name="prix_repassage" groups="netline.group_gestionnaire,netline.group_admin"/>
+                <field name="prix_detachage" groups="netline.group_gestionnaire,netline.group_admin"/>
                 <field name="n_ligne" />
             </tree>
         </field>
