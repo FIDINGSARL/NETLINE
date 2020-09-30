@@ -4,7 +4,7 @@ from odoo import models, fields, api
 
 class CpsChariot(models.Model):
     _name = 'cps.chariot'
-    _description = "Liste des chariots production"
+    _description = "Liste des chariots de production"
 
     numero = fields.Char('Chariot N°',readonly=True)
     name = fields.Char("name", compute="compute_name")
