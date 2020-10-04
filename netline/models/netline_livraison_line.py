@@ -150,7 +150,7 @@ class Netline_sale_order_line(models.Model):
 
     traitement = fields.Char(string = "Traitement")
     netline_livraison_line_ids = fields.One2many('netline.livraison.line', 'sale_order_line_id')
-
+    is_netline = fields.Boolean('Is Netline')
 
     def recalculate_prices(self):
         return self.reset_lines(price=True)
