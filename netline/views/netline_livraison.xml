@@ -112,6 +112,7 @@
                 <field name="original_quantity" string="Quantité reçue"/>
                 <field name="available_quantity"/>
                 <field name="to_deliver_quantity" sum="Quantité bon livraison"/>
+                <field name="reception_line_id" invisible="1"/>
             </tree>
         </field>
     </record>
