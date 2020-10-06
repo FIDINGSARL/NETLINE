@@ -386,3 +386,9 @@ class Netline_livraison(models.Model):
     #         'type': 'ir.actions.act_window',
     #         'target': 'current'
     #     }
+
+class Netline_sale_order(models.Model):
+    _name = 'sale.order'
+    _inherit = 'sale.order'
+
+    is_netline = fields.Boolean('Is Netline')
