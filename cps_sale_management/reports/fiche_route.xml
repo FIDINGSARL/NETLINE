@@ -36,7 +36,12 @@
                                 </tr>
 
                                  <tr style="height: 50px;text-align:center">
-                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/>
+                                     <t t-if="rl.product_production_id.ctw">***CTW***</t>
+                                     <t t-if="rl.product_production_id.gots">***GOTS***</t>
+                                     <t t-if="rl.product_production_id.join_life">***Join Life***</t>
+                                     <t t-if="rl.product_production_id.ocs">***OCS***</t>
+                                     <t t-if="rl.product_production_id.rcs">***RCS***</t></td>
                                 </tr>
                             </table>
 
@@ -54,13 +59,18 @@
                                 </tr>
 
                                  <tr style="height: 50px;text-align:center">
-                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/>
+                                     <t t-if="rl.product_production_id.ctw">***CTW***</t>
+                                     <t t-if="rl.product_production_id.join_life">***Join Life***</t>
+                                     <t t-if="rl.product_production_id.gots">***GOTS***</t>
+                                     <t t-if="rl.product_production_id.ocs">***OCS***</t>
+                                     <t t-if="rl.product_production_id.rcs">***RCS***</t></td>
                                 </tr>
                             </table>
 
                           <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
 
-                        <table width="100%" class="table1">
+                            <table width="100%" class="table1">
                                 <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
                                 <tr>
                                     <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
@@ -72,13 +82,17 @@
                                 </tr>
 
                                  <tr style="height: 50px;text-align:center">
-                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/>
+                                     <t t-if="rl.product_production_id.ctw">***CTW***</t>
+                                     <t t-if="rl.product_production_id.join_life">***Join Life***</t>
+                                     <t t-if="rl.product_production_id.ocs">***OCS***</t>
+                                     <t t-if="rl.product_production_id.rcs">***RCS***</t></td>
                                 </tr>
                             </table>
 
                         <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
 
-                        <table width="100%" class="table1">
+                            <table width="100%" class="table1">
                                 <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
                                 <tr>
                                     <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
@@ -90,13 +104,18 @@
                                 </tr>
 
                                  <tr style="height: 50px;text-align:center">
-                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/>
+                                     <t t-if="rl.product_production_id.ctw">***CTW***</t>
+                                     <t t-if="rl.product_production_id.join_life">***Join Life***</t>
+                                     <t t-if="rl.product_production_id.gots">***GOTS***</t>
+                                     <t t-if="rl.product_production_id.ocs">***OCS***</t>
+                                     <t t-if="rl.product_production_id.rcs">***RCS***</t></td>
                                 </tr>
-                        </table>
+                            </table>
 
                         <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
 
-                        <table width="100%" class="table1">
+                            <table width="100%" class="table1">
                                 <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
                                 <tr>
                                     <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
@@ -108,13 +127,17 @@
                                 </tr>
 
                                  <tr style="height: 50px;text-align:center">
-                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/>
+                                     <t t-if="rl.product_production_id.ctw">***CTW***</t>
+                                     <t t-if="rl.product_production_id.join_life">***Join Life***</t>
+                                     <t t-if="rl.product_production_id.ocs">***OCS***</t>
+                                     <t t-if="rl.product_production_id.rcs">***RCS***</t></td>
                                 </tr>
-                        </table>
+                            </table>
 
                         <hr style="border: 2px dashed ; margin-top:20px;margin-bottom:20px;"/>
 
-                        <table width="100%" class="table1">
+                            <table width="100%" class="table1">
                                 <tr style="padding-top:20px;"><td></td><td align="right"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></td></tr>
                                 <tr>
                                     <td width="70%" style="border-right:1px solid black;font-weight: bold;">Chariot N° : <span  t-field="rl.name"/> </td>
@@ -126,15 +149,14 @@
                                 </tr>
 
                                  <tr style="height: 50px;text-align:center">
-                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/></td>
+                                    <td style="border: 1px solid black;" colspan="2"><span  t-field="rl.product_production_id.product_tmpl_id.traitement_name"/>
+                                     <t t-if="rl.product_production_id.ctw">***CTW***</t>
+                                     <t t-if="rl.product_production_id.join_life">***Join Life***</t>
+                                     <t t-if="rl.product_production_id.gots">***GOTS***</t>
+                                     <t t-if="rl.product_production_id.ocs">***OCS***</t>
+                                     <t t-if="rl.product_production_id.rcs">***RCS***</t></td>
                                 </tr>
-                        </table>
-
-
-
-
-
-
+                            </table>
                     </div>
 
             </t>

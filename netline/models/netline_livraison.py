@@ -36,13 +36,13 @@ class Netline_livraison(models.Model):
     is_location = fields.Boolean(default=False)
 
 
-    delivred_quantity = fields.Integer(compute="_compute_delivred_quantity")
+    # delivred_quantity = fields.Integer(compute="_compute_delivred_quantity")
 
-    def _compute_delivred_quantity(self):
-        delivred_quantity = 0
-        for livraison_line in self.livraison_lines_ids:
-            delivred_quantity += livraison_line.to_deliver_quantity
-        self.delivred_quantity = delivred_quantity
+    # def _compute_delivred_quantity(self):
+    #     delivred_quantity = 0
+    #     for livraison_line in self.livraison_lines_ids.filtered(lambda t: t.livraison_id.id == self.id):
+    #         delivred_quantity += livraison_line.to_deliver_quantity
+    #     self.delivred_quantity = delivred_quantity
 
 
     def write(self, values):
@@ -386,3 +386,9 @@ class Netline_livraison(models.Model):
     #         'type': 'ir.actions.act_window',
     #         'target': 'current'
     #     }
+
+class Netline_sale_order(models.Model):
+    _name = 'sale.order'
+    _inherit = 'sale.order'
+
+    is_netline = fields.Boolean('Is Netline')

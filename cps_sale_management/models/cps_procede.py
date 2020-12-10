@@ -65,14 +65,16 @@ class FicheProcede(models.Model):
         # print('values--------------------', values)
         if self.pantone_id is not False :
             self.template_id.pantone_id = self.pantone_id.id
-        if 'poids_article' not in values and self.template_id.id is not False and self.template_id.product_id.id is not False:
+        if self.template_id.id is not False and self.template_id.product_id.id is not False:
             # print ('lines----------------------', len(self.procede_line_ids))
             if len(self.procede_line_ids)>0:
                 self.template_id.create_bom()
             # bom = self.template_id.create_bom()
             # for traitement in self.template_id.traitement_ids:
             #     self.template_id.create_bom_line(bom, traitement.traitement_id, self)
-            self.template_id.update_route_with_time()
+            # self.template_id.create_route(self.template_id)
+            self.template_id.create_route_with_time(self.template_id)
+
         return procede
 
     # def generate_bom_line(self, bom_id, workcenter_id, fiche_procede):

@@ -10,6 +10,7 @@
                     <button string="Désolder" name="set_unsolde" type="object" states="solde"/>
                     <button name="action_creer_livraison_emballage" string="Créer colis" type="object" groups="cps_sale_management.group_admin,cps_sale_management.group_emballage"/>
                     <button name="action_creer_chariot" string="Créer chariot" type="object" groups="cps_sale_management.group_admin,cps_sale_management.group_labo"/>
+<!--                    <button name="action_creer_of" string="Créer O.F." type="object"/>-->
                     <field name="state" widget="statusbar" statusbar_visible="pret,traitement,fait,solde"/>
                     <field name="state_fact" widget="statusbar" statusbar_visible="to_fact,fact_part,fact" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
                 </header>
@@ -162,6 +163,10 @@
                                     <field name="date_ok"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="date_export" />
                                     <field name="ctw"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="join_life"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="gots"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="ocs"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="rcs"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="qte"/>
                                     <label for="price" groups="cps_sale_management.group_commercial,cps_sale_management.group_admin,cps_sale_management.group_finance" />
                                     <div name="standard_price_uom" groups="cps_sale_management.group_commercial,cps_sale_management.group_admin,cps_sale_management.group_finance" class="o_row">
@@ -229,9 +234,9 @@
                 <field name="qte" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" sum="Total qté" widget="monetary"/>
                 <field name="price" widget="monetary" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" options="{'currency_field': 'devise'}"/>
                 <field name="total_entree" string="Ent." sum="Total entrées" />
-                <!--<field name="total_entree_jour" string="Ent. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>-->
+                <field name="total_entree_jour" string="Ent. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
                 <field name="total_sortie" string="Sor." sum="Total sorties"/>
-                <!--<field name="total_sortie_jour" string="Sor. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>-->
+                <field name="total_sortie_jour" string="Sor. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
                 <field name="total_retour" string="Sor. S.T." sum="Total retour st" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
                 <field name="total_retour_correction" string="Corr." sum="Total correction" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
                 <field name="total_encours" string="Enc." sum="Total encours" />
@@ -447,6 +452,18 @@
            </search>
         </field>
     </record>
+
+	<record model="ir.ui.view" id="product_achats_form_view">
+		<field name="name">Articles d'achat</field>
+		<field name="model">product.template</field>
+		<field name="inherit_id" ref="product.product_template_only_form_view"/>
+		<field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="gtw"/>
+                <field name="cas_number"/>
+            </field>
+		</field>
+	</record>
 
     <record id="facturer_more_product_production_action" model="ir.actions.server">
             <field name="name">Facturer</field>

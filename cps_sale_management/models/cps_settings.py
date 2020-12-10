@@ -8,6 +8,8 @@ class ResConfigSettings(models.TransientModel):
     picking_type_reception = fields.Many2one("stock.picking.type", "Opérations reception")
     picking_type_livraison = fields.Many2one("stock.picking.type", "Opérations livraison")
 
+    picking_type_mo = fields.Many2one("stock.picking.type", "Opérations Ordre de fabrication")
+
     picking_type_reception_reparation = fields.Many2one("stock.picking.type", "Opérations reception correction")
     picking_type_livraison_reparation = fields.Many2one("stock.picking.type", "Opérations livraion correction")
 
@@ -68,6 +70,11 @@ class ResConfigSettings(models.TransientModel):
         livraison_type = self.env['stock.picking.type'].search([("id", "=", picking_type_livraisons)])
         return livraison_type
 
+    def get_mo_type(self):
+        picking_type_mo = self.env['ir.config_parameter'].sudo().get_param('cps_sale_management_v13.picking_type_mo')
+        recept = self.env['stock.picking.type'].search([("id", "=", picking_type_mo)])
+        return recept
+
     def get_reception_reparation_type(self):
         picking_type_receptions_reparation = self.env['ir.config_parameter'].sudo().get_param('cps_sale_management_v13.picking_type_reception_reparation')
         recept_reparation = self.env['stock.picking.type'].search([("id", "=", picking_type_receptions_reparation)])
@@ -97,6 +104,7 @@ class ResConfigSettings(models.TransientModel):
         self.env['ir.config_parameter'].set_param('cps_sale_management_v13.picking_type_livraison_reparation', self.picking_type_livraison_reparation.id)
         self.env['ir.config_parameter'].set_param('cps_sale_management_v13.categorie_mere_article', self.categorie_mere_article.id)
         self.env['ir.config_parameter'].set_param('cps_sale_management_v13.categorie_mere_pc', self.categorie_mere_pc.id)
+        self.env['ir.config_parameter'].set_param('cps_sale_management_v13.picking_type_mo', self.picking_type_mo.id)
         # self.env['ir.config_parameter'].set_param('cps_sale_management_v13.attribut_couleur', self.attribut_couleur.id)
         # self.env['ir.config_parameter'].set_param('cps_sale_management_v13.attribut_marque', self.attribut_marque.id)
         # self.env['ir.config_parameter'].set_param('cps_sale_management_v13.attribut_matiere', self.attribut_matiere.id)
@@ -108,6 +116,7 @@ class ResConfigSettings(models.TransientModel):
         res = super(ResConfigSettings, self).get_values()
         res.update(picking_type_reception = self.get_reception_type().id)
         res.update(picking_type_livraison = self.get_livraison_type().id)
+        res.update(picking_type_mo = self.get_mo_type().id)
         res.update(picking_type_reception_reparation = self.get_reception_reparation_type().id)
         res.update(picking_type_livraison_reparation = self.get_livraison_reparation_type().id)
         res.update(categorie_mere_article = self.get_cat_mere_vente().id)

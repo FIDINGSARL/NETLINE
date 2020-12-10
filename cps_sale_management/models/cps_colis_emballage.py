@@ -9,6 +9,8 @@ class CpsColisEmballage(models.Model):
 
 
     product_production_id = fields.Many2one("cps.product.production", string="Article")
+    client_id = fields.Many2one("res.partner", related='product_production_id.client_id')
+    atelier_id = fields.Many2one("res.partner", related='product_production_id.atelier_id')
     qte = fields.Integer('Quantité à emballer')
     qte_emballer = fields.Integer('Quantité / colis')
     colis_details = fields.One2many('cps.colis.emballage.lines', 'colis_id', 'Détail des colis')

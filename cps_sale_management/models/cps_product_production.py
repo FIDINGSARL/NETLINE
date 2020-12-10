@@ -3,6 +3,7 @@
 from odoo import models, fields, api,_
 from odoo.exceptions import UserError, AccessError
 from datetime import date, timedelta, datetime
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 filter_condition = ""
 active_view_name = ""
@@ -19,11 +20,16 @@ class CpsProductProduction(models.Model):
     product_id = fields.Many2one('product.product', 'Produit Odoo')
 
     product_tmpl_id = fields.Many2one('cps.product.template', 'Product Template', auto_join=True, ondelete="cascade", required=True)
-    atelier_id = fields.Many2one("res.partner", 'Atelier', domain=[('is_atelier', '=', True),('supplier_rank', '=', 0),('is_company', '=', True)])
+    atelier_id = fields.Many2one("res.partner", 'Atelier', domain=[('is_atelier', '=', True),('supplier_rank', '=', 0),('is_company', '=', True)], required=True)
     commande_client = fields.Char("N° commande client")
     date_ok = fields.Date('Date OK')
     date_export = fields.Date("Date d'export")
-    ctw = fields.Boolean('Clean to Wear')
+    ctw = fields.Boolean('Green to Wear')
+    join_life = fields.Boolean('Join Life')
+    gots = fields.Boolean('GOTS')
+    ocs = fields.Boolean('OCS')
+    rcs = fields.Boolean('RCS')
+
     echantillon_id = fields.Many2one("cps.product.echantillon", "Echantillon d'origine")
     echantillon_name = fields.Char(related='echantillon_id.name', string="Nom des echantillons d'origine")
     emballage_ids = fields.One2many('cps.colis.emballage', 'product_production_id', 'Colis emballage')
@@ -42,7 +48,11 @@ class CpsProductProduction(models.Model):
     def compute_solde(self):
         for s in self:
             # print(".product_tmpl_id.total_encours-----------------", s.product_tmpl_id.total_encours)
-            if s.product_tmpl_id.total_encours<=0 and s.product_tmpl_id.total_sortie>0 and s.product_tmpl_id.total_sortie>=s.product_tmpl_id.qte:
+            delta = 0
+            if s.product_tmpl_id.derniere_sortie is not False:
+                delta = (fields.Date.today() - s.product_tmpl_id.derniere_sortie).days
+            print ('delta-----------------', str(s.product_tmpl_id.code_article) + " " + str(delta))
+            if s.product_tmpl_id.total_encours==0 and s.product_tmpl_id.total_sortie>0 and s.product_tmpl_id.total_sortie>=s.product_tmpl_id.qte and delta>7:
                 s.set_solde()
 
     def compute_solde_schedule(self):
@@ -426,12 +436,13 @@ class CpsProductProduction(models.Model):
         }
 
     def action_view_chariot(self):
+        of_ids = self.env['mrp.production'].search([('product_id', '=', self.product_id.id)])
         return {
             'name': 'Liste des chariots',
-            'res_model': 'cps.chariot',
+            'res_model': 'mrp.production',
             'view_type': 'form',
             'view_mode': 'tree,form',
-            'domain': [('id', 'in', self.chariot_ids.ids)],
+            'domain': [('id', 'in', of_ids.ids)],
             'type': 'ir.actions.act_window',
             'target': 'current'  # will open a popup with mail.message list
         }
@@ -525,9 +536,15 @@ class CpsProductProduction(models.Model):
 
     def write(self, values):
         product_product = super(CpsProductProduction, self).write(values)
+        print ('compuite name ----------------------------', self.product_tmpl_id.compute_name())
         if 'commande_client' in values:
             if values['commande_client'] is not False:
-                self.product_tmpl_id.product_id.name = self.product_tmpl_id.product_id.name + " cde " + values['commande_client']
+                self.product_tmpl_id.product_id.name = self.product_tmpl_id.compute_name() + " cde " + values['commande_client']
+        else:
+            if self.commande_client is not False:
+                self.product_tmpl_id.product_id.name = self.product_tmpl_id.compute_name() + " cde " + self.commande_client
+            else:
+                self.product_tmpl_id.product_id.name = self.product_tmpl_id.compute_name()
 
     def create_invoice(self):
         user = self.env['res.users'].browse(self.env.uid)
@@ -581,7 +598,6 @@ class CpsProductProduction(models.Model):
 
     def copy(self, default=None):
         default = dict(default or {})
-        default.update ({'code_article': 0,
-                         })
+        default.update ({'code_article': 0})
         new_product_template = super(CpsProductProduction, self).copy(default)
         return new_product_template
