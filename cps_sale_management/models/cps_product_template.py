@@ -590,3 +590,28 @@ class CpsProductTemplate(models.Model):
                     'product_id': produit_charges_fixes.id,
                     'product_qty': 1,
                 })
+
+class Cps_product_template(models.Model):
+    _inherit = 'product.template'
+    gtw = fields.Many2one('cps.standard_gtw')
+    cas_number = fields.Char('CAS N°')
+
+class Cps_standard_qualite(models.Model):
+    _name = 'cps.standard_gtw'
+    green_to_wear = fields.Boolean('Green to wear')
+    revision = fields.Char('Version')
+    date_revision = fields.Datetime('Date révision')
+
+    def name_get(self):
+        res = []
+        #designation_client, designation, type, couleur
+        for p in self:
+            name = ""
+            if p.green_to_wear is not False:
+                name = name + " GTW "
+            if p.revision is not False:
+                name = name + "v. " + p.revision
+            if p.date_revision is not False:
+                name = name + " du " + str(p.date_revision)
+            res.append((p.id, name))
+        return res
