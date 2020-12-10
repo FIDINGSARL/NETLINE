@@ -30,7 +30,6 @@ class CpsProductProduction(models.Model):
     ocs = fields.Boolean('OCS')
     rcs = fields.Boolean('RCS')
 
-
     echantillon_id = fields.Many2one("cps.product.echantillon", "Echantillon d'origine")
     echantillon_name = fields.Char(related='echantillon_id.name', string="Nom des echantillons d'origine")
     emballage_ids = fields.One2many('cps.colis.emballage', 'product_production_id', 'Colis emballage')
