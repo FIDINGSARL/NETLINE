@@ -67,13 +67,22 @@
                                     <tr style="height:30px;;font-size:15px;text-align:center;font-family:arial;vertical-align: center;">
                                         <td class="text-right" style="vertical-align: center;padding:2px" width="15%"><t t-if="s.gkg!=0"><span t-field="s.gkg"/> gr/Kg </t><t t-if="s.gltr!=0"><span t-field="s.gltr"/> gr/L </t></td>
                                         <td class="text-right" style="vertical-align: center;padding:2px" width="35%"><t t-if="s.quimicos!=0"><span t-field="s.quimicos"/></t> </td>
-                                        <td class="text-right" style="vertical-align: center;padding:2px" width="10%"><t t-if="s.dosification!=0"><t t-esc="'{0:,.3f}'.format(s.dosification).replace(',', ' ').replace('.',',')"/> g </t></td>
+                                        <td class="text-right" style="vertical-align: center;padding:2px" width="10%"><t t-if="s.dosification!=0"><t t-esc="'{0:,.0f}'.format(s.dosification*1000).replace(',', ' ').replace('.',',')"/> g </t></td>
                                         <td class="text-center" style="vertical-align: center;padding:2px" width="10%"><t t-if="s.eau!=0"><span t-field="s.eau"/> l</t></td>
                                         <td class="text-center" style="vertical-align: center;padding:2px" width="10%"><t t-if="s.temps!=0"><span t-field="s.temps"/> min</t></td>
                                         <td class="text-right" style="vertical-align: center;padding:2px" width="8%"><t t-if="s.temperature!=0"><span t-field="s.temperature"/> °C </t></td>
                                         <td class="text-right" style="vertical-align: center;padding:2px" width="12%"></td>
                                     </tr>
                                </t>
+                                 <tr style="height: 50px;text-align:center">
+                                    <td style="border: 1px solid black;" colspan="7">
+                                     <t t-if="l.template_id.product_tmpl_production_ids.ctw">***CTW***</t>
+                                     <t t-if="l.template_id.product_tmpl_production_ids.gots">***GOTS***</t>
+                                     <t t-if="l.template_id.product_tmpl_production_ids.join_life">***Join Life***</t>
+                                     <t t-if="l.template_id.product_tmpl_production_ids.ocs">***OCS***</t>
+                                     <t t-if="l.template_id.product_tmpl_production_ids.rcs">***RCS***</t></td>
+                                </tr>
+
 <!--                            </tbody>-->
                         </table>
                     </div>

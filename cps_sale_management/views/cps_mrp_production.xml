@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cps_mrp_production_form">
+            <field name="name">view_mrp_production_form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <label for="poids"/>
+                    <div class="o_row no-gutters d-flex">
+                        <div class="col">
+                            <field name="poids" class="mr-1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            Kg
+                        </div>
+                    </div>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

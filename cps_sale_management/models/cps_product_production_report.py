@@ -44,7 +44,7 @@ class CpsProductProductionReport(models.Model):
                 create view cps_product_production_report as (
                     WITH currency_rate as (%s)
                     select cps_product_production.id as id, cps_product_production.name as designation, cps_product_template.code_article,cps_product_template.client_id, cps_product_template.client_principal_id, cps_product_template.type_de_traitement,
-                            cps_product_production.product_id, stock_move.n_bon_client, stock_move.date,stock_move_line.qty_done as sortie ,0 as entree ,
+                            cps_product_production.product_id, stock_move.n_bon_client, stock_picking.scheduled_date as date,stock_move_line.qty_done as sortie ,0 as entree ,
 							(case when sale_order.pricelist_id=1 then 
 								stock_move_line.qty_done*cps_product_template.price*10.8
 							else					

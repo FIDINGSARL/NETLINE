@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="cps_hr_leave_form_view">
+        <field name="name">cps.hr.leave.form</field>
+        <field name="model">cps.hr.leave</field>
+        <field name="arch" type="xml">
+            <form string="Gestion absence">
+                <header>
+                    <button string="Filtrer" name="action_filter_attendances" type="object"/>
+                    <button string="Valider absence" name="action_valider_absence" type="object"/>
+                    <!--<button string="Corriger" name="action_corriger_pointage" type="object" states="pret"/>-->
+                </header>
+                <sheet>
+                    <group>
+                            <field name="date_absence"/>
+                    </group>
+                    <field name="leave_lines">
+                        <tree editable="bottom">
+                            <field name="matricule" string="Mat."/>
+                            <field name="employee_id" string="Nom"/>
+                            <field name="horaire_id"/>
+                            <field name="leave_type"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="cps_hr_leave_action">
+		<field name="name">Gestion absence</field>
+        <field name="view_mode">tree,form</field>
+		<field name="res_model">cps.hr.leave</field>
+	</record>
+
+</odoo>

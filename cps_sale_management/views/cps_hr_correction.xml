@@ -15,12 +15,10 @@
                         <group name="left" string="Filtre">
                             <field name="date_correction"/>
                             <field name="societe_id"/>
+                        </group>
+                        <group name="right">
                             <field name="equipe"/>
                             <field name="department_id"/>
-                        </group>
-                        <group name="right" string="Paramétres pointage">
-                            <field name="is_absents"/>
-                            <field name="horaire_id"/>
                         </group>
                     </group>
                     <field name="attendance_ids">
@@ -34,8 +32,10 @@
                             <field name="check_out" string="Sortie"/>
                             <field name="checkout_corriged" optional="hide"/>
                             <field name="checkout_anomalie"/>
+                            <field name="horaire_id"/>
                             <button name="action_appliquer_horaire" type="object" class="oe_stat_button" icon="fa-list-ul icon"/>
-                            <field name="worked_hours" string="HN"/>
+                            <field name="worked_hours" string="Présence"/>
+                            <field name="hn"/>
                             <field name="h_25"/>
                             <field name="h_50"/>
                             <field name="h_100"/>

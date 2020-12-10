@@ -60,7 +60,7 @@ class CpsHrEmployee(models.Model):
         employee = self.sudo()
         action_message = self.env.ref('hr_attendance.hr_attendance_action_greeting_message').read()[0]
         action_message['previous_attendance_change_date'] = employee.last_attendance_id and (employee.last_attendance_id.check_out or employee.last_attendance_id.check_in) or False
-        action_message['employee_name'] = employee.matricule + "\n" + employee.name
+        action_message['employee_name'] = str(employee.matricule) + "\n" + employee.name
         action_message['matricule'] = employee.matricule
         action_message['barcode'] = employee.barcode
         action_message['next_action'] = next_action
