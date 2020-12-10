@@ -595,6 +595,7 @@ class Cps_product_template(models.Model):
     _inherit = 'product.template'
     gtw = fields.Many2one('cps.standard_gtw')
     cas_number = fields.Char('CAS N°')
+    classification = fields.Selection([('a', 'A'), ('b', 'B'), ('c', 'C')], string='Classification')
 
 class Cps_standard_qualite(models.Model):
     _name = 'cps.standard_gtw'
