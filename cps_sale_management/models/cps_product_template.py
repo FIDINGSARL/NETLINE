@@ -12,13 +12,13 @@ class CpsProductTemplate(models.Model):
     active = fields.Boolean("Is active", default=True)
     image_devant = fields.Binary("Photo article devant", attachment=True)
     image_dos = fields.Binary("Photo article dos", attachment=True)
-    client_principal_id = fields.Many2one("res.partner", 'Client principal', domain=[('is_client_principal', '=', True),('supplier_rank', '=', 0),('is_company', '=', True)])
+    client_principal_id = fields.Many2one("res.partner", "Donneur d'ordre", domain=[('is_client_principal', '=', True),('supplier_rank', '=', 0),('is_company', '=', True)])
     client_id = fields.Many2one("res.partner", 'Nom client', domain=[('is_client_principal', '=', False),('is_atelier', '=', False),('supplier_rank', '=', 0),('is_company', '=', True)], required=True)
     client_name = fields.Char(related='client_id.name', string="Client", store=True)
     devise = fields.Many2one("res.currency",compute='compute_currency', string='Devise')
     code_article = fields.Char(string="N° Commande")
     reference = fields.Char(string="Modéle")
-    segment = fields.Selection([('homme', 'Hommes'), ('femme', 'Femmes'), ('enfant', 'Enfant'), ('fille', 'Fille'), ('garcon', 'Garçon') ], string='Segment', required=True, default='femme')
+    segment = fields.Selection([('homme', 'Hommes'), ('femme', 'Femmes'), ('enfant', 'Enfant'), ('bebe', 'Bébé'), ('enfant', 'Enfant'), ('fille', 'Fille'), ('garcon', 'Garçon') ], string='Segment', required=True, default='femme')
     #couleur_id = fields.Many2one('product.attribute.value', 'Couleur', domain='[("attribute_name", "=", "Couleur article")]')
     coloriss_client = fields.Many2one('cps.product.couleur', 'Couleur Client')
     marque = fields.Many2one('cps.product.marque', 'Marque')
@@ -56,7 +56,6 @@ class CpsProductTemplate(models.Model):
     type_article_name = fields.Char(related='type_article_id.name', string='Type')
     product_id = fields.Many2one('product.product', 'Produit Odoo')
     pantone_id = fields.Many2one('cps.pantone', 'Pantone')
-
     total_entree = fields.Integer(compute="_compute_total_entree", string="Entrées", store=True)
     total_entree_jour = fields.Integer(compute="_compute_total_entree_jour", string="Entrées j.", store=True)
     total_sortie = fields.Integer(compute="_compute_total_sortie", string="Sorties", store=True)
@@ -376,20 +375,24 @@ class CpsProductTemplate(models.Model):
             if traitement.fiche_procede_id.qte_machine>0:
                 routing_line.time_cycle_manual = tempsTotal / traitement.fiche_procede_id.qte_machine
 
-    def update_route_with_time(self):
-        for fiche_procede in self.fiche_procede_ids:
-            tempsTotal = 0
-            for ligne_procede in fiche_procede.procede_line_ids:
-                tempsTotal += ligne_procede.temps
-            routing_line = self.env['mrp.routing.workcenter'].search([('name', '=', fiche_procede.traitement_id.name),
-                                                                          ('workcenter_id', '=',
-                                                                           fiche_procede.traitement_id.section_id.id)],
-                                                                         order='id desc', limit=1)
-            if fiche_procede.qte_machine>0:
-                routing_line.time_cycle_manual = tempsTotal / fiche_procede.qte_machine
+    # def update_route_with_time(self):
+    #     for fiche_procede in self.fiche_procede_ids:
+    #         tempsTotal = 0
+    #         for ligne_procede in fiche_procede.procede_line_ids:
+    #             tempsTotal += ligne_procede.temps
+    #         routing_line = self.env['mrp.routing.workcenter'].search([('name', '=', fiche_procede.traitement_id.name),
+    #                                                                       ('workcenter_id', '=',
+    #                                                                        fiche_procede.traitement_id.section_id.id)],
+    #                                                                      order='id desc', limit=1)
+    #         routing_line1 = self.env['mrp.routing.workcenter'].search([('fiche_procede_ids', '=', fiche_procede.id)],
+    #                                                                      order='id desc', limit=1)
+    #         print ("Routing line --------------------------------------", routing_line1)
+    #         if fiche_procede.qte_machine>0:
+    #             routing_line.time_cycle_manual = tempsTotal / fiche_procede.qte_machine
 
     @api.model
     def create(self, values):
+        print ("create---------------------------------------")
         product_template = super(CpsProductTemplate, self).create(values)
         if 'type_article_id' in values:
             type_article = self.env['product.category'].search([('id', '=', values['type_article_id'])])
@@ -398,6 +401,11 @@ class CpsProductTemplate(models.Model):
         cps_flux = self.create_flux(product_template)
         product_template.flux_id = cps_flux.id
         return product_template
+
+    # def copy(self, default=None):
+    #     default = dict(default or {})
+    #     new_product_template = super(CpsProductProduction, self).copy(default)
+    #     return new_product_template
 
     def write(self, values):
         product_template = super(CpsProductTemplate, self).write(values)
@@ -424,7 +432,7 @@ class CpsProductTemplate(models.Model):
                 liste_procede = self.env['fiche.procede'].search([('id', 'in', procedes)])
                 liste_procede.template_id=[]
             if 'fiche_procede_ids' in values:
-                self.update_route_with_time()
+                self.create_route(self)
                 bom = self.create_bom()
             if 'price' in values:
                 sos = self.env['sale.order.line'].search([('product_id', '=', self.product_id.id)])
@@ -476,6 +484,7 @@ class CpsProductTemplate(models.Model):
 
     def create_bom(self):
         if len(self.product_id)>0:
+
             route = self.env['mrp.routing'].search([('template_id', '=', self.id)], order='create_date desc', limit=1)
             bom_id = self.env['mrp.bom'].create({
                 'product_tmpl_id': self.product_id.product_tmpl_id.id,
@@ -483,7 +492,8 @@ class CpsProductTemplate(models.Model):
                 'type': 'normal',
                 'product_id': self.product_id.id,
                 'routing_id': route.id,
-                'template_id':self.id
+                'template_id':self.id,
+                'consumption':'flexible'
             })
             # for fiche_procede in self.fiche_procede_ids:
             #     fiche_procede.generate_bom_line(mrp_bom.id, fiche_procede.traitement_id.section_id.id, fiche_procede)
@@ -580,20 +590,3 @@ class CpsProductTemplate(models.Model):
                     'product_id': produit_charges_fixes.id,
                     'product_qty': 1,
                 })
-
-    # def generate_bom_line(self, bom_id, workcenter_id, fiche_procede):
-
-    # def create_bom_line(self, bom, traitement_id, ficheprocede):
-    #     print('traitement_id-------------------', traitement_id.name)
-    #     print('fiche procede-------------------', ficheprocede.name)
-    #     routing_line = self.env['mrp.routing.workcenter'].search([('name', '=', traitement_id.name),('workcenter_id', '=', traitement_id.section_id.id)], order='id desc', limit=1)
-    #     ficheprocede.generate_bom_line(bom.id, routing_line.id, ficheprocede)
-
-
-
-    # @api.onchange('poids')
-    # def compute_quantite_machine(self):
-    #     for p in self.fiche_procede_ids:
-    #         p._compute_qte_machine()
-    #     for p in self.traitement_ids:
-    #         p.poids_article = self.poids

@@ -23,6 +23,7 @@ class StockPicking(models.Model):
     #     return rec
     #
     def action_cancel(self):
-        rec = super(StockPicking, self).button_validate()
-        self.product_template_reception_id.compute_all()
-        return rec
+        for s in self:
+            rec = super(StockPicking, s).button_validate()
+            s.product_template_reception_id.compute_all()
+        # return rec

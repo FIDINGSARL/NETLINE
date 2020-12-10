@@ -131,6 +131,7 @@
                                     <field name="reference" />
                                     <field name="segment"  context="{'order_display': 'name desc'}"/>
                                     <field name="coloriss_client" options="{'no_create_edit':True}"  context="{'default_attribute_id': 6, 'order_display': 'name desc'}"/>
+                                    <field name="type_de_traitement"/>
                                     <field name="qte" />
                                     <label for="price"/>
                                     <div name="standard_price_uom" groups="base.group_user" class="o_row">

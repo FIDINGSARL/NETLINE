@@ -13,6 +13,7 @@ class CpsLivraisonHelper(models.Model):
             'picking_policy': 'direct',
             'partner_shipping_id': self.partner_id.id,
             'partner_invoice_id': self.partner_id.id,
+            'currency_id': self.partner_id.property_product_pricelist[0].currency_id.id,
             'partner_id': self.partner_id.id,
             'product_template_livraison_id' : self.product_id.template_ids.id,
             'is_echantillon' : self.env.context.get('is_echantillon', False),
@@ -20,6 +21,7 @@ class CpsLivraisonHelper(models.Model):
         })
         order_line = self.env['sale.order.line'].create({
             'product_uom_qty': self.qte,
+            'currency_id': self.partner_id.property_product_pricelist[0].currency_id.id,
             'product_id': self.product_id.id,
             'price_unit': self.product_id.list_price,
             'order_id': sOrder.id,

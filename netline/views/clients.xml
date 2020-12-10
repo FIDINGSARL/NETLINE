@@ -93,7 +93,7 @@
                             <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
                                 <field name="date_livraison" string="Date livraison"/>
                                 <field name="sale_order_name" string="N° Bon"/>
-                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+<!--                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>-->
                                 <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
                                 <field name="devise" string="Devise"/>
                                 <field name="state" string="Etat"/>
@@ -105,7 +105,7 @@
                             <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
                                 <field name="date_livraison" string="Date livraison"/>
                                 <field name="sale_order_name" string="N° Bon"/>
-                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+<!--                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>-->
                                 <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
                                 <field name="devise" string="Devise"/>
                                 <field name="state" string="Etat"/>
@@ -117,7 +117,7 @@
                             <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
                                 <field name="date_livraison" string="Date livraison"/>
                                 <field name="sale_order_name" string="N° Bon"/>
-                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
+<!--                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>-->
                                 <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
                                 <field name="devise" string="Devise"/>
                                 <field name="state" string="Etat"/>

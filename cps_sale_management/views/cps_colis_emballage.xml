@@ -6,6 +6,8 @@
         <field name="model">cps.colis.emballage</field>
         <field name="arch" type="xml">
             <tree name="Colis d'emballage" >
+                <field name="client_id"/>
+                <field name="atelier_id"/>
                 <field name="product_production_id" />
                 <field name="qte" />
                 <field name="qte_emballer" />

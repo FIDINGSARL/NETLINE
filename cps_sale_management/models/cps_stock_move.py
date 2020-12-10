@@ -15,6 +15,8 @@ class StockMove(models.Model):
 
     product_template_reception_code_article = fields.Char(related='product_template_reception_id.code_article')
     product_template_livraison_code_article = fields.Char(related='product_template_livraison_id.code_article')
+    atelier_id_livraison = fields.Many2one("res.partner",related='product_template_livraison_id.product_tmpl_production_ids.atelier_id', string='Atelier')
+    product_production_livraison_id = fields.One2many("cps.product.production",'stock_move_id',related='product_template_livraison_id.product_tmpl_production_ids', string='Cmd id')
 
     def open_line(self):
         return {

@@ -17,7 +17,7 @@ class CpsFlux(models.Model):
     type_article_id = fields.Many2one('product.category',related='template_ids.type_article_id')
     commande_client = fields.Char("N° commande client",related='template_ids.product_tmpl_production_ids.commande_client')
     client_id = fields.Char(related='template_ids.client_id.name', string='Client')
-    atelier_id = fields.Char(related='template_ids.product_tmpl_production_ids.atelier_id.name', string='Atelier')
+    atelier_id = fields.Many2one("res.partner",related='template_ids.product_tmpl_production_ids.atelier_id', string='Atelier')
 
     total_encours = fields.Integer(related='template_ids.total_encours', string="En cours")
 
@@ -75,27 +75,27 @@ class CpsFlux(models.Model):
     def compute_reception_lines(self):
 
         for p in self:
-            p.reception_line_ids=self.env['stock.move'].search([("product_template_reception_id", "=", p.template_ids.id),("to_refund", "=", False),('location_dest_id','=',self.env['res.config.settings'].get_reception_type().default_location_dest_id.id)])
+            p.reception_line_ids=self.env['stock.move'].search([("product_template_reception_id", "=", p.template_ids.id),("to_refund", "=", False),("state", "!=", 'cancel'),('location_dest_id','=',self.env['res.config.settings'].get_reception_type().default_location_dest_id.id)])
 
     @api.depends('template_ids')
     def compute_livraison_lines(self):
         for p in self:
-            p.livraison_line_ids= self.env['stock.move'].search([("product_template_livraison_id", "=", p.template_ids.id),("to_refund", "=", False),('location_id','=',self.env['res.config.settings'].get_livraison_type().default_location_src_id.id)])
+            p.livraison_line_ids= self.env['stock.move'].search([("product_template_livraison_id", "=", p.template_ids.id),("to_refund", "=", False),("state", "!=", 'cancel'),('location_id','=',self.env['res.config.settings'].get_livraison_type().default_location_src_id.id)])
 
     @api.depends('template_ids')
     def compute_retourST_lines(self):
         for p in self:
             p.retourSansTraitment_line_ids = self.env['stock.move'].search(
-                [("product_template_livraison_id", "=", p.template_ids.id), ("to_refund", "=", True),('location_id','=',self.env['res.config.settings'].get_livraison_type().default_location_src_id.id)])
+                [("product_template_livraison_id", "=", p.template_ids.id), ("to_refund", "=", True),("state", "!=", 'cancel'),('location_id','=',self.env['res.config.settings'].get_livraison_type().default_location_src_id.id)])
 
     @api.depends('template_ids')
     def compute_retourRP_lines(self):
         for p in self:
             p.retourReparation_line_ids = self.env['stock.move'].search(
-                [("product_template_reception_id", "=", p.template_ids.id), ('location_dest_id','=',self.env['res.config.settings'].get_reception_reparation_type().default_location_dest_id.id)])
+                [("product_template_reception_id", "=", p.template_ids.id),("state", "!=", 'cancel'), ('location_dest_id','=',self.env['res.config.settings'].get_reception_reparation_type().default_location_dest_id.id)])
 
     @api.depends('template_ids')
     def compute_livraisonRP_lines(self):
         for p in self:
             p.livraisonReparation_line_ids = self.env['stock.move'].search(
-                [("product_template_livraison_id", "=", p.template_ids.id), ('location_id','=',self.env['res.config.settings'].get_livraison_reparation_type().default_location_src_id.id)])
+                [("product_template_livraison_id", "=", p.template_ids.id),("state", "!=", 'cancel'), ('location_id','=',self.env['res.config.settings'].get_livraison_reparation_type().default_location_src_id.id)])

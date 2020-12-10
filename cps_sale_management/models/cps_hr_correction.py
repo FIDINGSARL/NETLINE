@@ -28,71 +28,88 @@ class CpsHrCorrection(models.Model):
             self.attendance_ids += attendance
         employees = self.env['hr.employee'].search([])
         # print ('employees---------------------------', employees)
-        for employee in employees:
-            # print ('employees------------------------', employee)
-            if employee not in self.attendance_ids.employee_id:
-                self.env['hr.attendance'].create({'employee_id' : employee.id,
-                                                  'check_in' : datetime.now(),
-                                                  'check_out' : datetime.now(),
-                                                  'correction_id' : self.id
-                                                  })
+        # for employee in employees:
+        #     # print ('employees------------------------', employee)
+        #     if employee not in self.attendance_ids.employee_id:
+        #         self.env['hr.attendance'].create({'employee_id' : employee.id,
+        #                                           # 'check_in' : datetime.now(),
+        #                                           # 'check_out' : datetime.now(),
+        #                                           'correction_id' : self.id
+        #                                           })
+    @api.depends("qte","price")
+    @api.onchange("qte","price")
+    def on_change_montant_id(self):
+        for p in self:
+            p.montant_cde = p.qte * p.price
+
     def action_appliquer_horaire(self):
+        horaires = self.env['cps.hr.horaire'].search([])
+
         for attendance in self.attendance_ids:
             if attendance.worked_hours>0:
-                attendance.horaire_id=self.horaire_id.id
-                check_in_modified = None
-                check_out_modified = None
-                attendance.checkin_anomalie=""
-                attendance.checkout_anomalie=""
-                if attendance.checkin_corriged:
-                    attendance.write({'check_in' : attendance.checkin_corriged, 'check_out' : attendance.checkout_corriged})
-                if attendance.check_in:
-                    check_in = datetime.strptime(attendance.check_in.strftime('%H:%M:%S'), '%H:%M:%S')# + timedelta(hours=1)
-                    check_in_horaire = datetime.strptime(attendance.horaire_id.horaire_debut.strftime('%H:%M:%S'),'%H:%M:%S')# + timedelta(hours=1)
-                    diff_in = (check_in-check_in_horaire).total_seconds()/60
-                    if not attendance.checkin_corriged:
-                        attendance.checkin_corriged = attendance.check_in
-                    check_in_modified = attendance.check_in
-                    if diff_in >= 60 or diff_in < -30:
-                        attendance.checkin_anomalie= "abnormal_checkin"
-                    if diff_in > 10 and diff_in<60:
-                        attendance.checkin_anomalie= "late"
-                    if diff_in < 0 and diff_in>=-30:
-                        if attendance.check_in!=attendance.horaire_id.horaire_debut:
-                            check_in_modified= datetime.strptime(self.date_correction.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_debut.strftime('%H:%M:%S'), '%Y-%m-%d %H:%M:%S')
-                        attendance.checkin_anomalie= "chekin_before_time"
-                if attendance.check_out:
-                    horaire_j_plus_1 = True
-                    if datetime.strptime(attendance.horaire_id.horaire_fin.strftime('%Y-%m-%d'),'%Y-%m-%d') == datetime.strptime(attendance.horaire_id.horaire_debut.strftime('%Y-%m-%d'), '%Y-%m-%d'):
-                        horaire_j_plus_1 =False
-                    if not horaire_j_plus_1:
-                        check_out_horaire = datetime.strptime(self.date_correction.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_fin.strftime('%H:%M:%S'),'%Y-%m-%d %H:%M:%S')# + timedelta(hours=1)
-                    else:
-                        day_out_horaire = datetime.strptime(self.date_correction.strftime('%Y-%m-%d'),'%Y-%m-%d') + timedelta(days=1)
-                        check_out_horaire = datetime.strptime(day_out_horaire.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_fin.strftime('%H:%M:%S'),'%Y-%m-%d %H:%M:%S')# + timedelta(hours=1)
-                    check_out = datetime.strptime(attendance.check_out.strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S') #+ timedelta(hours=1)
-                    diff_out = (check_out-check_out_horaire).total_seconds()/60
-                    if not attendance.checkout_corriged:
-                        attendance.checkout_corriged = attendance.check_out
-                    check_out_modified = attendance.check_out
-                    if diff_out<0:
-                        attendance.checkout_anomalie= "chekout_before_time"
-                    if diff_out>0 and diff_out<=40:
-                        attendance.checkout_anomalie= "chekout_after_time"
+                for horaire in horaires:
+                    check_in = datetime.strptime(attendance.check_in.strftime('%H:%M:%S'), '%H:%M:%S')
+                    check_in_horaire = datetime.strptime(horaire.horaire_debut.strftime('%H:%M:%S'),'%H:%M:%S')
+                    check_out = datetime.strptime(attendance.check_out.strftime('%H:%M:%S'), '%H:%M:%S')
+                    check_out_horaire = datetime.strptime(horaire.horaire_fin.strftime('%H:%M:%S'),'%H:%M:%S')
+                    if ((check_in-check_in_horaire).total_seconds()>-2400 and (check_in-check_in_horaire).total_seconds()<2400) and ((check_out-check_out_horaire).total_seconds()>-2400 and (check_out-check_out_horaire).total_seconds()<2400):
+                        attendance.horaire_id= horaire.id
+                        break
+                if attendance.horaire_id:
+                    # attendance.horaire_id=self.horaire_id.id
+                    check_in_modified = None
+                    check_out_modified = None
+                    attendance.checkin_anomalie=""
+                    attendance.checkout_anomalie=""
+                    if attendance.checkin_corriged:
+                        attendance.write({'check_in' : attendance.checkin_corriged, 'check_out' : attendance.checkout_corriged})
+                    if attendance.check_in:
+                        check_in = datetime.strptime(attendance.check_in.strftime('%H:%M:%S'), '%H:%M:%S')# + timedelta(hours=1)
+                        check_in_horaire = datetime.strptime(attendance.horaire_id.horaire_debut.strftime('%H:%M:%S'),'%H:%M:%S')# + timedelta(hours=1)
+                        diff_in = (check_in-check_in_horaire).total_seconds()/60
+                        if not attendance.checkin_corriged:
+                            attendance.checkin_corriged = attendance.check_in
+                        check_in_modified = attendance.check_in
+                        if diff_in >= 60 or diff_in < -30:
+                            attendance.checkin_anomalie= "abnormal_checkin"
+                        if diff_in > 10 and diff_in<60:
+                            attendance.checkin_anomalie= "late"
+                        if diff_in < 0 and diff_in>=-30:
+                            if attendance.check_in!=attendance.horaire_id.horaire_debut:
+                                check_in_modified= datetime.strptime(self.date_correction.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_debut.strftime('%H:%M:%S'), '%Y-%m-%d %H:%M:%S')
+                            attendance.checkin_anomalie= "chekin_before_time"
+                    if attendance.check_out:
+                        horaire_j_plus_1 = True
+                        if datetime.strptime(attendance.horaire_id.horaire_fin.strftime('%Y-%m-%d'),'%Y-%m-%d') == datetime.strptime(attendance.horaire_id.horaire_debut.strftime('%Y-%m-%d'), '%Y-%m-%d'):
+                            horaire_j_plus_1 =False
                         if not horaire_j_plus_1:
-                            check_out_modified= datetime.strptime(attendance.check_out.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_fin.strftime('%H:%M:%S'), '%Y-%m-%d %H:%M:%S')
+                            check_out_horaire = datetime.strptime(self.date_correction.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_fin.strftime('%H:%M:%S'),'%Y-%m-%d %H:%M:%S')# + timedelta(hours=1)
                         else:
-                            day_out = datetime.strptime(attendance.check_in.strftime('%Y-%m-%d'),'%Y-%m-%d') + timedelta(days=1)
-                            check_out_modified = datetime.strptime(day_out.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_fin.strftime('%H:%M:%S'),'%Y-%m-%d %H:%M:%S')
-                    if diff_out>40:
-                        attendance.checkout_anomalie= "abnormal_checkout"
-                if check_in_modified and check_out_modified:
-                    attendance.write({'check_in' : check_in_modified, 'check_out' : check_out_modified})
+                            day_out_horaire = datetime.strptime(self.date_correction.strftime('%Y-%m-%d'),'%Y-%m-%d') + timedelta(days=1)
+                            check_out_horaire = datetime.strptime(day_out_horaire.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_fin.strftime('%H:%M:%S'),'%Y-%m-%d %H:%M:%S')# + timedelta(hours=1)
+                        check_out = datetime.strptime(attendance.check_out.strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S') #+ timedelta(hours=1)
+                        diff_out = (check_out-check_out_horaire).total_seconds()/60
+                        if not attendance.checkout_corriged:
+                            attendance.checkout_corriged = attendance.check_out
+                        check_out_modified = attendance.check_out
+                        if diff_out<0:
+                            attendance.checkout_anomalie= "chekout_before_time"
+                        if diff_out>0 and diff_out<=40:
+                            attendance.checkout_anomalie= "chekout_after_time"
+                            if not horaire_j_plus_1:
+                                check_out_modified= datetime.strptime(attendance.check_out.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_fin.strftime('%H:%M:%S'), '%Y-%m-%d %H:%M:%S')
+                            else:
+                                day_out = datetime.strptime(attendance.check_in.strftime('%Y-%m-%d'),'%Y-%m-%d') + timedelta(days=1)
+                                check_out_modified = datetime.strptime(day_out.strftime('%Y-%m-%d') + " " + attendance.horaire_id.horaire_fin.strftime('%H:%M:%S'),'%Y-%m-%d %H:%M:%S')
+                        if diff_out>40:
+                            attendance.checkout_anomalie= "abnormal_checkout"
+                    if check_in_modified and check_out_modified:
+                        attendance.write({'check_in' : check_in_modified, 'check_out' : check_out_modified})
             else:
                 # print('absence----------------!!!!')
                 attendance.checkin_anomalie = "absence"
                 attendance.checkout_anomalie = "absence"
-
+            attendance._compute_worked_hours()
     def write(self, vals):
         attendance = super(CpsHrCorrection, self).write(vals)
         # self.action_appliquer_horaire()

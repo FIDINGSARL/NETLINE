@@ -66,7 +66,21 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="picking_type_reception_reparation"/>
+                                <div class="text-muted">
+                                    Type d'opération pour les ordres de fabrication
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="picking_type_mo" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <h2>Catégories</h2>
                     <div class="row mt16 o_settings_container">

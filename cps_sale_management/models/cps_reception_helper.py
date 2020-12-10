@@ -23,18 +23,21 @@ class CpsReceptionHelper(models.Model):
         else:
             recept = self.env['res.config.settings'].get_reception_type()
 
+        # price_list = self.env['product.pricelist'].search([('id', '=', self.partner_id.property_product_pricelist[0].id)])
+        # self.currency_id = price_list.currency_id.id
         pOrder = self.env['purchase.order'].create({
             'picking_type_id': recept.id,
             'company_id': self.env.user.company_id.id,
             'partner_id': self.partner_id.id,
             'date_order': fields.datetime.now(),
             'date_planned': fields.datetime.now(),
-            'currency_id': self.env.user.company_id.currency_id.id,
+            'currency_id': self.partner_id.property_product_pricelist[0].currency_id.id,
             'product_template_reception_id' : self.product_id.template_ids.id,
             'is_echantillon' : 0,
             'is_commande': 1,
             'order_line': [(0, 0, {
                             'product_id': self.product_id.id,
+                            'currency_id': self.partner_id.property_product_pricelist[0].currency_id.id,
                             'name': self.product_id.name,
                             'product_uom_qty': self.qte,
                             'product_qty': self.qte,
