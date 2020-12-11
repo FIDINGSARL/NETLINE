@@ -25,7 +25,7 @@ class FicheProcedeLine(models.Model):
     rotationGauche = fields.Integer('Rotation gauche')
     vitesse = fields.Integer('Vitesse')
    # valeur  = fields.Char('Valeur')
-    quimicos = fields.Many2one('product.product', string="Nom produit", domain="[('categ_id', 'child_of', 3344)]")
+    quimicos = fields.Many2one('product.product', string="Nom produit", domain="[('categ_id', 'child_of', 1135)]")
     # quimicos = fields.Many2one('product.product', string="Nom produit", domain="[('categ_id', 'child_of', 3)]")
     utilisation = fields.Char(related='quimicos.categ_id.name', string='Fonction')
     unite_mesure = fields.Char(related='quimicos.uom_id.name', string='Unité', store=True)
