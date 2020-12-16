@@ -591,11 +591,11 @@ class CpsProductTemplate(models.Model):
                     'product_qty': 1,
                 })
 
-class Cps_product_template(models.Model):
-    _inherit = 'product.template'
+class Cps_product_supplierinfo(models.Model):
+    _inherit = 'product.supplierinfo'
     gtw = fields.Many2one('cps.standard_gtw')
     cas_number = fields.Char('CAS N°')
-    classification = fields.Selection([('a', 'A'), ('b', 'B'), ('c', 'C')], string='Classification')
+    classification = fields.Selection([('a', 'Classe A'), ('b', 'Classe B'), ('c', 'Classe C'), ('l3', 'ZDHC Level 3'), ('l2', 'ZDHC Level 2'), ('l1', 'ZDHC Level 1'), ('l0', 'ZDHC Level 0')], string='Conformité')
 
 class Cps_standard_qualite(models.Model):
     _name = 'cps.standard_gtw'
