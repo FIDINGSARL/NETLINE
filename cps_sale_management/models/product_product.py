@@ -8,5 +8,4 @@ class ProductTemplate(models.Model):
     template_ids = fields.One2many("cps.product.template", 'product_id', string="Produit template")
     echantillon_ids = fields.One2many("cps.product.echantillon", 'product_id', string="Produit echantillon")
     production_ids = fields.One2many("cps.product.production", 'product_id', string="Produit production")
-    designation_interne = fields.Char('Désign. interne')
 

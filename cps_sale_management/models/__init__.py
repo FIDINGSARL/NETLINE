@@ -27,6 +27,7 @@ from . import cps_sale_order
 from . import cps_livraison_helper
 from . import cps_stock_picking
 from . import product_product
+from . import product_template
 from . import product_category
 from . import cps_flux
 from . import cps_settings
