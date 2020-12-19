@@ -462,6 +462,16 @@
                 <field name="gtw"/>
                 <field name="cas_number"/>
                 <field name="classification"/>
+            </field>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="product_product_form_view">
+		<field name="name">Articles</field>
+		<field name="model">product.product</field>
+		<field name="inherit_id" ref="product.product_template_only_form_view"/>
+		<field name="arch" type="xml">
+            <field name="categ_id" position="after">
                 <field name="designation_interne"/>
             </field>
 		</field>
