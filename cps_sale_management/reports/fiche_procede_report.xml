@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <report id="fiche_procede_id"
                 model="fiche.procede"
@@ -58,13 +58,14 @@
 <!--                           <tbody>-->
                                <t t-set="etape_encours" t-value="a"/>
                                <t t-foreach="l.procede_line_ids.sorted(key=lambda b : (b.sequence, b.id))" t-as="s">
-                                   <t t-if="etape_encours!=s.etape_id.name and s.etape_id.name is not False">
+                                   <t t-if="operation_encours!=s.operation_id.name and s.operation_id.name is not False">
                                             <tr style="height:30px;">
-                                                <td colspan="9"  style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;background-color: #808080;color: white;padding:4px"><span t-field="s.etape_id.name"/></td>
+                                                <td colspan="9"  style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;background-color: #808080;color: white;padding:4px"><span t-field="s.operation_id.name"/> - <span t-field="s.phase_id.name"/></td>
                                             </tr>
                                    </t>
-                                   <t t-set="etape_encours" t-value="s.etape_id.name"/>
+                                   <t t-set="operation_encours" t-value="s.operation_id.name"/>
                                     <tr style="height:30px;;font-size:15px;text-align:center;font-family:arial;vertical-align: center;">
+                                        <td class="text-right" style="vertical-align: center;padding:2px" width="12%"><span t-field="s.etape_id.name"/></td>
                                         <td class="text-right" style="vertical-align: center;padding:2px" width="15%"><t t-if="s.gkg!=0"><span t-field="s.gkg"/> gr/Kg </t><t t-if="s.gltr!=0"><span t-field="s.gltr"/> gr/L </t></td>
                                         <td class="text-right" style="vertical-align: center;padding:2px" width="35%"><t t-if="s.quimicos!=0"><span t-field="s.quimicos"/></t> </td>
                                         <td class="text-right" style="vertical-align: center;padding:2px" width="10%"><t t-if="s.dosification!=0"><t t-esc="'{0:,.0f}'.format(s.dosification*1000).replace(',', ' ').replace('.',',')"/> g </t></td>
@@ -92,4 +93,4 @@
         </t>
     </template>
 
-</openerp>
+</odoo>
