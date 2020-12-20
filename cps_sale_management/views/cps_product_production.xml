@@ -462,6 +462,7 @@
                 <field name="gtw"/>
                 <field name="cas_number"/>
                 <field name="classification"/>
+                <field name="fabricant"/>
             </field>
 		</field>
 	</record>

@@ -1,4 +1,4 @@
-<openerp>
+<odoo>
     <!--<data noupdate="1">-->
         <!--<record id="generate_location_invoice2" model="ir.cron">-->
             <!--<field name="name">Generate Location Invoices For Last Month</field>-->
@@ -15,4 +15,4 @@
             <!--&lt;!&ndash;<field name="priority" eval="5" />&ndash;&gt;-->
         <!--</record>-->
     <!--</data>-->
-</openerp>
+</odoo>
