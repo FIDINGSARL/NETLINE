@@ -9,13 +9,14 @@ class FicheProcedeLine(models.Model):
     _order = 'sequence, id'
     _description = 'Liste des lignes des fiches procédés'
 
+    phase_id= fields.Many2one('fiche.procede.line.phase', 'Phase')
     procede_id = fields.Many2one('fiche.procede', 'Fiche procédé', store=True)
     sequence = fields.Integer(string='Sequence', default=1)
     #phase_id= fields.Many2one('fiche.procede.line.phase', 'Phase')
     traitement = fields.Char(related='procede_id.traitement_id.name', string='Traitement')
     section = fields.Char(related='procede_id.section', string='Section')
     etape_id= fields.Many2one('fiche.procede.line.etape', 'Etape')
-    #operation_id = fields.Many2one('fiche.procede.line.operation', 'Opération')
+    operation_id = fields.Many2one('fiche.procede.line.operation', 'Opération')
     temps = fields.Integer('Durée')
     rb = fields.Float(string='R.B.')
     eau = fields.Integer(string='Qté eau (l)',store=True)
@@ -168,4 +169,3 @@ class FicheProcedeLine(models.Model):
         if self.procede_id.poids_machine> 0:
             self.rb = self.eau / self.procede_id.poids_machine
         self.procede_id.compute_procede_lines()
-

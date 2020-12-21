@@ -52,7 +52,7 @@ class CpsProductTemplate(models.Model):
     reception_ids= fields.One2many("stock.picking", 'product_template_reception_id', string="Liste des mvts d'entrée", domain='[("state", "!=", "cancel")]')
     livraison_ids = fields.One2many("stock.picking", 'product_template_livraison_id', string="Liste des mvts de livraisons")
     date_livraison = fields.Datetime(related='livraison_line_ids.date_expected', string="Date de livraison")
-    type_article_id = fields.Many2one('product.category', 'Type article', required=True, domain="[('id', 'child_of', 2)]")
+    type_article_id = fields.Many2one('product.category', 'Type article', required=True, domain="[('id', 'child_of', 2252)]")
     type_article_name = fields.Char(related='type_article_id.name', string='Type')
     product_id = fields.Many2one('product.product', 'Produit Odoo')
     pantone_id = fields.Many2one('cps.pantone', 'Pantone')
@@ -596,6 +596,7 @@ class Cps_product_supplierinfo(models.Model):
     gtw = fields.Many2one('cps.standard_gtw')
     cas_number = fields.Char('CAS N°')
     classification = fields.Selection([('a', 'Classe A'), ('b', 'Classe B'), ('c', 'Classe C'), ('l3', 'ZDHC Level 3'), ('l2', 'ZDHC Level 2'), ('l1', 'ZDHC Level 1'), ('l0', 'ZDHC Level 0')], string='Conformité')
+    fabricant = fields.Char('Fabricant')
 
 class Cps_standard_qualite(models.Model):
     _name = 'cps.standard_gtw'

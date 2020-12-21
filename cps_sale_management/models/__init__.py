@@ -4,8 +4,8 @@ from . import cps_pantone
 from . import cps_procede
 from . import cps_procede_line
 from . import cps_procede_line_etape
-# from . import cps_procede_line_operation
-# from . import cps_procede_line_phase
+from . import cps_procede_line_operation
+from . import cps_procede_line_phase
 from . import cps_product_comment
 from . import cps_product_template
 from . import cps_product_echantillon
