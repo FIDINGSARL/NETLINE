@@ -52,7 +52,7 @@ class CpsProductTemplate(models.Model):
     reception_ids= fields.One2many("stock.picking", 'product_template_reception_id', string="Liste des mvts d'entrée", domain='[("state", "!=", "cancel")]')
     livraison_ids = fields.One2many("stock.picking", 'product_template_livraison_id', string="Liste des mvts de livraisons")
     date_livraison = fields.Datetime(related='livraison_line_ids.date_expected', string="Date de livraison")
-    type_article_id = fields.Many2one('product.category', 'Type article', required=True, domain="[('id', 'child_of', 2252)]")
+    type_article_id = fields.Many2one('product.category', 'Type article', required=True, domain="[('id', 'child_of', 2246)]")
     type_article_name = fields.Char(related='type_article_id.name', string='Type')
     product_id = fields.Many2one('product.product', 'Produit Odoo')
     pantone_id = fields.Many2one('cps.pantone', 'Pantone')
