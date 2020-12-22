@@ -153,7 +153,7 @@
                                     <!--<field name="of_name" string="Transformé en O.F."/>-->
                                 </group>
                                 <group name="right" string="Modèle">
-                                    <field name="type_article_id" options="{'no_create_edit':True, 'no_quick_create':True}" readonly="" domain="[('id', 'child_of', 2)]"/>
+                                    <field name="type_article_id" options="{'no_create_edit':True, 'no_quick_create':True}" readonly="" domain="[('id', 'child_of', 2246)]"/>
                                     <field name="marque" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="reference" />
                                     <field name="segment" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
