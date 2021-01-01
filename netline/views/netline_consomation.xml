@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		
+    <record model="ir.ui.view" id="netline_reception_tree_view">
+        <field name="name">netline.consomation.tree</field>
+        <field name="model">netline.consomation</field>
+        <field name="arch" type="xml">
+            <tree name="Consommations">
+                <field name="create_date" string="Date saisie" />
+                <field name="consommation_date" string="Date consommation" />
+                <field name="product_id"  />
+                <field name="compteur_initial" />
+                <field name="compteur_final" />
+                <field name="quantity"/>
+                <field name="unite_mesure"/>
+                <field name="create_uid" string="Saisi par" />
+                <!--<field name="consomationline_ids" string="Nombre de compteurs prelevés"/>-->
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="netline_consomation_form_view">
+        <field name="name">netline.consomation.form</field>
+        <field name="model">netline.consomation</field>
+        <field name="arch" type="xml">
+            <form string="Consommations">
+                <sheet>
+                    <group>
+<!--                         <field name="client_id"/> -->
+                        <field name="create_date" string="Date saisie" readonly="1"/>
+                        <field name="consommation_date" string="Date consommation"/>
+                        <field name="product_id"  />
+                        <field name="compteur_initial" />
+                        <field name="compteur_final" />
+                        <field name="quantity"/>
+                        <field name="unite_mesure"/>
+                        <field name="image_small" widget="image" />
+                        <field name="create_uid" string="Saisie par"  readonly="1"/>
+
+                        <!--<field name="consomationline_ids" string="Compteurs"/>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>    
+
+    <record model="ir.actions.act_window" id="netline_consomation_list_action">
+        <field name="name">Historique des Consommations d'energie</field>
+        <field name="res_model">netline.consomation</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

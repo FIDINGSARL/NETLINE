@@ -151,6 +151,10 @@
 				<menuitem id="product_criteria_departement_vt_menu_v7" name="Départements" parent="product_vt_menu_v7" action="netline_departement_vt_action" sequence="1" groups="group_admin"/>
 				<menuitem id="product_criteria_fonction_vt_menu_v7" name="Fonctions" parent="product_vt_menu_v7" action="netline_fonction_vt_action" sequence="2" groups="group_admin"/>
 				<menuitem id="porteur_menu_v7" name="Porteur" parent="product_vt_menu_v7" action="netline_porteur_action" sequence="3" groups="group_admin"/>
+    <menuitem id="energy_menu_v7" name="Consommation energie" sequence="4" web_icon="netline,static/description/icon.png"/>
+        <menuitem id="historiqueenergy_menu_v7" name="Historique consommation" parent="energy_menu_v7" action="netline_consomation_list_action" sequence="1"/>
+        <menuitem id="compteur_menu_v7" name="Liste compteurs" parent="energy_menu_v7" action="netline_compteur_list_action" sequence="2"/>
+
     </data>
 </odoo>
 

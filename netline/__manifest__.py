@@ -39,6 +39,8 @@
         # 'views/client_product_vente.xml',
         'views/netline_reception.xml',
         'views/netline_livraison.xml',
+        'views/product_compteur.xml',
+        'views/netline_consomation.xml',
         'reports/paper_format.xml',
         'reports/reception_report.xml',
         'reports/livraison_header_report.xml',
