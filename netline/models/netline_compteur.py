@@ -8,7 +8,7 @@ class Netline_compteur_template(models.Model):
     product_cpt_id = fields.Many2one('product.product', 'Netline Compteur', domain='[("is_compteur", "=", True)]')
     product_name = fields.Char("Nom Compteur")
     product_price = fields.Float("Prix compteur")
-    product_unit_id = fields.Many2one(related="product_cpt_id.uom_po_id")
+    product_unit_id = fields.Many2one('uom.uom', 'Unité')
     product_type = fields.Selection([('incrementiel', 'Incrementiel'), ('decrementiel', 'Decrementiel')], string='Type Compteur', required=True, default='incrementiel')
     is_compteur = fields.Boolean("compteur", default=True)
     # consomation_line_ids = fields.One2many('netline.consomation', 'product_id', string="Produits")
