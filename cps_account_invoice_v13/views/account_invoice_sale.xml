@@ -54,6 +54,7 @@
                     </div>
                     <group>
                         <group id="header_left_group">
+<!--                            <field name="prestation_type"/>-->
                             <field name="ref" attrs="{'invisible': [('state', 'in', ('accounted','cancelled'))]}"/>
                             <div class="o_td_label">
                                     <label for="client_fact_id" style="font-weight:bold;" />
@@ -63,10 +64,11 @@
                                     <label for="client_id" style="font-weight:bold;" />
                             </div>
                             <field name="client_id" options="{'no_create_edit':True}" nolabel="1"/>
-                            <div class="o_td_label">
-                                    <label for="atelier_id" style="font-weight:bold;" />
-                            </div>
-                            <field name="atelier_id" options="{'no_create_edit':True}" nolabel="1"/>
+<!--                            <div class="o_td_label"  attrs="{'invisible': [('prestation_type', '!=', 'Textil industrie')]}">-->
+<!--                                    <label for="atelier_id" style="font-weight:bold;" />-->
+<!--                            </div>-->
+<!--                            <field name="atelier_id" options="{'no_create_edit':True}" nolabel="1"  attrs="{'invisible': [('prestation_type', '!=', 'Textil industrie')]}"/>-->
+
                          </group>
                         <group id="header_right_group">
                             <div class="o_td_label">

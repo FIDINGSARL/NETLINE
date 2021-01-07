@@ -10,12 +10,14 @@ class AccountInvoiceSale(models.Model):
     _description = 'Liste des factures'
 
     name_facture = fields.Char(related="account_move_id.name", string="N° Facture")
+    prestation_type = fields.Char('Type préstation')
     client_id = fields.Many2one("res.partner", 'Client de livraison', domain=[('is_client_principal', '=', False),('is_atelier', '=', False),('supplier_rank', '=', 0),('is_company', '=', True)], required=True)
     client_fact_id = fields.Many2one("res.partner", 'Client de facturation', domain=[('is_client_principal', '=', False),('is_atelier', '=', False),('supplier_rank', '=', 0),('is_company', '=', True)], required=True)
     atelier_id = fields.Many2one("res.partner", 'Atelier', domain=[('is_atelier', '=', True),('supplier_rank', '=', 0),('is_company', '=', True)])
     date_facture = fields.Date("Date Facture", required=True)
     payment_method = fields.Many2one('account.journal', 'Journal', domain=[('type', '=', 'sale')])
     payment_term_id = fields.Many2one('account.payment.term', "Echéance")
+    sale_order_ids = fields.One2many('sale.order', "netline_facturation_id")
 
     account_move_id = fields.Many2one('account.move', 'Facture')
     state = fields.Selection(string="Etat de la Facture", selection=[('ready', 'Pret'),
@@ -144,7 +146,11 @@ class AccountInvoiceSale(models.Model):
         warning = {}
         account_revenue = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_account_type_revenue').id)], limit=1)
         for facture_line in self.facturation_lines_ids:
-            sols = self.env['sale.order.line'].search([("order_partner_id", "=", self.client_id.id),("product_id", "=", facture_line.product_id.id), ("qty_to_invoice", ">", 0)], order='create_date')
+            if self.prestation_type=='Textil industrie':
+                sols = self.env['sale.order.line'].search([("order_partner_id", "=", self.client_id.id),("product_id", "=", facture_line.product_id.id), ("qty_to_invoice", ">", 0)], order='create_date')
+            else:
+                sols = facture_line.sale_line_id
+
             # for sol in sols:
             #     print('sols-----------------------', sol.order_id.name, '-------qte to invoice--------', sol.qty_to_invoice, '------qte delivered--------', sol.qty_delivered)
             qty_to_invoice_cal = facture_line.qty_to_invoice
@@ -155,10 +161,10 @@ class AccountInvoiceSale(models.Model):
                     print('Sol-----------------------------------', sol.order_id.name, ' qty---------------', sol.qty_to_invoice, 'qty to invoice---------------', qty_to_invoice_cal)
                     if qty_to_invoice_cal>0:
                             if qty_to_invoice_cal>sol.qty_to_invoice:
-                                qty_to_invoice=sol.qty_to_invoice
+                                qty_to_invoice=sol.product_uom_qty
                             else:
                                 qty_to_invoice=qty_to_invoice_cal
-                            qty_to_invoice_cal-=sol.qty_to_invoice
+                            qty_to_invoice_cal-=sol.product_uom_qty
                             self.invoice_lines.append((0,0,{
                                 'product_id' : sol.product_id.id,
                                 'name' : facture_line.product_description,
