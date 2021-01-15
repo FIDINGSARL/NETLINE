@@ -573,7 +573,8 @@ class CpsProductProduction(models.Model):
             'atelier_id' : ateliers[0],
             'client_fact_id': clients[0],
             'date_facture' : date.today().strftime('%Y-%m-%d'),
-            'facturation_lines_ids' : cps_facturation_lines
+            'facturation_lines_ids' : cps_facturation_lines,
+            'prestation_type': 'Textil industrie'
         }
         facture = self.env['account.invoice.sale'].create(cps_facture)
         facture._compute_client_fact_id()

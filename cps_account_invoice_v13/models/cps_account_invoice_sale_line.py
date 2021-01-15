@@ -68,14 +68,19 @@ class AccountInvoiceSaleLine(models.Model):
         for s in self:
             if s.price==0:
                 s.price= s.product_id.list_price
-            sols = self.env['sale.order.line'].search([("product_id", "=", s.product_id.id), ("order_partner_id", "=", self.facturation_id.client_id[0].name)])
+            if s.facturation_id.prestation_type=='textil':
+                sols = self.env['sale.order.line'].search([("product_id", "=", s.product_id.id), ("order_partner_id", "=", self.facturation_id.client_id[0].name)])
+            else:
+                sols = s.sale_line_id
+            print('sols-------------------------------', sols)
             qty_livre = 0
             quantity_invoiced=0
             reste_a_facturer=0
             for sol in sols:
+                print('sol qty-----------------------------', sol.qty_delivered)
                 quantity_invoiced+= sol.qty_invoiced
-                qty_livre += sol.qty_delivered
-                reste_a_facturer += sol.qty_to_invoice
+                qty_livre += sol.product_uom_qty
+                reste_a_facturer += qty_livre-quantity_invoiced
             s.quantity_livre = qty_livre
             s.quantity_facture=quantity_invoiced
             s.reste_a_facturer=reste_a_facturer
@@ -97,11 +102,12 @@ class AccountInvoiceSaleLine(models.Model):
         product_template = self.env['cps.product.template'].search([("product_id", "=", self.product_id.id)])
         if 'price' in values:
             product_template.price = values['price']
-        same_line = self.search([('product_id', '=', values.get('product_id', False)), ('facturation_id', '=', values.get('facturation_id', False))])
-        if same_line:
-            raise UserError(_("Il existe des commandes en double dans la facture !"))
-        else:
-            return super(AccountInvoiceSaleLine, self).create(values)
+
+        # same_line = self.search([('product_id', '=', values.get('product_id', False)), ('facturation_id', '=', values.get('facturation_id', False))])
+        # if same_line:
+        #         raise UserError(_("Il existe des commandes en double dans la facture !"))
+        # else:
+        return super(AccountInvoiceSaleLine, self).create(values)
 
     @api.model
     def unlink(self):
