@@ -3,7 +3,6 @@
 
 from odoo import models, fields, api
 
-
 class Netline_livraison_line_transient(models.Model):
     _name = 'netline.livraison.line'
 
@@ -150,6 +149,7 @@ class Netline_sale_order_line(models.Model):
 
     traitement = fields.Char(string = "Traitement")
     netline_livraison_line_ids = fields.One2many('netline.livraison.line', 'sale_order_line_id')
+    netline_fact_line_id = fields.Many2one('account.invoice.sale.line')
     is_netline = fields.Boolean('Is Netline')
 
     def recalculate_prices(self):
