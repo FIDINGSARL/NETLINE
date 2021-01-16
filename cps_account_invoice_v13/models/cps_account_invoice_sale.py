@@ -83,9 +83,10 @@ class AccountInvoiceSale(models.Model):
         self.state="cancelled"
 
     def compute_lines(self):
-        for facture_line in self.facturation_lines_ids:
-            facture_line.product_id.template_ids.compute_all()
-            facture_line.product_id.template_ids.product_tmpl_production_ids.compute_state_fact()
+        if self.prestation_type=="Textil industrie":
+            for facture_line in self.facturation_lines_ids:
+                facture_line.product_id.template_ids.compute_all()
+                facture_line.product_id.template_ids.product_tmpl_production_ids.compute_state_fact()
 
     def check_qty_lines(self):
         for facture_line in self.facturation_lines_ids:
@@ -141,56 +142,90 @@ class AccountInvoiceSale(models.Model):
 
     def invoice_create_lines_wizard(self):
         self.invoice_lines = []
+        sols = []
         self.sale_order_origin = ""
         message=""
         warning = {}
         account_revenue = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_account_type_revenue').id)], limit=1)
-        for facture_line in self.facturation_lines_ids:
-            if self.prestation_type=='Textil industrie':
+        if self.prestation_type == 'Textil industrie':
+            for facture_line in self.facturation_lines_ids:
                 sols = self.env['sale.order.line'].search([("order_partner_id", "=", self.client_id.id),("product_id", "=", facture_line.product_id.id), ("qty_to_invoice", ">", 0)], order='create_date')
-            else:
-                sols = facture_line.sale_line_id
-
-            # for sol in sols:
-            #     print('sols-----------------------', sol.order_id.name, '-------qte to invoice--------', sol.qty_to_invoice, '------qte delivered--------', sol.qty_delivered)
-            qty_to_invoice_cal = facture_line.qty_to_invoice
-            print ('facture line --------------------------------', facture_line.product_id.name)
-            tax_id=False
-            if len(facture_line.product_id) > 0:
-                for sol in sols :
-                    print('Sol-----------------------------------', sol.order_id.name, ' qty---------------', sol.qty_to_invoice, 'qty to invoice---------------', qty_to_invoice_cal)
-                    if qty_to_invoice_cal>0:
-                            if qty_to_invoice_cal>sol.qty_to_invoice:
-                                qty_to_invoice=sol.product_uom_qty
+                qty_to_invoice_cal = facture_line.qty_to_invoice
+                tax_id=False
+                if len(facture_line.product_id) > 0:
+                    for sol in sols :
+                        if qty_to_invoice_cal>0:
+                            if self.prestation_type == 'Textil industrie':
+                                if qty_to_invoice_cal>sol.qty_to_invoice:
+                                    qty_to_invoice=sol.qty_to_invoice
+                                else:
+                                    qty_to_invoice=qty_to_invoice_cal
+                                qty_to_invoice_cal-=sol.qty_to_invoice
                             else:
-                                qty_to_invoice=qty_to_invoice_cal
-                            qty_to_invoice_cal-=sol.product_uom_qty
-                            self.invoice_lines.append((0,0,{
-                                'product_id' : sol.product_id.id,
-                                'name' : facture_line.product_description,
+                                if qty_to_invoice_cal > sol.product_uom_qty:
+                                    qty_to_invoice = sol.product_uom_qty
+                                else:
+                                    qty_to_invoice = qty_to_invoice_cal
+                                qty_to_invoice_cal -= sol.product_uom_qty
+                            self.invoice_lines.append((0, 0, {
+                                'product_id': sol.product_id.id,
+                                'name': facture_line.product_description,
                                 'quantity': qty_to_invoice,
                                 'price_unit': facture_line.price,
                                 'account_id': account_revenue.id,
                                 'tax_ids': [(6, 0, sol.tax_id.ids)],
-                                'sale_line_ids' : [(6, 0, sol.ids)],
-                                'facturation_line_id' : facture_line.id
-                                                   }))
-                            self.sale_order_origin+=sol.order_id.name + ", "
-                            sol.order_id.write({'invoice_count': sol.order_id.invoice_count+1, 'invoice_ids': (0,0,self.account_move_id.id), 'invoice_status':'invoiced'})
+                                'sale_line_ids': [(6, 0, sol.ids)],
+                                'facturation_line_id': facture_line.id
+                            }))
+                            self.sale_order_origin += sol.order_id.name + ", "
+                            sol.order_id.write({'invoice_count': sol.order_id.invoice_count + 1, 'invoice_ids': (0, 0, self.account_move_id.id), 'invoice_status': 'invoiced'})
                             tax_id = sol.tax_id
-                if qty_to_invoice_cal>0:
-                    raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
-            else:
+                            if qty_to_invoice_cal > 0:
+                                raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
+                        else:
+                            self.invoice_lines.append((0, 0, {
+                                'quantity': qty_to_invoice_cal,
+                                'price_unit': facture_line.price,
+                                'name': facture_line.product_description,
+                                'account_id': account_revenue.id,
+                                'tax_ids': [(6, 0, sol.tax_id.ids if tax_id is not False else [])],
+                                'sale_line_ids': [],
+                                'facturation_line_id': facture_line.id
+                            }))
+        if self.prestation_type != 'Textil industrie':
+            for so in self.facturation_lines_ids.facturation_id.sale_order_ids:
+                sols += so.order_line
+            qty_to_invoice_cal = 0
+            for sol in sols:
+                qty_to_invoice = sol.product_uom_qty
+                qty_to_invoice_cal -= qty_to_invoice
+                reception_line = sol.netline_livraison_line_ids[0].reception_line_id
                 self.invoice_lines.append((0, 0, {
-                    'quantity': qty_to_invoice_cal,
-                    'price_unit': facture_line.price,
-                    'name': facture_line.product_description,
+                    'product_id': reception_line.product_id.product_id.id,
+                    'name': reception_line.product_id.product_id.description,
+                    'quantity': qty_to_invoice,
+                    'price_unit': sol.price_unit,
                     'account_id': account_revenue.id,
-                    'tax_ids': [(6, 0, sol.tax_id.ids if tax_id is not False else [])],
-                    'sale_line_ids': [],
-                    'facturation_line_id': facture_line.id
+                    'tax_ids': [(6, 0, sol.tax_id.ids)],
+                    'sale_line_ids': [(6, 0, sol.ids)],
+                    # 'facturation_line_id': facture_line.id
                 }))
-        print ('invoice lines-------------------', self.invoice_lines)
+                self.sale_order_origin += sol.order_id.name + ", "
+                sol.order_id.write({'invoice_count': sol.order_id.invoice_count + 1, 'invoice_ids': (0, 0, self.account_move_id.id), 'invoice_status': 'invoiced'})
+            tax_id = sol.tax_id
+
+            if qty_to_invoice_cal>0:
+                raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
+            # else:
+            #     self.invoice_lines.append((0, 0, {
+            #         'quantity': qty_to_invoice_cal,
+            #         'price_unit': facture_line.price,
+            #         'name': facture_line.product_description,
+            #         'account_id': account_revenue.id,
+            #         'tax_ids': [(6, 0, sol.tax_id.ids if tax_id is not False else [])],
+            #         'sale_line_ids': [],
+            #         'facturation_line_id': facture_line.id
+            #     }))
         self.account_move_id.write({'invoice_line_ids': self.invoice_lines, 'invoice_origin': self.sale_order_origin[:-2]})
 
     def action_view_invoice(self):
@@ -224,6 +259,7 @@ class AccountInvoiceSale(models.Model):
 
     @api.model
     def create(self, values):
+        print('values ---------------------------------------', values)
         invoice = super(AccountInvoiceSale, self).create(values)
         if 'ref' in values:
             if values['ref']:

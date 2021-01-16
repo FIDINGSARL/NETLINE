@@ -37,55 +37,40 @@
                             <thead>
                             </thead>
                             <tr style="line-height: 14px;">
-                                <td width="50%" style="font-size:14px;text-align:center;font-family:Calibri" colspan="6">
+                                <td width="50%" style="font-size:14px;text-align:center;font-family:Calibri">
                                     <table style="font-size:14px;" border="2">
-                                                <tr><td align="center" style="padding: 2px;">Date Facture</td><td align="center" style="padding: 2px;">N° Facture</td></tr>
-                                                <tr><td align="center" style="padding: 5px;"><span t-field="nf.date_facture"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="nf.account_move_id.name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
-                                                <tr><td align="center" style="padding: 2px;"></td><td align="center" style="padding: 2px;"><t t-if="nf.prestation_type=='Location'">Réf. Contrat</t></td></tr>
+                                        <tr><td align="center" style="padding: 2px;">Date Facture</td><td align="center" style="padding: 2px;">N° Facture</td></tr>
+                                        <tr><td align="center" style="padding: 5px;"><span t-field="nf.date_facture"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="nf.account_move_id.name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                        <tr><td align="center" style="padding: 2px;"></td><td align="center" style="padding: 2px;"><t t-if="nf.prestation_type=='Location'">Réf. Contrat</t></td></tr>
 <!--                                                <tr><td align="center" style="padding: 5px;"></td><td align="center" style="padding: 5px;"><t t-if="nf.prestation_type=='Location'"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;" t-field="nf.sale_order_ids[0].netline_contrat_id.ref_contrat"/></t></td></tr>-->
-                                                <t t-if="nf.prestation_type=='Laundry'">
-                                                    <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Lavage et entretien linge hôtel du mois de <span t-field="nf.date_facture" t-field-options='{"format": "MMMM"}'/></td></tr>
-                                                </t>
-                                                <t t-if="nf.prestation_type=='Vetement de Travail'">
-                                                    <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Lavage uniformes du mois de <span t-field="nf.date_facture" t-field-options='{"format": "MMMM"}'/></td></tr>
-                                                </t>
-                                                <t t-if="nf.prestation_type=='Pressing'">
-                                                    <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Pressing du mois de <span t-field="nf.date_facture" t-field-options='{"format": "MMMM"}'/></td></tr>
-                                                </t>
-                                                <t t-if="nf.prestation_type=='Vente'">
-                                                    <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Vente Uniforme/Linge du mois de <span t-field="nf.date_facture" t-field-options='{"format": "MMMM"}'/></td></tr>
-                                                </t>
+                                        <t t-if="nf.prestation_type=='Laundry'">
+                                            <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Lavage et entretien linge hôtel du mois de <span t-field="nf.date_facture" t-field-options='{"format": "MMMM"}'/></td></tr>
+                                        </t>
+                                        <t t-if="nf.prestation_type=='Vetement de Travail'">
+                                            <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Lavage uniformes du mois de <span t-field="nf.date_facture" t-field-options='{"format": "MMMM"}'/></td></tr>
+                                        </t>
+                                        <t t-if="nf.prestation_type=='Pressing'">
+                                            <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Pressing du mois de <span t-field="nf.date_facture" t-field-options='{"format": "MMMM"}'/></td></tr>
+                                        </t>
+                                        <t t-if="nf.prestation_type=='Vente'">
+                                            <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Vente Uniforme/Linge du mois de <span t-field="nf.date_facture" t-field-options='{"format": "MMMM"}'/></td></tr>
+                                        </t>
                                     </table>
-<!--                                            <t t-if="nf.prestation_type=='Location'">-->
-<!--                                                <table style="font-size:14px;text-align:left;font-family:Calibri;width:800px">-->
-<!--                                                    <tr><td style="padding: 5px;" colspan="2">FACTURE POUR LA LOCATION  DU LINGE DE CHAMBRE DE L'HOTEL SUIVANT :</td></tr>-->
-<!--                                                    <t t-if="nf.sale_order_ids[0].netline_contrat_id.is_laundry==True">-->
-<!--                                                        <tr><td style="padding: 5px;" colspan="2">*CONTRAT DE LOCATION LINGE DE CHAMBRE  (CONTRAT INITIAL : <span t-field="nf.sale_order_ids[0].netline_contrat_id.debut_contrat" t-field-options='{"format": "dd/MM/y"}'/>):</td></tr>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="nf.sale_order_ids[0].netline_contrat_id.is_vt==True">-->
-<!--                                                        <tr><td style="padding: 5px;text-transform:uppercase;" colspan="2">*CONTRAT DE LOCATION UNIFORME (CONTRAT INITIAL : <span t-field="nf.sale_order_ids[0].netline_contrat_id.debut_contrat" t-field-options='{"format": "dd/MM/y"}'/>):</td></tr>-->
-<!--                                                    </t>-->
-<!--                                                    <tr><td style="padding: 5px;" colspan="2">LOYER DU MOIS <span t-field="nf.date_facture" t-field-options='{"format": "MMMM y"}'/></td></tr>-->
-<!--                                                </table>-->
-<!--                                            </t>-->
-
                                 </td>
                                 <td style="float: right;font-size:14px;text-align:center;font-family:Calibri;border-top:50px;width:50%" align="right">
-                                    <table>
-                                        <tr><td>
-                                            <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 140px;text-align:center;">
-                                                <span t-field="nf.client_id.nom_commercial"/><br/>
-                                                <span t-field="nf.client_id.contact_address"/><br/>
-                                                <span t-if="nf.client_id.phone is not False">Tél: <span t-field="nf.client_id.phone"/></span><br/>
-                                                <span t-if="nf.client_id.numero_ice is not False">ICE:</span> <span t-field="nf.client_id.numero_ice"/>
-                                                <span t-if="nf.client_id.code_client is not False">Code client:</span> <span t-field="nf.client_id.code_client"/>
-                                            </div>
-                                        </td></tr>
-                                    </table>
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 240px; height: 140px;text-align:center;">
+                                        <span t-field="nf.client_id.nom_commercial"/><br/>
+                                        <span t-field="nf.client_id.contact_address"/><br/>
+                                        <span t-if="nf.client_id.phone is not False">Tél: <span t-field="nf.client_id.phone"/></span><br/>
+                                        <span t-if="nf.client_id.numero_ice is not False">ICE:</span> <span t-field="nf.client_id.numero_ice"/>
+                                        <span t-if="nf.client_id.code_client is not False">Code client:</span> <span t-field="nf.client_id.code_client"/>
+                                    </div>
                                 </td>
                             </tr>
+                        </table>
+                        <table class="table" style="font-size:14px;" border="1" width="100%">
                             <t t-if="nf.prestation_type!='Forfait'">
-                                <tr>
+                                <tr style="line-height: 24px;">
                                     <th>N°</th>
                                     <th class="text-center">Désignation</th>
                                     <th class="text-center">Quantité</th>
@@ -97,7 +82,7 @@
                                 </tr>
                             </t>
                             <t t-if="nf.prestation_type=='Forfait'">
-                                <tr>
+                                <tr style="line-height: 24px;">
                                     <th class="text-center">Désignation</th>
                                     <th class="text-center">Montant H.T.</th>
                                 </tr>
@@ -109,19 +94,19 @@
                                <t t-set="sum_ttc" t-value="0"/>
                                <t t-set="sum_tva" t-value="0"/>
                                <t t-set="categ_en_cours" t-value="a"/>
-                               <t t-set="departement" t-value="a"/>
-                               <t t-set="fonction" t-value="a"/>
+<!--                               <t t-set="departement" t-value="a"/>-->
+<!--                               <t t-set="fonction" t-value="a"/>-->
                                <t t-if="nf.prestation_type=='Laundry' or nf.prestation_type=='Location' or nf.prestation_type=='Pressing' ">
-                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_laundry_id.n_ligne)"  t-as="nfl">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_id.product_id.n_ligne)"  t-as="nfl">
                                         <t t-if="categ_en_cours!=nfl.product_categ">
-                                            <tr>
+                                            <tr style="line-height: 24px;">
                                                 <td colspan="5" class="text-left" style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;align:right"><span t-field="nfl.product_categ"/></td>
                                             </tr>
                                         </t>
                                         <t t-set="categ_en_cours" t-value="nfl.product_categ"/>
-                                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right;line-height: 24px;">
                                             <t t-set="ligne" t-value="ligne+1"/>
-                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.quantity"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
@@ -129,7 +114,7 @@
                                             <td class="text-left" width="50%">
                                                 <span t-field="nfl.product_name"/>
                                             </td>
-                                            <td class="text-right"><span t-field="nfl.quantity"/></td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
                                         </tr>
@@ -146,7 +131,7 @@
                                         <t t-set="fonction" t-value="nfl.product_vt_id.fonction_id.id"/>
                                         <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
                                             <t t-set="ligne" t-value="ligne+1"/>
-                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.quantity"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
@@ -154,50 +139,30 @@
                                             <td class="text-left" width="50%">
                                                 <span t-field="nfl.product_name"/>
                                             </td>
-                                            <td class="text-right"><span t-field="nfl.quantity"/></td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
                                         </tr>
                                     </t>
                                </t>
-                                <t t-if="nf.prestation_type=='Textil'">
-                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_textil_id.product_name)"  t-as="nfl">
-                                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                <t t-if="nf.prestation_type=='Textil industrie'">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_id.name)"  t-as="nfl">
+                                        <tr style="line-height: 24px;font-size:14px;text-align:center;font-family:Calibri;align:right">
                                             <t t-set="ligne" t-value="ligne+1"/>
-                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.quantity"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
                                             <td class="text-left"><span t-esc="ligne"/></td>
                                             <td class="text-left" width="50%">
-                                               <t t-set="nb_traits" t-value="0"/>
-                                               <t t-foreach="nfl.product_textil_id.traitement_textil"  t-as="traits">
-                                                    <t t-set="nb_traits" t-value="nb_traits+1"/>
-                                                    <span t-field="traits.name"/>
-                                                    <t t-if="len(nfl.product_textil_id.traitement_textil) > nb_traits">
-                                                        <span> , </span>
-                                                    </t>
-                                               </t>
-                                               <t t-foreach="nfl.product_echantillon_id.traitement_textil"  t-as="traits">
-                                                    <t t-set="nb_traits" t-value="nb_traits+1"/>
-                                                    <span t-field="traits.name"/>
-                                                    <t t-if="len(nfl.product_textil_id.traitement_textil) > nb_traits">
-                                                        <span> , </span>
-                                                    </t>
-                                               </t>
-                                               <t t-if="nf.prestation_type=='Textil'">
-                                                    <span t-field="nfl.product_textil_id.coloris.name"/>/<span t-field="nfl.product_textil_id.coloriss_client.name"/>
-                                                     modele
+                                               <t t-if="nf.prestation_type=='Textil industrie'">
                                                     <span t-field="nfl.product_name"/>
-                                                    ( <span t-field="nfl.product_textil_id.marque.name"/> )
                                                </t>
                                                <t t-if="nf.prestation_type=='Echantillon'">
-                                                    <span t-field="nfl.product_echantillon_id.coloris"/>/<span t-field="nfl.product_echantillon_id.coloriss_client"/>
-                                                     modele
                                                     <span t-field="nfl.product_name"/>
                                                </t>
                                             </td>
-                                            <td class="text-right"><span t-field="nfl.quantity"/></td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
                                         </tr>
@@ -218,35 +183,35 @@
                                     </t>
                                </t>
                                 <t t-if="nf.prestation_type=='Echantillon'">
-                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_textil_id.product_name)"  t-as="nfl">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_id.product_name)"  t-as="nfl">
                                         <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
                                             <t t-set="ligne" t-value="ligne+1"/>
-                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.quantity"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
                                             <td class="text-left"><span t-esc="ligne"/></td>
                                             <td class="text-left" width="50%">
                                                <t t-set="nb_traits" t-value="0"/>
-                                               <t t-foreach="nfl.product_textil_id.traitement_textil"  t-as="traits">
+                                               <t t-foreach="nfl.product_id.traitement_textil"  t-as="traits">
                                                     <t t-set="nb_traits" t-value="nb_traits+1"/>
                                                     <span t-field="traits.name"/>
-                                                    <t t-if="len(nfl.product_textil_id.traitement_textil) > nb_traits">
+                                                    <t t-if="len(nfl.product_id.traitement_textil) > nb_traits">
                                                         <span> , </span>
                                                     </t>
                                                </t>
                                                <t t-foreach="nfl.product_echantillon_id.traitement_textil"  t-as="traits">
                                                     <t t-set="nb_traits" t-value="nb_traits+1"/>
                                                     <span t-field="traits.name"/>
-                                                    <t t-if="len(nfl.product_textil_id.traitement_textil) > nb_traits">
+                                                    <t t-if="len(nfl.product_id.traitement_textil) > nb_traits">
                                                         <span> , </span>
                                                     </t>
                                                </t>
-                                               <t t-if="nf.prestation_type=='Textil'">
-                                                    <span t-field="nfl.product_textil_id.coloris.name"/>/<span t-field="nfl.product_textil_id.coloriss_client.name"/>
+                                               <t t-if="nf.prestation_type=='Textil industrie'">
+                                                    <span t-field="nfl.product_id.coloris.name"/>/<span t-field="nfl.product_id.coloriss_client.name"/>
                                                      modele
                                                     <span t-field="nfl.product_name"/>
-                                                    ( <span t-field="nfl.product_textil_id.marque.name"/> )
+                                                    ( <span t-field="nfl.product_id.marque.name"/> )
                                                </t>
                                                <t t-if="nf.prestation_type=='Echantillon'">
                                                     <span t-field="nfl.product_echantillon_id.coloris"/>/<span t-field="nfl.product_echantillon_id.coloriss_client"/>
@@ -254,7 +219,7 @@
                                                     <span t-field="nfl.product_name"/>
                                                </t>
                                             </td>
-                                            <td class="text-right"><span t-field="nfl.quantity"/></td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
                                             <td class="text-right"><span t-field="nfl.sale_line_id[0].order_id.name"/></td>
@@ -287,7 +252,7 @@
 
                                         <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
                                             <t t-set="ligne" t-value="ligne+1"/>
-                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.quantity"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
@@ -295,7 +260,7 @@
                                             <td class="text-left" width="50%">
                                                 <span t-field="nfl.product_name"/>
                                             </td>
-                                            <td class="text-right"><span t-field="nfl.quantity"/></td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
                                         </tr>
@@ -305,7 +270,7 @@
                                    <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: (b.departement, b.fonction))"  t-as="nfl">
                                         <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
                                             <t t-set="ligne" t-value="ligne+1"/>
-                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.quantity"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
@@ -355,7 +320,7 @@
                                 </td>
                             </tr>
                         </table>
-                        <t t-if="nf.prestation_type!='Textil' and nf.prestation_type!='Echantillon'">
+                        <t t-if="nf.prestation_type!='Textil industrie' and nf.prestation_type!='Echantillon'">
                             <table width="100%" style="margin-top: 15px;">
                                 <tr style="font-size:14px;text-align:left;font-family:Calibri;align:right">
                                     <td width="50%" colspan="2">
@@ -365,7 +330,7 @@
                                 </tr>
                             </table>
                         </t>
-                        <t t-if="nf.prestation_type=='Textil' or nf.prestation_type=='Echantillon'">
+                        <t t-if="nf.prestation_type=='Textil industrie' or nf.prestation_type=='Echantillon'">
                             <table width="100%" style="margin-top: 15px;">
                                 <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">
                                     <td width="50%" colspan="2">
