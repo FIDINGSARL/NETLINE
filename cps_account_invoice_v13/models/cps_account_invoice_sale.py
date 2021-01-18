@@ -192,6 +192,7 @@ class AccountInvoiceSale(models.Model):
                                 'sale_line_ids': [],
                                 'facturation_line_id': facture_line.id
                             }))
+        print('self.prestation_type------------------------', self.prestation_type)
         if self.prestation_type != 'Textil industrie':
             for so in self.facturation_lines_ids.facturation_id.sale_order_ids:
                 sols += so.order_line
@@ -200,6 +201,7 @@ class AccountInvoiceSale(models.Model):
                 qty_to_invoice = sol.product_uom_qty
                 qty_to_invoice_cal -= qty_to_invoice
                 reception_line = sol.netline_livraison_line_ids[0].reception_line_id
+
                 self.invoice_lines.append((0, 0, {
                     'product_id': reception_line.product_id.product_id.id,
                     'name': reception_line.product_id.product_id.description,
