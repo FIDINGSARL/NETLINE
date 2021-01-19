@@ -1,4 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+admin_access_netline_manque,admin_access_netline_manque,model_netline_manque,group_admin,1,1,1,1
+admin_access_netline_manque_line,admin_access_netline_manque_line,model_netline_manque_line,group_admin,1,1,1,1
 gestionnaire_access_netline_consomation,gestionnaire_access_netline_consomation,model_netline_consomation,group_gestionnaire,0,0,0,0
 maintenance_access_netline_consomation,maintenance_access_netline_consomation,model_netline_consomation,group_maintenance,1,1,1,1
 rh_access_netline_consomation,rh_access_netline_consomation,model_netline_consomation,group_rh,1,1,1,1

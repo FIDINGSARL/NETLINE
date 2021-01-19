@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="netline_manque_list_action">
+        <field name="name">Listre des Manques</field>
+        <field name="res_model">netline.manque</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_manque_tree_view">
+        <field name="name">netline.manque.tree</field>
+        <field name="model">netline.manque</field>
+        <field name="arch" type="xml">
+            <tree string="Manques">
+                <field name="date_manque"/>
+                <field name="client_id"/>
+                <field name="manque_lines_ids" string="Article en relavage"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="netline_manque_form_view">
+        <field name="name">netline.manque.form</field>
+        <field name="model">netline.manque</field>
+        <field name="arch" type="xml">
+            <form string="Manques">
+                <sheet>
+                    <group>
+                        <field name="date_manque" invisible="1"/>
+                        <field name="client_id"/>
+                        <field name="manque_lines_ids" string="Liste des manques"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="netline_manque_line_tree_view">
+        <field name="name">netline.manque.line</field>
+        <field name="model">netline.manque.line</field>
+        <field name="arch" type="xml">
+            <tree name="Liste des manques" create="false">
+                <field name="client_name"/>
+                <field name="n_bon_entree"/>
+                <field name="n_bon_client"/>
+                <field name="date_bon"/>
+                <field name="designation_article"/>
+                <field name="quantity_received"/>
+                <field name="quantity_delivered"/>
+                <field name="quantity_remaining"/>
+            </tree>
+        </field>
+    </record>
+    
+</odoo>

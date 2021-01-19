@@ -101,6 +101,7 @@
                               <tr style="font-size:11px;text-align:left;font-family:Calibri;align:right" width="100%">
                                   <td width="100%" colspan="2">
                                       <div style="border: 1px solid black;border-radius:5px;padding: 5px;height: 57px; display: block;">
+                                          <span t-field="rl.note"/>
                                       </div>
                                   </td>
                               </tr>

@@ -131,6 +131,8 @@
 			<menuitem id="serviceuniforme_menu_v7" name="Uniforme" parent="vente_menu_v7" sequence="4" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_comptabilite,group_magentree,group_maintenance"/>
 				<menuitem id="serviceachatvt_menu_v7" name="Reception Uniforme" parent="serviceuniforme_menu_v7" action="netline_reception_vt_list_action" sequence="1" groups="group_admin,group_gestionnaire,group_comptabilite,group_magentree"/>
 				<menuitem id="blventevt_menu_v7" name="Livraison Uniforme" parent="serviceuniforme_menu_v7" action="netline_livraison_vt_list_action" sequence="2" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_comptabilite,group_maintenance"/>
+		<menuitem id="etats_menu_v7" name="Etats" parent="commercial_menu_v7" sequence="2" groups="group_admin,group_gestionnaire,group_rh,group_rh_admin,group_magentree,group_maintenance,group_comptabilite" />
+				<menuitem id="manques_menu_v7" name="Etat de manques" parent="etats_menu_v7" action="netline_manque_list_action" groups="group_admin,group_gestionnaire,group_comptabilite,group_magentree" sequence="1"/>
 		<menuitem id="stock.stock_picking_type_menu_v7" parent="commercial_menu_v7" sequence="5" groups="group_admin,group_gestionnaire"/>
 		<menuitem id="productsvente_menu_v7" name="Paramètres" parent="commercial_menu_v7"  sequence="8" groups="group_admin,group_gestionnaire,group_maintenance,group_labo,group_comptabilite"/>
 			<menuitem id="gestion_clientatelier" name="Gestion client/atelier" parent="productsvente_menu_v7" sequence="1" groups="group_admin,group_gestionnaire"/>

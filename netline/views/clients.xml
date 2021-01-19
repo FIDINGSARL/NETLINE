@@ -33,98 +33,98 @@
                 <!--<field name="devise" invisible="context.get('is_client2', 0)"/>-->
             </field>
             <page name="internal_notes" position="after">
-                <page name="liste_reception" string="RECEPTIONS" invisible="context.get('is_client2', 0)">
-                    <group>
-                        <div class="oe_button_box" name="button_box">
-                            <button string="Créer Laundry" name="action_creer_reception_laundry" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />
-                            <button string="Créer Pressing" name="action_creer_reception_pressing" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />
-                            <button string="Créer V.T." name="action_creer_reception_vt" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />
-                        </div>
-                    </group>
-                    <group>
-                        <field name="reception_ids" string="Laundry" default_order="state desc, date_reception desc" context="{'is_laundry':1, 'is_pressing':0, 'is_vt':0}">
-                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">
-                                <field name="product_order_name" string="N° de bon"/>
-                                <field name="n_bon_client" string="N° de bon client"/>
-                                <field name="state" string="Etat de la réception"/>
-                                <field name="date_reception" string="Date réception" readonly="1"/>
-                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>
-                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>
-                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
-                                <field name="available_quantity" string="Quantité restante" sum="Total"/>
-                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>
-                            </tree>
-                        </field>
-                    </group>
-                    <group>
-                        <field name="reception_pressing_ids" string="Pressing" default_order="state desc, date_reception desc" context="{'is_laundry':0, 'is_pressing':1, 'is_vt':0}">
-                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">
-                                <field name="product_order_name" string="N° de bon"/>
-                                <field name="n_bon_client" string="N° de bon client"/>
-                                <field name="state" string="Etat de la réception"/>
-                                <field name="date_reception" string="Date réception" readonly="1"/>
-                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>
-                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>
-                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
-                                <field name="available_quantity" string="Quantité restante" sum="Total"/>
-                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>
-                            </tree>
-                        </field>
-                    </group>
-                    <group>
-                        <field name="reception_vt_ids" string="Vetement Travail" default_order="state desc, date_reception desc" context="{'is_laundry':0, 'is_pressing':0, 'is_vt':1}">
-                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">
-                                <field name="product_order_name" string="N° de bon"/>
-                                <field name="n_bon_client" string="N° de bon client"/>
-                                <field name="state" string="Etat de la réception"/>
-                                <field name="date_reception" string="Date réception" readonly="1"/>
-                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>
-                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>
-                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>
-                                <field name="available_quantity" string="Quantité restante" sum="Total"/>
-                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
-                <page name="liste_livraison" string="LIVRAISONS" invisible="context.get('is_client2', 0)">
-                    <group>
-                        <field name="livraison_ids" string="Laundry" default_order="state, date_livraison desc" context="{'is_laundry':1, 'is_pressing':0, 'is_vt':0}">
-                            <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
-                                <field name="date_livraison" string="Date livraison"/>
-                                <field name="sale_order_name" string="N° Bon"/>
+<!--                <page name="liste_reception" string="RECEPTIONS" invisible="context.get('is_client2', 0)">-->
+<!--                    <group>-->
+<!--                        <div class="oe_button_box" name="button_box">-->
+<!--                            <button string="Créer Laundry" name="action_creer_reception_laundry" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />-->
+<!--                            <button string="Créer Pressing" name="action_creer_reception_pressing" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />-->
+<!--                            <button string="Créer V.T." name="action_creer_reception_vt" type="object" class="oe_stat_button" icon="fa-pencil-square-o" />-->
+<!--                        </div>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="reception_ids" string="Laundry" default_order="state desc, date_reception desc" context="{'is_laundry':1, 'is_pressing':0, 'is_vt':0}">-->
+<!--                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">-->
+<!--                                <field name="product_order_name" string="N° de bon"/>-->
+<!--                                <field name="n_bon_client" string="N° de bon client"/>-->
+<!--                                <field name="state" string="Etat de la réception"/>-->
+<!--                                <field name="date_reception" string="Date réception" readonly="1"/>-->
+<!--                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>-->
+<!--                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>-->
 <!--                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>-->
-                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
-                                <field name="devise" string="Devise"/>
-                                <field name="state" string="Etat"/>
-                            </tree>
-                        </field>
-                    </group>
-                    <group>
-                        <field name="livraison_pressing_ids" string="Pressing" default_order="state, date_livraison desc" context="{'is_laundry':0, 'is_pressing':1, 'is_vt':0}">
-                            <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
-                                <field name="date_livraison" string="Date livraison"/>
-                                <field name="sale_order_name" string="N° Bon"/>
+<!--                                <field name="available_quantity" string="Quantité restante" sum="Total"/>-->
+<!--                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="reception_pressing_ids" string="Pressing" default_order="state desc, date_reception desc" context="{'is_laundry':0, 'is_pressing':1, 'is_vt':0}">-->
+<!--                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">-->
+<!--                                <field name="product_order_name" string="N° de bon"/>-->
+<!--                                <field name="n_bon_client" string="N° de bon client"/>-->
+<!--                                <field name="state" string="Etat de la réception"/>-->
+<!--                                <field name="date_reception" string="Date réception" readonly="1"/>-->
+<!--                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>-->
+<!--                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>-->
 <!--                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>-->
-                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
-                                <field name="devise" string="Devise"/>
-                                <field name="state" string="Etat"/>
-                            </tree>
-                        </field>
-                    </group>
-                    <group>
-                        <field name="livraison_vt_ids" string="V.T." default_order="state, date_livraison desc" context="{'is_laundry':0, 'is_pressing':0, 'is_vt':1}">
-                            <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">
-                                <field name="date_livraison" string="Date livraison"/>
-                                <field name="sale_order_name" string="N° Bon"/>
+<!--                                <field name="available_quantity" string="Quantité restante" sum="Total"/>-->
+<!--                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="reception_vt_ids" string="Vetement Travail" default_order="state desc, date_reception desc" context="{'is_laundry':0, 'is_pressing':0, 'is_vt':1}">-->
+<!--                            <tree default_order="state desc, date_reception desc" decoration-info="state == 'cancelled'" decoration-muted="state == 'cancelled'" decoration-success="state == 'delivred'" decoration-warning="state == 'partial_delivred'" create="false" edit="false" delete="false">-->
+<!--                                <field name="product_order_name" string="N° de bon"/>-->
+<!--                                <field name="n_bon_client" string="N° de bon client"/>-->
+<!--                                <field name="state" string="Etat de la réception"/>-->
+<!--                                <field name="date_reception" string="Date réception" readonly="1"/>-->
+<!--                                <field name="original_quantity" string="Quantité reçue" sum="Total"/>-->
+<!--                                <field name="quality_quantity" string="Quantité en réparation" sum="Total"/>-->
 <!--                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>-->
-                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>
-                                <field name="devise" string="Devise"/>
-                                <field name="state" string="Etat"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
+<!--                                <field name="available_quantity" string="Quantité restante" sum="Total"/>-->
+<!--                                <field name="create_uid" string="Réceptionné par:" readonly="1"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </group>-->
+<!--                </page>-->
+<!--                <page name="liste_livraison" string="LIVRAISONS" invisible="context.get('is_client2', 0)">-->
+<!--                    <group>-->
+<!--                        <field name="livraison_ids" string="Laundry" default_order="state, date_livraison desc" context="{'is_laundry':1, 'is_pressing':0, 'is_vt':0}">-->
+<!--                            <tree default_order="state desc, date_reception desc" create="false" edit="false" delete="false">-->
+<!--                                <field name="date_livraison" string="Date livraison"/>-->
+<!--                                <field name="sale_order_name" string="N° Bon"/>-->
+<!--&lt;!&ndash;                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>&ndash;&gt;-->
+<!--                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>-->
+<!--                                <field name="devise" string="Devise"/>-->
+<!--                                <field name="state" string="Etat"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="livraison_pressing_ids" string="Pressing" default_order="state, date_livraison desc" context="{'is_laundry':0, 'is_pressing':1, 'is_vt':0}">-->
+<!--                            <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">-->
+<!--                                <field name="date_livraison" string="Date livraison"/>-->
+<!--                                <field name="sale_order_name" string="N° Bon"/>-->
+<!--&lt;!&ndash;                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>&ndash;&gt;-->
+<!--                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>-->
+<!--                                <field name="devise" string="Devise"/>-->
+<!--                                <field name="state" string="Etat"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="livraison_vt_ids" string="V.T." default_order="state, date_livraison desc" context="{'is_laundry':0, 'is_pressing':0, 'is_vt':1}">-->
+<!--                            <tree default_order="state desc, date_reception desc" decoration-muted="state == 'cancelled'" decoration-success="state == 'ready'" decoration-warning="state == 'waiting'" create="false" edit="false" delete="false">-->
+<!--                                <field name="date_livraison" string="Date livraison"/>-->
+<!--                                <field name="sale_order_name" string="N° Bon"/>-->
+<!--&lt;!&ndash;                                <field name="delivred_quantity" string="Quantité livrée" sum="Total"/>&ndash;&gt;-->
+<!--                                <field name="sale_order_montant" widget="monetary" options="{'currency_field': 'devise'}" string="Montant H.T."/>-->
+<!--                                <field name="devise" string="Devise"/>-->
+<!--                                <field name="state" string="Etat"/>-->
+<!--                            </tree>-->
+<!--                        </field>-->
+<!--                    </group>-->
+<!--                </page>-->
                 <page name="products_laundry" string="LAUNDRY" invisible="context.get('is_client2', 0)">
                     <field name="product_ids" string="Articles laundry"/>
                 </page>

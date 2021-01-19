@@ -7,6 +7,7 @@ class CpsLivraisonHelper(models.Model):
     partner_id = fields.Many2one("res.partner", 'Client', required=True)
     product_id = fields.Many2one("product.product", string="Commande")
     qte = fields.Integer('Quantité')
+    observation = fields.Char('Observation')
 
     def create_sale_order(self):
         sOrder = self.env['sale.order'].create({
@@ -34,6 +35,7 @@ class CpsLivraisonHelper(models.Model):
         # print('livraison type', out.default_location_src_id.name)
         sOrder.picking_ids[0].product_template_livraison_id = self.product_id.template_ids.id
         sOrder.picking_ids[0].location_id = out.default_location_src_id.id
+        sOrder.picking_ids[0].note = self.observation
         sOrder.picking_ids[0].move_lines[0].write({'location_id' : out.default_location_src_id.id, 'product_template_livraison_id' :self.product_id.template_ids.id })
         # sOrder.picking_ids[0].move_lines[0].product_template_livraison_id = self.product_id.template_ids.id
 
