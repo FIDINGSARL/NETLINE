@@ -310,11 +310,11 @@ class Netline_livraison(models.Model):
         for l in nll:
             i+=1
             if len(l.reception_line_id.product_id) >0:
-                cps_facturation_lines.append({ 'product_id': l.reception_line_id.product_id.id, 'product_description' : l.reception_line_id.product_id.name, 'sequence': i, 'qty_to_invoice': l.to_deliver_quantity, 'quantity_livre': l.to_deliver_quantity, 'reste_a_facturer': l.to_deliver_quantity, 'price' : l.reception_line_id.product_id.prix_lavage})
+                cps_facturation_lines.append({ 'product_id': l.reception_line_id.product_id.product_id.id, 'product_description' : l.reception_line_id.product_id.name, 'sequence': i, 'qty_to_invoice': l.to_deliver_quantity, 'quantity_livre': l.to_deliver_quantity, 'reste_a_facturer': l.to_deliver_quantity, 'price' : l.reception_line_id.product_id.prix_lavage})
             if len(l.reception_line_id.product_pressing_id) >0:
-                cps_facturation_lines.append({ 'product_id': l.reception_line_id.product_pressing_id.id, 'product_description' : l.reception_line_id.product_pressing_id.name, 'sequence': i, 'qty_to_invoice': l.to_deliver_quantity, 'reste_a_facturer': l.to_deliver_quantity, 'price' : l.reception_line_id.product_id.prix_lavage})
+                cps_facturation_lines.append({ 'product_id': l.reception_line_id.product_pressing_id.product_id.id, 'product_description' : l.reception_line_id.product_pressing_id.name, 'sequence': i, 'qty_to_invoice': l.to_deliver_quantity, 'reste_a_facturer': l.to_deliver_quantity, 'price' : l.reception_line_id.product_id.prix_lavage})
             if len(l.reception_line_id.product_vt_id) >0:
-                cps_facturation_lines.append({ 'product_id': l.reception_line_id.product_vt_id.id, 'product_description' : l.reception_line_id.product_vt_id.name, 'sequence': i, 'qty_to_invoice': l.to_deliver_quantity, 'reste_a_facturer': l.to_deliver_quantity, 'price' : l.reception_line_id.product_id.prix_lavage})
+                cps_facturation_lines.append({ 'product_id': l.reception_line_id.product_vt_id.product_id.id, 'product_description' : l.reception_line_id.product_vt_id.name, 'sequence': i, 'qty_to_invoice': l.to_deliver_quantity, 'reste_a_facturer': l.to_deliver_quantity, 'price' : l.reception_line_id.product_id.prix_lavage})
             if l.livraison_id.client_id.id not in clients:
                 clients.append(l.livraison_id.client_id.id)
                 if len(clients) > 1:

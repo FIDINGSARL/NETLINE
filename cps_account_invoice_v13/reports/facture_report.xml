@@ -3,7 +3,7 @@
     <data>
         <report id="facture_report_id"
                 model="account.invoice.sale"
-                string="Facture Ecolo"
+                string="Facture"
                 report_type="qweb-pdf"
                 name="cps_account_invoice_v13.facture_report_template"
                 paperformat="paperformat_a4_2"
