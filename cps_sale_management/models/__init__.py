@@ -55,7 +55,7 @@ from . import cps_purchase_order
 from . import cps_product_production_report
 from . import cps_hr_leave
 from . import cps_hr_leave_lines
-
+from . import cps_purchase_da
 
 
 

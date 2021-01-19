@@ -11,6 +11,7 @@
                         <field name="partner_id" domain="[('is_company', '=', True),('is_client_principal', '=', False)]" invisible="1"/>
                         <field name="product_id" domain="[('is_echantillon', '=', True)]" invisible="1"/>
                         <field name="qte"/>
+                        <field name="observation"/>
                     </group>
                     <footer>
                         <button string="Valider" name="create_sale_order" type="object" class="btn-primary"/>

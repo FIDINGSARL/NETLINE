@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="netline_purchase_da_list_action">
+        <field name="name">Demandes d'achat</field>
+        <field name="res_model">netline.purchase.da</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+    <record model="ir.ui.view" id="netline_purchase_da_trees_view">
+        <field name="name">netline.purchase.da.tree</field>
+        <field name="model">netline.purchase.da</field>
+        <field name="arch" type="xml">
+            <tree name="Demandes d'achat" default_order="date_da desc">
+                <field name="create_date" string="Date demande"/>
+                <field name="employee_id"/>
+                <field name="id" string="N° de bon"/>
+                <field name="state" string="Etat D.A."/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="netline_purchase_da_form_view">
+        <field name="name">netline.purchase.da.form</field>
+        <field name="model">netline.purchase.da</field>
+        <field name="arch" type="xml">
+            <form string="Demande d'achat">
+                <header>
+                    <button string="Générer BC" name="action_cancel" type="object" states="ready,done_partial" />
+<!--                    <button String="Créer Bon Commande" name="action_make_bonc" type="object" states="ready,done_partial" />-->
+                    <field name="state" widget="statusbar" statusbar_visible="cancelled,ready,done_partial,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id" string="N° D.A."/>
+                            <field name="employee_id"/>
+                        </group>
+                        <group>
+                            <field name="date_da" string="Date D.A."/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="purchase_da_lines_ids">
+                            <tree name="Lignes Demande d'achat" editable="false" create="true" delete="true">
+                                <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                                <field name="quantity" string="Quantité demandée" sum="Total quantité"/>
+                                <field name="fournisseur_id" string="Fournisseur" groups="netline.group_admin,netline.group_comptabilite"/>
+                                <field name="is_bc_created" string="Validé"  readonly="1"/>
+                                <!--<field name="purchase_orders_name" string="Bon de commande" readonly="1" groups="netline.group_admin,netline.group_comptabilite"/>>-->
+
+                                <!--<field name="copy_it"/>-->
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>    
+    
+<!--    <record model="ir.ui.view" id="netline_purchase_da_line_tree_view">-->
+<!--        <field name="name">netline.purchase.da.line</field>-->
+<!--        <field name="model">netline.purchase.da.line</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree name="Lignes Demande d'achat" editable="false" create="true" delete="true">-->
+<!--                <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}"/>-->
+<!--                <field name="quantity" string="Quantité demandée" sum="Total quantité"/>-->
+<!--                <field name="fournisseur_id" string="Fournisseur" groups="netline.group_admin,netline.group_comptabilite"/>-->
+<!--                <field name="is_bc_created" string="Validé"  readonly="1"/>-->
+<!--                &lt;!&ndash;<field name="purchase_orders_name" string="Bon de commande" readonly="1" groups="netline.group_admin,netline.group_comptabilite"/>>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;<field name="copy_it"/>&ndash;&gt;-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_netline_purchase_da_search" model="ir.ui.view">
+        <field name="name">netline.purchase.da.search</field>
+        <field name="model">netline.purchase.da</field>
+        <field name="arch" type="xml">
+            <search string="Recherche">
+                <field name="employee_id" string="Demandeur"/>
+                <!--<field name="name" string="N° Bon"/>-->
+                <field name="state"/>
+                <separator/>
+                <group expand="0" name="group_by" string="Grouper par">
+                    <filter name="employee_id" string="Demandeur" domain="[]" context="{'group_by' : 'employee_id'}"/>
+                    <filter string="Etat D.A." name="state" domain="[]" context="{'group_by' : 'state'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <record id="purchasse_requisition_form_custom" model="ir.ui.view">
+        <field name="name">purchase.requisition.form.custom</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="typeprestation_ids" options="{'no_create_edit':True, 'no_quick_create':True}"/>
+                <field name="affaire_ids"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

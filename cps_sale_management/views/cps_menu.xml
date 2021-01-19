@@ -20,6 +20,9 @@
             <menuitem id="cps_analuse_commande_menu" name="Analyse des Commandes" parent="cps_sale_menu_v4" sequence="3"/>
                 <menuitem id="cps_analuse_commande" name="Etats des commandes" parent="cps_analuse_commande_menu" action="action_cps_product_production_report" sequence="1"/>
 
+        <menuitem id="cps_achat_da" name="Demande d'achat" parent="purchase.menu_procurement_management" action="netline_purchase_da_list_action" sequence="1"/>
+
+
 
             <menuitem id="settings_menu_v4" name="Paramétres" parent="cps_sale_menu_v4" sequence="4"/>
                 <menuitem id="fiche_procede_v4" name="Fiches procédés" parent="settings_menu_v4" action="cps_fiche_procede_list_action" sequence="1"/>

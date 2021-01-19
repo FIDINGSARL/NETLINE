@@ -561,7 +561,7 @@ class CpsProductProduction(models.Model):
         i=0
         for l in pps:
             i+=1
-            cps_facturation_lines.append((0, 0, { 'product_id': l.product_id.id, 'price' : l.price, 'product_description' : l.product_id.name, 'sequence': i, 'qty_to_invoice': l.total_en_souffrance}))
+            cps_facturation_lines.append((0, 0, { 'product_id': l.product_id.id, 'price' : l.price, 'product_description' : l.product_id.name, 'sequence': i, 'qty_to_invoice': l.total_en_souffrance, 'reste_a_facturer': l.total_en_souffrance, 'quantity_livre' : l.total_sortie, 'quantity_facture':l.total_facturee}))
             if l.client_id.id not in clients:
                 clients.append(l.client_id.id)
                 # if len(clients) > 1:

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report id="manque_id"
+                model="netline.manque"
+                string="Manques"
+                report_type="qweb-pdf"
+                name="netline.etat_manque_report_template"
+                paperformat="paperformat_a4"
+        />
+    </data>
+    <template id="etat_manque_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="mq">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <table width="100%">
+                            <tr>
+                                <td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                <td width="50%" style="font-size:11px;text-align:center;font-family:Calibri;align:right" align="right">
+                                    Usine : Zone Industrielle Gzenaya
+                                    <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                    <br/>Tél. / Fax : 0212 539 39 39 03
+                                    <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                    <br/>.R.C: 29797 - IF : 04922966
+                                    <br/>N° I.C.E. : 001530545000001
+                                </td>
+                            </tr>
+                            <tr style="border: 20px solid white;">
+                                <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">LISTE DES ARTICLES A SOLDER AU <span t-field="mq.date_manque" t-field-options='{"format": "d/MM/y"}'/></td>
+                            </tr>
+                        </table>
+                        <table class="table table-condensed" style="margin-top: 30px;">
+                            <thead>
+                                <tr>
+                                    <th width="10%">N° bon d'entrée</th>
+                                    <th width="10%" class="text-center">Date Bon</th>
+                                    <th width="50%" class="text-center">Désignation</th>
+                                    <th width="10%" class="text-center">Qté reçue</th>
+                                    <th width="10%" class="text-center">Qté livrée</th>
+                                    <th width="10%" class="text-center">Reste à livrer</th>
+                                </tr>
+                           </thead>
+                           <tbody class="sale_tbody">
+                               <t t-set="client_en_cours" t-value="x"/>
+                               <t t-set="sum_pieces" t-value="0"/>
+                               <t t-foreach="mq.manque_lines_ids.sorted(key=lambda b : (b.client_name, b.n_bon_entree,b.n_bon_client))" t-as="l">
+                                    <t t-if="client_en_cours!=l.client_name">
+                                        <tr><td colspan="2" class="text-left" style="font-size:12px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"><span t-field="l.client_name"/></td></tr>
+                                    </t>
+                                    <t t-set="client_en_cours" t-value="l.client_name"/>
+                                    <tr style="font-size:12px;text-align:center;font-family:Calibri;align:right">
+                                        <t t-set="sum_pieces" t-value="sum_pieces+l.quantity_remaining"/>
+                                        <td class="text-left"><span t-esc="l.n_bon_entree"/></td>
+                                        <td class="text-left"><span t-field="l.n_bon_client"/></td>
+                                        <td class="text-left"><span t-field="l.designation_article"/></td>
+                                        <td class="text-right"><span t-field="l.quantity_received"/></td>
+                                        <td class="text-right"><span t-field="l.quantity_delivered"/></td>
+                                        <td class="text-right"><span t-field="l.quantity_remaining"/></td>
+                                    </tr>
+                               </t>
+                            </tbody>
+                            <tr style="font-size:11px;text-align:center;font-family:Calibri;align:right">
+                                <td class="text-left" width="10%"></td>
+                                <td width="20%"></td>
+                                <td width="20%"></td>
+                                <td class="text-left" width="50%"></td>
+                                <td class="text-right" width="20%" colspan="2">Total : <span t-esc="sum_pieces"/> Pièces</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</openerp>

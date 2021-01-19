@@ -18,9 +18,9 @@
                     <field name="numero_cnss" />
                     <field name="numero_tp" />
             </field>
-            <field name="property_account_payable_id" position="after">
-                 <field name="payment_journal_id" />
-            </field>
+<!--            <field name="property_account_payable_id" position="after">-->
+<!--                 <field name="payment_journal_id" />-->
+<!--            </field>-->
 
         </field>
     </record>
