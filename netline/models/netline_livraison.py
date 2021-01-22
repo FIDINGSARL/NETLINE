@@ -36,13 +36,14 @@ class Netline_livraison(models.Model):
     is_location = fields.Boolean(default=False)
 
 
-    # delivred_quantity = fields.Integer(compute="_compute_delivred_quantity")
+    delivred_quantity = fields.Integer(compute="_compute_delivred_quantity")
 
-    # def _compute_delivred_quantity(self):
-    #     delivred_quantity = 0
-    #     for livraison_line in self.livraison_lines_ids.filtered(lambda t: t.livraison_id.id == self.id):
-    #         delivred_quantity += livraison_line.to_deliver_quantity
-    #     self.delivred_quantity = delivred_quantity
+    def _compute_delivred_quantity(self):
+        for p in self:
+            delivred_quantity = 0
+            for livraison_line in p.livraison_lines_ids.filtered(lambda t: t.livraison_id.id == p.id):
+                delivred_quantity += livraison_line.to_deliver_quantity
+            p.delivred_quantity = delivred_quantity
 
 
     def write(self, values):
@@ -360,3 +361,9 @@ class Netline_livraison(models.Model):
             'type': 'ir.actions.act_window',
             'target': 'current'
         }
+
+class Netline_facturation_odoo_line(models.Model):
+    _inherit = 'sale.order'
+
+    is_netline = fields.Boolean(string="is Netline")
+    netline_livraison_id = fields.One2many('netline.livraison', "sale_order_id", string="livraisons")

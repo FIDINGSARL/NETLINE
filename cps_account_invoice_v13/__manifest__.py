@@ -38,6 +38,7 @@
         'reports/bmci_cheque_report.xml',
         'reports/bmci_cheque.xml',
         'reports/virement_report.xml',
+        'reports/facture_journal_bl_final_report.xml',
         'reports/transfert_interne_bmci.xml',
         'reports/transfert_interne_tijari.xml',
     ],
