@@ -322,7 +322,9 @@ class CpsProductTemplate(models.Model):
             'invoice_policy': 'delivery',
             'categ_id': type_article.id,
             'list_price': price,
+            'taxes_id': [(6, 0, [])]
         })
+
         return template
 
 
