@@ -151,22 +151,16 @@ class AccountInvoiceSale(models.Model):
             for facture_line in self.facturation_lines_ids:
                 sols = self.env['sale.order.line'].search([("order_partner_id", "=", self.client_id.id),("product_id", "=", facture_line.product_id.id), ("qty_to_invoice", ">", 0)], order='create_date')
                 qty_to_invoice_cal = facture_line.qty_to_invoice
+                print('qty_to_invoice_cal------------------------', qty_to_invoice_cal)
                 tax_id=False
                 if len(facture_line.product_id) > 0:
                     for sol in sols :
                         if qty_to_invoice_cal>0:
-                            if self.prestation_type == 'Textil industrie':
-                                if qty_to_invoice_cal>sol.qty_to_invoice:
-                                    qty_to_invoice=sol.qty_to_invoice
-                                else:
-                                    qty_to_invoice=qty_to_invoice_cal
-                                qty_to_invoice_cal-=sol.qty_to_invoice
+                            if qty_to_invoice_cal > sol.product_uom_qty:
+                                qty_to_invoice = sol.product_uom_qty
                             else:
-                                if qty_to_invoice_cal > sol.product_uom_qty:
-                                    qty_to_invoice = sol.product_uom_qty
-                                else:
-                                    qty_to_invoice = qty_to_invoice_cal
-                                qty_to_invoice_cal -= sol.product_uom_qty
+                                qty_to_invoice = qty_to_invoice_cal
+                            qty_to_invoice_cal -= sol.product_uom_qty
                             self.invoice_lines.append((0, 0, {
                                 'product_id': sol.product_id.id,
                                 'name': facture_line.product_description,
@@ -180,8 +174,6 @@ class AccountInvoiceSale(models.Model):
                             self.sale_order_origin += sol.order_id.name + ", "
                             sol.order_id.write({'invoice_count': sol.order_id.invoice_count + 1, 'invoice_ids': (0, 0, self.account_move_id.id), 'invoice_status': 'invoiced'})
                             tax_id = sol.tax_id
-                            if qty_to_invoice_cal > 0:
-                                raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
                         else:
                             self.invoice_lines.append((0, 0, {
                                 'quantity': qty_to_invoice_cal,
@@ -192,7 +184,8 @@ class AccountInvoiceSale(models.Model):
                                 'sale_line_ids': [],
                                 'facturation_line_id': facture_line.id
                             }))
-        print('self.prestation_type------------------------', self.prestation_type)
+            if qty_to_invoice_cal > 0:
+                raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
         if self.prestation_type != 'Textil industrie':
             for so in self.facturation_lines_ids.facturation_id.sale_order_ids:
                 sols += so.order_line
@@ -216,8 +209,8 @@ class AccountInvoiceSale(models.Model):
                 sol.order_id.write({'invoice_count': sol.order_id.invoice_count + 1, 'invoice_ids': (0, 0, self.account_move_id.id), 'invoice_status': 'invoiced'})
             tax_id = sol.tax_id
 
-            if qty_to_invoice_cal>0:
-                raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
+        if qty_to_invoice_cal>0:
+            raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
             # else:
             #     self.invoice_lines.append((0, 0, {
             #         'quantity': qty_to_invoice_cal,
