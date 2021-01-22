@@ -97,7 +97,7 @@
 <!--                               <t t-set="departement" t-value="a"/>-->
 <!--                               <t t-set="fonction" t-value="a"/>-->
                                <t t-if="nf.prestation_type=='Laundry' or nf.prestation_type=='Location' or nf.prestation_type=='Pressing' ">
-                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_id.product_id[0].n_ligne)"  t-as="nfl">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_categ)"  t-as="nfl">
                                         <t t-if="categ_en_cours!=nfl.product_categ">
                                             <tr style="line-height: 24px;">
                                                 <td colspan="5" class="text-left" style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;align:right"><span t-field="nfl.product_categ"/></td>
@@ -112,7 +112,7 @@
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
                                             <td class="text-left"><span t-esc="ligne"/></td>
                                             <td class="text-left" width="50%">
-                                                <span t-field="nfl.product_name"/>
+                                                <span t-field="nfl.product_description"/>
                                             </td>
                                             <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
