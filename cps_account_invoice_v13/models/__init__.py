@@ -3,4 +3,4 @@
 from . import cps_account_invoice_sale
 from . import cps_account_invoice_sale_line
 from . import account_move_line
-from . import netline_facturation_journal_bl_final_report
+from . import netline_facturation_journal_bl_report

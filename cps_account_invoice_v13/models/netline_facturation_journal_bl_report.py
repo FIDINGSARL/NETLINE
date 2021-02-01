@@ -2,19 +2,22 @@
 from odoo import api, models
 from datetime import datetime
 import copy
-class PressingReport(models.AbstractModel):
-    _name = 'report.netline.facture_journal_bl_report_final_template'
-    _template = 'cps_account_invoice_v13.facture_journal_bl_report_final_template'
+
+class JournalReports(models.AbstractModel):
+    _name = 'report.cps_account_invoice_v13.facture_journal_bl_template'
+    _template = 'cps_account_invoice_v13.facture_journal_bl_template'
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        # report_obj = self.env['report']
+        # report_obj = self.env['report.cps_account_invoice_v13.facture_journal_bl_template']
         # report = report_obj._get_report_from_name(self._template)
+        print('report gneration-----------------------------', docids[0])
+
         report = self.env['ir.actions.report']._get_report_from_name(self._template)
 
         #docids
         facture=self.env["account.invoice.sale"].search([("id", "=", docids[0])])
-        print('facture sols----------------------', facture.sale_order_ids)
+        print('facture sols----------------------', facture)
 
         livraisons = []
         lines_textil=[]
@@ -22,6 +25,11 @@ class PressingReport(models.AbstractModel):
         is_pressing = False
         is_vt = False
         is_textil = False
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': report.model,
+            'doc': facture,
+        }
         for sale_order in facture.sale_order_ids.sorted(key=lambda p: p.date_order):
             livraisons.extend(sale_order.netline_livraison_id)
         #     for livraison in sale_order.netline_livraison_id:
@@ -102,7 +110,7 @@ class PressingReport(models.AbstractModel):
                 'doc': facture,
                 'pages': new_pages,
             }
-
+        print('docargs--------------------------------', docargs)
 
 
 

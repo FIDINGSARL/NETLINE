@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <report id="livraison_facture_bl_final_journal_final_id"
                 model="account.invoice.sale"
                 string="Journal Sorties"
                 report_type="qweb-pdf"
-                name="cps_account_invoice_v13.facture_journal_bl_report_final_template"
+                name="cps_account_invoice_v13.facture_journal_bl_template"
                 paperformat="paperformat_a4_landscape"
         />
     </data>
 
-    <template id="facture_journal_bl_report_final_template">
-        <t t-call="report.html_container">
-            <t t-call="report.external_layout">
+    <template id="facture_journal_bl_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
                 <div class="page">
                     <div class="oe_structure"/>
                     <table width="100%">
@@ -36,7 +36,7 @@
                             <td width="50%" style="font-size:14px;text-align:center;font-family:Calibri" colspan="2">
                                 <table>
                                     <tr><td align="center" style="padding: 2px;">Date Facture</td><td align="center" style="padding: 2px;">N° Facture</td></tr>
-                                    <tr><td align="center" style="padding: 5px;"><span t-field="doc.date_facture"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="doc.account_invoice_id.number" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                    <tr><td align="center" style="padding: 5px;"><span t-field="doc.date_facture"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="doc.account_move_id.name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
                                     <tr><td align="center" style="padding: 2px;">Divison</td><td align="center" style="padding: 2px;">Réf. Contrat</td></tr>
                                     <tr><td align="center" style="padding: 5px;"><span t-field="doc.prestation_type" style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"></td></tr>
                                 </table>
@@ -46,7 +46,7 @@
                                 <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 87px; display: block;align: center">
                                     <span t-field="doc.client_id.nom_commercial"/><br/>
                                     <span t-field="doc.client_id.contact_address"/><br/>
-                                    <span t-if="doc.client_id.phone is not False">Tél: <span t-field="doc.client_id.phone"/></span> <span t-if="doc.client_id.fax is not False">Fax: <span t-field="doc.client_id.fax"/></span><br/>
+                                    <span t-if="doc.client_id.phone is not False">Tél: <span t-field="doc.client_id.phone"/></span><br/>
                                 </div>
                             </td>
                         </tr>
@@ -65,7 +65,7 @@
                                                     <t t-foreach="line['bons']" t-as="bon">
                                                         <td style="text-align: center;border: 1px solid black">
                                                             <t t-foreach="bon.reception_laundry_ids" t-as="bons">
-                                                                <span t-field="bons.date_reception" t-field-options='{"format": "d/MMMM"}'/>
+                                                                <span t-field="bons.date_reception" t-options='{"format": "d/MMMM"}'/>
                                                             </t>
                                                         </td>
                                                     </t>
@@ -76,7 +76,7 @@
                                                     </td>
                                                     <t t-foreach="line['bons']" t-as="bon">
                                                         <td style="text-align: center;border: 1px solid black">
-                                                            <span t-field="bon.date_livraison" t-field-options='{"format": "d/MMMM"}'/>
+                                                            <span t-field="bon.date_livraison" t-options='{"format": "d/MMMM"}'/>
                                                         </td>
                                                     </t>
                                             </tr>
@@ -131,4 +131,4 @@
             </t>
         </t>
     </template>
-</openerp>
+</odoo>
