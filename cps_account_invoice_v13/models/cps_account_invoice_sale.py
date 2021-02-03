@@ -207,7 +207,7 @@ class AccountInvoiceSale(models.Model):
                 }))
                 self.sale_order_origin += sol.order_id.name + ", "
                 sol.order_id.write({'invoice_count': sol.order_id.invoice_count + 1, 'invoice_ids': (0, 0, self.account_move_id.id), 'invoice_status': 'invoiced'})
-            tax_id = sol.tax_id
+                tax_id = sol.tax_id
 
         if qty_to_invoice_cal>0:
             raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
