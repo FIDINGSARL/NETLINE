@@ -58,18 +58,28 @@
                                         </t>
                                     </table>
                                 </td>
-                                <td style="float: right;font-size:14px;text-align:center;font-family:Calibri;border-top:50px;align:left;width:60%">
-                                    Client
-                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 340px; height: 100px;text-align:center;vertical-align:center">
-                                        <span t-field="nf.client_id.nom_commercial"/><br/>
-                                        <span t-field="nf.client_id.contact_address"/><br/>
-                                        <span t-if="nf.client_id.phone is not False">Tél: <span t-field="nf.client_id.phone"/></span><br/>
-                                        <span t-if="nf.client_id.numero_ice is not False">ICE:</span> <span t-field="nf.client_id.numero_ice"/>
-                                        <span t-if="nf.client_id.code_client is not False">Code client:</span> <span t-field="nf.client_id.code_client"/>
-                                    </div>
+                                <td style="float: right;font-size:14px;text-align:center;font-family:Calibri;border-top:10px;align:left;width:60%">
+                                    <table style="font-size:14px;" border="2">
+                                        <tr><td align="center" style="padding: 2px;">Client</td></tr>
+                                        <tr><td align="center" style="padding: 5px;">
+                                            <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 400px; height: 130px;text-align:center;vertical-align:center">
+                                                <span t-field="nf.client_id.nom_commercial"/><br/>
+                                                <span t-field="nf.client_id.contact_address"/><br/>
+                                                <span t-if="nf.client_id.phone is not False">Tél: <span t-field="nf.client_id.phone"/></span><br/>
+                                                <span t-if="nf.client_id.numero_ice is not False">ICE:</span> <span t-field="nf.client_id.numero_ice"/><br/>
+                                                <span t-if="nf.client_id.code_client is not False">Code client:</span> <span t-field="nf.client_id.code_client"/><br/>
+                                                <span t-if="nf.atelier_id.name is not False">Atelier:</span> <span t-field="nf.atelier_id.name"/>
+                                                <span t-if="nf.atelier_id.nom_commercial is not False"><span t-field="nf.atelier_id.nom_commercial"/></span><br/>
+                                                <span t-field="nf.atelier_id.contact_address"/><br/>
+                                                <span t-if="nf.atelier_id.phone is not False">Tél: <span t-field="nf.atelier_id.phone"/></span><br/>
+                                                <span t-if="nf.atelier_id.numero_ice is not False">ICE:</span> <span t-field="nf.atelier_id.numero_ice"/><br/>
+                                            </div>
+                                        </td></tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>
+                        <br/>
                         <br/>
                         <table class="table table-sm" style="font-size:14px;font-family:Calibri;border-radius:50em;" width="100%">
                             <t t-if="nf.prestation_type!='Forfait'">
@@ -150,7 +160,7 @@
                                </t>
                                 <t t-if="nf.prestation_type=='Textil industrie'">
                                    <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_id.name)"  t-as="nfl">
-                                        <tr style="line-height: 24px;font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                        <tr style="height: 30px; line-height: 15px;font-size:14px;text-align:left;font-family:Calibri;align:right">
                                             <t t-set="ligne" t-value="ligne+1"/>
                                             <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
@@ -159,7 +169,8 @@
                                             <td class="text-left"><span t-esc="ligne"/></td>
                                             <td class="text-left" width="50%">
                                                <t t-if="nf.prestation_type=='Textil industrie'">
-                                                    <span t-field="nfl.product_name"/>
+                                                    <span t-field="nfl.product_name"/><br/>
+                                                    <span t-field="nfl.traitement" style="font-size:10px;text-align:left;font-family:Calibri;"/>
                                                </t>
                                                <t t-if="nf.prestation_type=='Echantillon'">
                                                     <span t-field="nfl.product_name"/>
@@ -168,6 +179,7 @@
                                             <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
+
                                         </tr>
                                        <!--<tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">-->
                                            <!--<td></td>-->
@@ -290,7 +302,7 @@
                                     <td class="text-left"></td>
                                     <td></td>
                                     <td class="text-left"></td>
-                                    <td colspan="2" class="text-right" style="font-size:20px;text-align:center;font-family:Calibri">Total : <span t-esc="'{0:,}'.format(int(sum_pieces)).replace(',', ' ')"/> Pièces</td>
+                                    <td colspan="2" class="text-right" style="font-size:16px;text-align:center;font-family:Calibri">Total : <span t-esc="'{0:,}'.format(int(sum_pieces)).replace(',', ' ')"/> Pièces</td>
                                 </tr>
                            </t>
                         </table>
@@ -338,7 +350,8 @@
                                 <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">
                                     <td width="50%" colspan="2">
                                         Arrêtée la présente facture en exonération TVA à la somme de :
-<!--                                            <b><span t-esc="nf.amount_to_text(nf.account_move_id.amount_total, devise)"/></b>-->
+
+<!--                                            <b><span t-esc="nf.montant_en_lettre"/></b>-->
                                     </td>
                                 </tr>
                                 <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">
@@ -349,7 +362,6 @@
                                     <td width="50%" colspan="2">
                                         <br/>
                                         <b>Contre valeur en Dirhams de : <span t-esc="'{0:,.2f}'.format(sum_dh).replace(',', ' ').replace('.',',')"/> DH<br/>
-<!--                                            <span t-esc="nf.amount_to_text(sum_dh, 'Dh')"/>-->
                                         </b>
                                     </td>
                                 </tr>
