@@ -51,7 +51,7 @@ class AccountInvoiceSale(models.Model):
 
     def amount_to_text(self):
         for p in self:
-            p.amount_in_letters = self.convert_amount_to_text_fr(float(p.invoice_totalttc), p.currency_id.name)
+            p.amount_in_letters = self.convert_amount_to_text_fr(p.invoice_totalttc, p.currency_id.name)
 
     def compute_name(self):
         recs = []
