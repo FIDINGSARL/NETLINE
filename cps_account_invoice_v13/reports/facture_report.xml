@@ -318,9 +318,9 @@
                                         <tr><td align="center" style="padding: 5px;">
                                                 <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="'{0:,.2f}'.format(nf.account_move_id.amount_untaxed).replace(',', ' ').replace('.',',')"/>  <span t-esc="devise"/></span>
                                             </td><td align="center" style="padding: 5px;">
-<!--                                                <t t-if="len(nf.account_move_id.tax_line_ids)>0">-->
-<!--                                                    <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="nf.account_move_id.tax_line_ids[0].tax_id.amount"/> %</span>-->
-<!--                                                </t>-->
+                                                <t t-if="len(nf.account_move_id.tax_line_ids)>0">
+                                                    <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="nf.account_move_id.tax_line_ids[0].tax_id.amount"/> %</span>
+                                                </t>
                                             </td><td align="center" style="padding: 5px;">
                                                 <span style="border: 1px solid;border-radius:5px;padding:5px;width: 200px; display: block;"><span t-esc="'{0:,.2f}'.format(nf.account_move_id.amount_tax).replace(',', ' ').replace('.',',')"/> <span t-esc="devise"/> </span>
                                             </td><td align="center" style="padding: 5px;">
@@ -351,7 +351,7 @@
                                     <td width="50%" colspan="2">
                                         Arrêtée la présente facture en exonération TVA à la somme de :
 
-<!--                                            <b><span t-esc="nf.montant_en_lettre"/></b>-->
+                                            <b><span t-esc="nf.amount_in_letters"/></b>
                                     </td>
                                 </tr>
                                 <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">
