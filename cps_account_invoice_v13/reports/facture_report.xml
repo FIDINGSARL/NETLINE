@@ -107,6 +107,7 @@
                                <t t-set="sum_ttc" t-value="0"/>
                                <t t-set="sum_tva" t-value="0"/>
                                <t t-set="categ_en_cours" t-value="a"/>
+                               <t t-set="tva" t-value=""/>
 <!--                               <t t-set="departement" t-value="a"/>-->
 <!--                               <t t-set="fonction" t-value="a"/>-->
                                <t t-if="nf.prestation_type=='Laundry' or nf.prestation_type=='Location' or nf.prestation_type=='Pressing' ">
@@ -123,6 +124,11 @@
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
+                                            <t t-foreach="nfl.account_move_line_ids"  t-as="tvas">
+                                                <t t-if="'TVA' in nfl.account_move_line_ids">
+                                                    <t t-set="tva" t-value="tvas.name"/>
+                                                </t>
+                                            </t>
                                             <td class="text-left"><span t-esc="ligne"/></td>
                                             <td class="text-left" width="50%">
                                                 <span t-field="nfl.product_description"/>
@@ -149,6 +155,11 @@
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
                                             <td class="text-left"><span t-esc="ligne"/></td>
+                                            <t t-foreach="nfl.account_move_line_ids"  t-as="tvas">
+                                                <t t-if="'TVA' in nfl.account_move_line_ids">
+                                                    <t t-set="tva" t-value="tvas.name"/>
+                                                </t>
+                                            </t>
                                             <td class="text-left" width="50%">
                                                 <span t-field="nfl.product_name"/>
                                             </td>
@@ -167,6 +178,11 @@
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
                                             <td class="text-left"><span t-esc="ligne"/></td>
+                                            <t t-foreach="nfl.account_move_line_ids"  t-as="move_lines">
+                                                <t t-foreach="move_lines.tax_ids"  t-as="tvas">
+                                                    <t t-set="tva" t-value="tvas.name"/>
+                                                </t>
+                                            </t>
                                             <td class="text-left" width="50%">
                                                <t t-if="nf.prestation_type=='Textil industrie'">
                                                     <span t-field="nfl.product_name"/><br/>
@@ -318,6 +334,7 @@
                                         <tr><td align="center" style="padding: 5px;">
                                                 <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="'{0:,.2f}'.format(nf.account_move_id.amount_untaxed).replace(',', ' ').replace('.',',')"/>  <span t-esc="devise"/></span>
                                             </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="tva"/></span>
 <!--                                                <t t-if="len(nf.account_move_id.tax_line_ids)>0">-->
 <!--                                                    <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="nf.account_move_id.tax_line_ids[0].tax_id.amount"/> %</span>-->
 <!--                                                </t>-->
@@ -351,7 +368,7 @@
                                     <td width="50%" colspan="2">
                                         Arrêtée la présente facture en exonération TVA à la somme de :
 
-<!--                                            <b><span t-esc="nf.montant_en_lettre"/></b>-->
+                                            <b><span t-esc="nf.amount_in_letters"/></b>
                                     </td>
                                 </tr>
                                 <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">
