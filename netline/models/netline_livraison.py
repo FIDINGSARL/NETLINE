@@ -326,10 +326,10 @@ class Netline_livraison(models.Model):
             line_index = netline_facturation_line['product_id']
             # if netline_facturation_line['traitement_laundry'] is not False:
             #     line_index+= "," + netline_facturation_line['traitement_laundry']
-            # if netline_facturation_line['departement'] is not False:
-            #     line_index += "," + netline_facturation_line['departement']
-            # if netline_facturation_line['fonction'] is not False:
-            #     line_index += "," + netline_facturation_line['fonction']
+            if netline_facturation_line['departement'] is not False:
+                line_index += "," + netline_facturation_line['departement']
+            if netline_facturation_line['fonction'] is not False:
+                line_index += "," + netline_facturation_line['fonction']
             if line_index not in linetmp:
                 linetmp[line_index] = netline_facturation_line
             else:
