@@ -124,8 +124,8 @@
                                             <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
-                                            <t t-foreach="nfl.account_move_line_ids"  t-as="tvas">
-                                                <t t-if="'TVA' in nfl.account_move_line_ids">
+                                            <t t-foreach="nfl.account_move_line_ids"  t-as="move_lines">
+                                                <t t-foreach="move_lines.tax_ids"  t-as="tvas">
                                                     <t t-set="tva" t-value="tvas.name"/>
                                                 </t>
                                             </t>
@@ -155,8 +155,8 @@
                                             <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
                                             <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
                                             <td class="text-left"><span t-esc="ligne"/></td>
-                                            <t t-foreach="nfl.account_move_line_ids"  t-as="tvas">
-                                                <t t-if="'TVA' in nfl.account_move_line_ids">
+                                            <t t-foreach="nfl.account_move_line_ids"  t-as="move_lines">
+                                                <t t-foreach="move_lines.tax_ids"  t-as="tvas">
                                                     <t t-set="tva" t-value="tvas.name"/>
                                                 </t>
                                             </t>
@@ -357,7 +357,7 @@
                                 <tr style="font-size:14px;text-align:left;font-family:Calibri;align:right">
                                     <td width="50%" colspan="2">
                                         Arrêtée la présente facture, toutes taxes comprises, à la somme de :
-<!--                                        <span t-esc="nf.amount_to_text(nf.account_move_id.amount_total, devise)"/>-->
+                                            <b><span t-esc="nf.montant_en_lettres"/></b>
                                     </td>
                                 </tr>
                             </table>
@@ -368,7 +368,7 @@
                                     <td width="50%" colspan="2">
                                         Arrêtée la présente facture en exonération TVA à la somme de :
 
-                                            <b><span t-esc="nf.amount_in_letters"/></b>
+                                            <b><span t-esc="nf.montant_en_lettres"/></b>
                                     </td>
                                 </tr>
                                 <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">

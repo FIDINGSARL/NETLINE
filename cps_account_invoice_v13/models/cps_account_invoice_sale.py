@@ -3,16 +3,7 @@
 from odoo import models, fields, api, _
 from datetime import date
 from odoo.exceptions import UserError, AccessError, Warning
-
-to_19_fr = (u'zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six',
-          'sept', 'huit', 'neuf', 'dix', 'onze', 'douze', 'treize',
-          'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf')
-tens_fr = ('vingt', 'trente', 'quarante', 'Cinquante', 'Soixante', 'Soixante-dix', 'Quatre-vingts', 'Quatre-vingt Dix')
-denom_fr = ('',
-          'Mille', 'Millions', 'Milliards', 'Billions', 'Quadrillions',
-          'Quintillion', 'Sextillion', 'Septillion', 'Octillion', 'Nonillion',
-          'Décillion', 'Undecillion', 'Duodecillion', 'Tredecillion', 'Quattuordecillion',
-          'Sexdecillion', 'Septendecillion', 'Octodecillion', 'Icosillion', 'Vigintillion')
+from num2words import num2words
 
 class AccountInvoiceSale(models.Model):
     _name = 'account.invoice.sale'
@@ -42,7 +33,7 @@ class AccountInvoiceSale(models.Model):
     invoice_totalttc = fields.Monetary(related="account_move_id.amount_total", string="Total TTC")
 
     facturation_lines_ids = fields.One2many('account.invoice.sale.line', 'facturation_id', string="Produits")
-    amount_in_letters = fields.Char('Montant en lettre', compute='amount_to_text', store=True)
+    montant_en_lettres = fields.Char('Montant en lettre', compute='amount_to_text', store=True)
     name = fields.Char("name", compute="compute_name")
     ref= fields.Char(string='Prochaine facture')
 
@@ -51,7 +42,19 @@ class AccountInvoiceSale(models.Model):
 
     def amount_to_text(self):
         for p in self:
-            p.amount_in_letters = self.convert_amount_to_text_fr(p.invoice_totalttc, p.currency_id.name)
+            pre = float(format(p.invoice_totalttc, '.2f'))
+            text = ''
+            entire_num = int((str(pre).split('.'))[0])
+            decimal_num = int((str(pre).split('.'))[1])
+            print('mnt ttc decimal------------------------------', decimal_num)
+            if decimal_num < 10:
+                decimal_num = decimal_num * 10
+            text += num2words(entire_num, lang='fr')
+            text += ' ' + p.currency_id.symbol
+            if decimal_num>0:
+                text += ' virgule ' + num2words(decimal_num, lang='fr') + ' cts'
+            print('mnt ttc words------------------------------', text)
+            p.montant_en_lettres = text.upper()
 
     def compute_name(self):
         recs = []
@@ -96,6 +99,10 @@ class AccountInvoiceSale(models.Model):
         self.account_move_id.line_ids.unlink()
         self.compute_lines()
         self.state="cancelled"
+        if self.prestation_type != 'Textil industrie':
+            for sale_order in self.sale_order_ids:
+                for livraison in sale_order.netline_livraison_id:
+                    livraison.set_ready()
 
     def compute_lines(self):
         if self.prestation_type=="Textil industrie":
@@ -153,6 +160,7 @@ class AccountInvoiceSale(models.Model):
         self.account_move_id.date = self.date_facture
         self.compute_lines()
         self.state="accounted"
+        self.amount_to_text()
         if self.prestation_type != 'Textil industrie':
             for sale_order in self.sale_order_ids:
                 for livraison in sale_order.netline_livraison_id:
@@ -281,70 +289,3 @@ class AccountInvoiceSale(models.Model):
                 for date_range in ir_sequence.date_range_ids:
                     date_range.number_next_actual = values['ref']
         return invoice
-
-
-    def _convert_nn_fr(self, val):
-        """ convert a value < 100 to French
-        """
-        if val < 20:
-            return to_19_fr[val]
-        for (dcap, dval) in ((k, 20 + (10 * v)) for (v, k) in enumerate(tens_fr)):
-            if dval + 10 > val:
-                if val % 10:
-                    if dval == 70 or dval == 90:
-                        return tens_fr[dval / 10 - 3] + '-' + to_19_fr[val % 10 + 10]
-                    else:
-                        return dcap + '-' + to_19_fr[val % 10]
-                return dcap
-
-
-    def _convert_nnn_fr(self, val):
-        """ convert a value < 1000 to french
-
-            special cased because it is the level that kicks
-            off the < 100 special case.  The rest are more general.  This also allows you to
-            get strings in the form of 'forty-five hundred' if called directly.
-        """
-        word = ''
-        (mod, rem) = (val % 100, val // 100)
-        if rem > 0:
-            if rem == 1:
-                word = 'Cent'
-            else:
-                word = to_19_fr[rem] + ' Cent'
-            if mod > 0:
-                word += ' '
-        if mod > 0:
-            word += self._convert_nn_fr(mod)
-        return word
-
-
-    def french_number(self, val):
-        if val < 100:
-            return self._convert_nn_fr(val)
-        if val < 1000:
-            return self._convert_nnn_fr(val)
-        for (didx, dval) in ((v - 1, 1000 ** v) for v in range(len(denom_fr))):
-            if dval > val:
-                mod = 1000 ** didx
-                l = val // mod
-                r = val - (l * mod)
-                if l == 1:
-                    ret = denom_fr[didx]
-                else:
-                    ret = self._convert_nnn_fr(l) + ' ' + denom_fr[didx]
-                if r > 0:
-                    ret = ret + ', ' + self.french_number(r)
-                return ret
-
-
-    def convert_amount_to_text_fr(self, numbers, currency):
-        number = '%.2f' % numbers
-        units_name = currency
-        liste = str(number).split('.')
-        start_word = self.french_number(abs(int(liste[0])))
-        end_word = self.french_number(int(liste[1]))
-        cents_number = int(liste[1])
-        cents_name = (cents_number > 1) and ' Centimes' or ' Centime'
-        final_result = start_word + ' ' + units_name + ' ' + end_word + ' ' + cents_name
-        return final_result
