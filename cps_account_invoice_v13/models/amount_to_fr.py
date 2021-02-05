@@ -75,23 +75,23 @@ def amount_to_text_fr(numbers, currency):
     final_result = start_word + ' ' + units_name + ' ' + end_word + ' ' + cents_name
     return final_result
 
-class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
-   
-    # @api.depends('amount_total')
-    def _amount_in_words(self):
-        self.amount_to_text = "" #amount_to_text_fr(self.amount_total, self.currency_id.symbol)
+# class AccountInvoice(models.Model):
+#     _inherit = "account.move"
+#
+#     # @api.depends('amount_total')
+#     def _amount_in_words(self):
+#         self.amount_to_text = "" #amount_to_text_fr(self.amount_total, self.currency_id.symbol)
+#
+#     amount_to_text = fields.Text(string='In Words',
+#         store=True, readonly=True, compute='_amount_in_words')
 
-    amount_to_text = fields.Text(string='In Words',
-        store=True, readonly=True, compute='_amount_in_words')
-
-class SaleOrder(models.Model):
-    _inherit = "sale.order"
-
-    @api.depends('amount_total')
-    def _amount_in_words(self):
-        self.amount_to_text = amount_to_text_fr(self.amount_total, self.pricelist_id.currency_id.symbol)
-    
-    
-    amount_to_text = fields.Text(string='In Words',
-        store=True, readonly=True, compute='_amount_in_words')
+# class SaleOrder(models.Model):
+#     _inherit = "sale.order"
+#
+#     @api.depends('amount_total')
+#     def _amount_in_words(self):
+#         self.amount_to_text = amount_to_text_fr(self.amount_total, self.pricelist_id.currency_id.symbol)
+#
+#
+#     amount_to_text = fields.Text(string='In Words',
+#         store=True, readonly=True, compute='_amount_in_words')

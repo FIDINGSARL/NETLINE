@@ -3,6 +3,7 @@
 from odoo import models, fields, api, _
 from datetime import date
 from odoo.exceptions import UserError, AccessError, Warning
+from . import amount_to_fr
 
 class AccountInvoiceSale(models.Model):
     _name = 'account.invoice.sale'
@@ -32,11 +33,16 @@ class AccountInvoiceSale(models.Model):
     invoice_totalttc = fields.Monetary(related="account_move_id.amount_total", string="Total TTC")
 
     facturation_lines_ids = fields.One2many('account.invoice.sale.line', 'facturation_id', string="Produits")
+    # amount_in_letters = fields.Char('Montant en lettre', compute='amount_to_text', store=True)
     name = fields.Char("name", compute="compute_name")
     ref= fields.Char(string='Prochaine facture')
 
     invoice_lines = []
     sale_order_origin = ""
+
+    # def amount_to_text(self):
+    #     for p in self:
+    #         p.amount_in_letters = amount_to_fr(p.invoice_totalttc, p.currency_id)
 
     def compute_name(self):
         recs = []
