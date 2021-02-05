@@ -153,6 +153,10 @@ class AccountInvoiceSale(models.Model):
         self.account_move_id.date = self.date_facture
         self.compute_lines()
         self.state="accounted"
+        if self.prestation_type != 'Textil industrie':
+            for sale_order in self.sale_order_ids:
+                for livraison in sale_order.netline_livraison_id:
+                    livraison.set_invoiced()
 
 
     def invoice_create_lines_wizard(self):
