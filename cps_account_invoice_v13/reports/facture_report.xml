@@ -161,7 +161,7 @@
                                             </t>
                                             <td class="text-left"><span t-esc="ligne"/></td>
                                             <td class="text-left" width="50%">
-                                                <span t-field="nfl.product_name"/>
+                                                <span t-field="nfl.product_description"/>
                                             </td>
                                             <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
                                             <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
