@@ -34,12 +34,12 @@
                                 <td style="font-size:40px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">FACTURE</td>
                             </tr>
                         </table>
-                        <table class="table" style="font-size:14px;">
+                        <table style="font-size:14px;">
                             <thead>
                             </thead>
                             <tr style="line-height: 14px;">
                                 <td style="font-size:14px;text-align:center;font-family:Calibri;vertical-align: top;width:40%">
-                                    <table style="font-size:14px;" border="2">
+                                    <table style="font-size:14px;">
                                         <tr><td align="center" style="padding: 2px;">Date Facture</td><td align="center" style="padding: 2px;">N° Facture</td></tr>
                                         <tr><td align="center" style="padding: 5px;"><span t-field="nf.date_facture"  t-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="nf.account_move_id.name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
                                         <tr><td align="center" style="padding: 2px;"></td><td align="center" style="padding: 2px;"><t t-if="nf.prestation_type=='Location'">Réf. Contrat</t></td></tr>
@@ -58,7 +58,7 @@
                                         </t>
                                     </table>
                                 </td>
-                                <td style="float: right;font-size:14px;text-align:center;font-family:Calibri;border-top:10px;align:left;width:60%">
+                                <td style="float: right;font-size:14px;text-align:center;font-family:Calibri;align:left;width:60%">
                                     <table style="font-size:14px;" border="2">
                                         <tr><td align="center" style="padding: 2px;">Client</td></tr>
                                         <tr><td align="center" style="padding: 5px;">
