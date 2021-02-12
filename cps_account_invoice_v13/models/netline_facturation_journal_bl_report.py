@@ -46,7 +46,7 @@ class JournalReports(models.AbstractModel):
         if facture.prestation_type =='Pressing':
             articles = self.env["netline.pressing_product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: p.n_ligne)
         if facture.prestation_type =='Vetement travail':
-            articles = self.env["netline.vt_product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: (p.departement_id.name, p.fonction_id.name))
+            articles = self.env["netline.vt_product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: (p.departement_id.name, p.fonction_id.name, b.name))
         # if is_textil is True:
         #     articles = self.env["netline.textil"].search([("client_id", "=", facture.client_id.id)])
 

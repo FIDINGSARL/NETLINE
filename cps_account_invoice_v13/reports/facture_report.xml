@@ -140,7 +140,7 @@
                                     </t>
                                </t>
                                <t t-if="nf.prestation_type=='Vetement travail'">
-                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: (b.departement, b.fonction))"  t-as="nfl">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: (b.departement, b.fonction, b.product_description))"  t-as="nfl">
                                         <t t-if="departement!=nfl.departement or fonction!=nfl.fonction">
                                             <tr>
                                                 <td colspan="5" class="text-left" style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;align:right"><span t-esc="nfl.departement"/> - <span t-esc="nfl.fonction"/></td>
