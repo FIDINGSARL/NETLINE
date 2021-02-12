@@ -26,6 +26,7 @@ class AccountInvoiceSale(models.Model):
                                                                      ('accounted', 'Comptabilisé'),
                                                                      ('cancelled', 'Annulé'),
                                                                      ], required=True, default='ready', track_visibility='always')
+    payment_mode = fields.Selection(string="Méthode de paiement", selection=[('cheque','Chéque'), ('virement', 'Virement'), ('espace', 'Espece')])
     date_echeance = fields.Date(related="account_move_id.invoice_date_due")
     currency_id = fields.Many2one('res.currency', string='Devise')
     invoice_totalht = fields.Monetary(related="account_move_id.amount_untaxed", string="Total HT")

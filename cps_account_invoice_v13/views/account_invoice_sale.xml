@@ -12,6 +12,7 @@
                 <field name="invoice_totalht"/>
                  <field name="invoice_totaltva"/>
                 <field name="invoice_totalttc"/>
+                <field name="prestation_type"/>
                 <field name="state" string="Etat"/>
 <!--                <field name="invoice_total_devise"/>-->
 <!--                <field name="total_paid"/>-->
@@ -64,6 +65,7 @@
                                     <label for="client_id" style="font-weight:bold;" />
                             </div>
                             <field name="client_id" options="{'no_create_edit':True}" nolabel="1"/>
+                            <field name="prestation_type"/>
 <!--                            <div class="o_td_label"  attrs="{'invisible': [('prestation_type', '!=', 'Textil industrie')]}">-->
 <!--                                    <label for="atelier_id" style="font-weight:bold;" />-->
 <!--                            </div>-->
@@ -78,6 +80,7 @@
                             <field name="payment_term_id" readonly="1"/>
                             <field name="payment_method" readonly="1" options="{'no_create_edit':True}" />
                             <field name="currency_id" readonly="1" />
+                            <field name="payment_mode"/>
                         </group>
                     </group>
 
@@ -89,6 +92,8 @@
                                 <field name="name" invisible="1"/>
                                 <field name="product_id" options="{'no_create_edit':True}"/>
                                 <field name="product_description"/>
+                                <field name="departement"/>
+                                <field name="fonction"/>
                                 <field name="quantity_livre"/>
                                 <field name="quantity_facture"/>
                                 <field name="reste_a_facturer"/>

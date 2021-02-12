@@ -53,6 +53,7 @@
                                                 <span t-if="rl.partner_id.code_client is not False">Code client:</span> <span t-field="rl.partner_id.code_client"/><br/>
                                                 <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.name"/><br/>
                                                 <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.contact_address"/><br/>
+                                                <span t-if="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.numero_ice is not False">ICE:</span> <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.numero_ice"/>
                                             </div>
                                         </td></tr>
                                     </table>
@@ -80,18 +81,19 @@
                                <t t-foreach="rl.move_ids_without_package" t-as="l">
                                     <tr style="font-size:12px;text-align:center;font-family:Calibri;align:right">
                                         <t t-set="sum_pieces" t-value="sum_pieces+l.product_uom_qty"/>
+                                        <t t-set="qty" t-value="l.product_uom_qty"/>
 <!--                                        <td class="text-left" style="font-size:13px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"></td>-->
                                         <td class="text-left"><span t-field="l.product_id.name"/></td>
                                         <td class="text-left"><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>
 <!--                                        <td class="text-left"></td>-->
-                                        <td class="text-right"><span t-field="l.product_uom_qty"/></td>
+                                        <td class="text-right"><span t-esc=" '%.0f' % qty"/></td>
                                     </tr>
                                </t>
                             </tbody>
                             <tr style="font-size:11px;text-align:center;font-family:Calibri;align:right">
                                 <td/>
                                 <td/>
-                                <td class="text-right">Total : <span t-esc="sum_pieces"/> Pièces</td>
+                                <td class="text-right">Total : <span t-esc=" '%.0f' % sum_pieces" /> Pièces</td>
                             </tr>
 
                         </table>
