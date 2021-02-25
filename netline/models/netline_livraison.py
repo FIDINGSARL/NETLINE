@@ -306,7 +306,7 @@ class Netline_livraison(models.Model):
 
 
         orders = self.env['sale.order'].browse(sale_orders_list)
-        nll = self.env['netline.livraison.line'].search([('livraison_id', 'in', active_ids)])
+        nll = self.env['netline.livraison.line'].search([('livraison_id', 'in', active_ids)]).sorted(key=lambda p: p.id)
         i=0
         for l in nll:
             i+=1
