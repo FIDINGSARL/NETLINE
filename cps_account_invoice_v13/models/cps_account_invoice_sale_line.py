@@ -11,10 +11,14 @@ class AccountInvoiceSaleLine(models.Model):
     #_order = 'product_laundry_id asc, product_pressing_id asc, product_vt_id asc, product_textil_id asc, product_echantillon_id asc'
     sequence = fields.Integer('Sequence')
     name = fields.Char('Nom')
-    sale_line_id = fields.Many2one('sale.order.line', 'Ligne de facture', domain= '[("order_partner_id", "=", parent.client_id)]')
+    sale_line_ids = fields.One2many('sale.order.line', "netline_fact_line_id")
+    # sale_line_id = fields.Many2one('sale.order.line', 'Ligne de facture', domain= '[("order_partner_id", "=", parent.client_id)]')
     traitement = fields.Char("Traitement",compute="compute_traitement")
+    traitement_laundry = fields.Char("Traitement")
+    departement = fields.Char("Département")
+    fonction = fields.Char("Fonction")
     facturation_id = fields.Many2one('account.invoice.sale', string="Facture")
-    quantity_livre = fields.Integer("Quantité livrée", compute="_compute_quantites")
+    quantity_livre = fields.Integer("Quantité livrée")
     quantity_facture = fields.Integer("Quantité facturée", readonly="True")
     reste_a_facturer = fields.Integer("Reste à facturer", readonly="True")
     qty_to_invoice = fields.Integer("Quantité à facturer")
@@ -27,6 +31,8 @@ class AccountInvoiceSaleLine(models.Model):
     product_description = fields.Char(string="Déscription")
     product_name = fields.Char(related='product_id.name', string="Désignation")
     price = fields.Float("Prix")
+
+    product_categ = fields.Char(related="product_id.categ_id.name")
 
 
     def compute_traitement(self):
@@ -68,19 +74,22 @@ class AccountInvoiceSaleLine(models.Model):
         for s in self:
             if s.price==0:
                 s.price= s.product_id.list_price
-            sols = self.env['sale.order.line'].search([("product_id", "=", s.product_id.id), ("order_partner_id", "=", self.facturation_id.client_id[0].name)])
-            qty_livre = 0
-            quantity_invoiced=0
-            reste_a_facturer=0
-            for sol in sols:
-                quantity_invoiced+= sol.qty_invoiced
-                qty_livre += sol.qty_delivered
-                reste_a_facturer += sol.qty_to_invoice
-            s.quantity_livre = qty_livre
-            s.quantity_facture=quantity_invoiced
-            s.reste_a_facturer=reste_a_facturer
+            if s.facturation_id.prestation_type=='Textil industrie':
+                sols = self.env['sale.order.line'].search([("product_id", "=", s.product_id.id), ("order_partner_id", "=", self.facturation_id.client_id[0].name)])
+            else:
+                sols = s.sale_line_ids
+            if s.facturation_id.prestation_type=='Textil industrie':
+                qty_livre = 0
+                quantity_invoiced=0
+                reste_a_facturer=0
+                for sol in sols:
+                    quantity_invoiced+= sol.qty_invoiced
+                    qty_livre += sol.product_uom_qty
+                    reste_a_facturer += qty_livre-quantity_invoiced
+                s.quantity_livre = qty_livre
+                s.quantity_facture=quantity_invoiced
+                s.reste_a_facturer=reste_a_facturer
             s.montant_ht = s.qty_to_invoice*s.price
-            # print('compute qty')
 
     @api.model
     def default_get(self, fields):
@@ -97,11 +106,12 @@ class AccountInvoiceSaleLine(models.Model):
         product_template = self.env['cps.product.template'].search([("product_id", "=", self.product_id.id)])
         if 'price' in values:
             product_template.price = values['price']
-        same_line = self.search([('product_id', '=', values.get('product_id', False)), ('facturation_id', '=', values.get('facturation_id', False))])
-        if same_line:
-            raise UserError(_("Il existe des commandes en double dans la facture !"))
-        else:
-            return super(AccountInvoiceSaleLine, self).create(values)
+
+        # same_line = self.search([('product_id', '=', values.get('product_id', False)), ('facturation_id', '=', values.get('facturation_id', False))])
+        # if same_line:
+        #         raise UserError(_("Il existe des commandes en double dans la facture !"))
+        # else:
+        return super(AccountInvoiceSaleLine, self).create(values)
 
     @api.model
     def unlink(self):
@@ -116,3 +126,8 @@ class AccountInvoiceSaleLine(models.Model):
             product_template.price = values['price']
 
         return invoice_line
+
+class Netline_sale_orders_line(models.Model):
+    _inherit = 'sale.order.line'
+
+    netline_fact_line_id = fields.Many2one('account.invoice.sale.line')

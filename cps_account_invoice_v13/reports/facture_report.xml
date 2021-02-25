@@ -3,189 +3,412 @@
     <data>
         <report id="facture_report_id"
                 model="account.invoice.sale"
-                string="Facture Ecolo"
+                string="Facture"
                 report_type="qweb-pdf"
                 name="cps_account_invoice_v13.facture_report_template"
                 paperformat="paperformat_a4_2"
         />
     </data>
 
-    <template id="facture_report_template" >
+    <template id="facture_report_template">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="l">
-                <div class="oe_structure"/>
-                <div class="article">
-                    <div>
-                        <table width="100%" style="vertical-align:middle;font-size:12px;font-family:roboto;">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="nf">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <br/>
+                        <table width="100%">
                             <tr>
-                                <td width="50%" style="padding-top:20px;vertical-align:middle">
-                                    <img src='/cps_account_invoice_v13/static/src/img/logo2.png' style="height: 60px;"/>
+                                <td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height: 145px;"/></td>
+                                <td width="50%" style="font-size:12px;text-align:center;font-family:Calibri;align:right;vertical-align:top" align="right">
+                                    Usine : Zone Industrielle Gzenaya
+                                    <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                    <br/>Tél. / Fax : 0212 539 39 39 03
+                                    <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                    <br/>.R.C: 29797 - IF : 04922966
+                                    <br/>N° Patente : 57223853 - CNSS N° : 7369194
+                                    <br/>N° I.C.E. : 001530545000001
                                 </td>
-                                <td width="30%" align="left" style="line-height: 17px;vertical-align:middle;padding-top:20px;">Route de Tétouan, Zone Ind. Mghogha
-                                    <br/>Alée 2 - Lot 58
-                                    <br/>90000 Tanger (Maroc)
-                                    <br/>Tél. : (00212) 539 35 15 05
-                                    <br/>Fax. : (00212) 539 35 14 83
-                                    <br/>abdellah@ecolo.ma
-                                    <br/>www.ecolo.ma
+                            </tr>
+                            <tr style="border: 20px solid white;">
+                                <td style="font-size:40px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">FACTURE</td>
+                            </tr>
+                        </table>
+                        <table style="font-size:14px;">
+                            <thead>
+                            </thead>
+                            <tr style="line-height: 14px;">
+                                <td style="font-size:14px;text-align:center;font-family:Calibri;vertical-align: top;width:40%">
+                                    <table style="font-size:14px;">
+                                        <tr><td align="center" style="padding: 2px;">Date Facture</td><td align="center" style="padding: 2px;">N° Facture</td></tr>
+                                        <tr><td align="center" style="padding: 5px;"><span t-field="nf.date_facture"  t-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="nf.account_move_id.name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                        <tr><td align="center" style="padding: 2px;"></td><td align="center" style="padding: 2px;"><t t-if="nf.prestation_type=='Location'">Réf. Contrat</t></td></tr>
+<!--                                                <tr><td align="center" style="padding: 5px;"></td><td align="center" style="padding: 5px;"><t t-if="nf.prestation_type=='Location'"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;" t-field="nf.sale_order_ids[0].netline_contrat_id.ref_contrat"/></t></td></tr>-->
+                                        <t t-if="nf.prestation_type=='Laundry'">
+                                            <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Lavage et entretien linge hôtel du mois de <span t-field="nf.date_facture" t-options='{"format": "MMMM"}'/></td></tr>
+                                        </t>
+                                        <t t-if="nf.prestation_type=='Vetement travail'">
+                                            <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Lavage uniformes du mois de <span t-field="nf.date_facture" t-options='{"format": "MMMM"}'/></td></tr>
+                                        </t>
+                                        <t t-if="nf.prestation_type=='Pressing'">
+                                            <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Pressing du mois de <span t-field="nf.date_facture" t-options='{"format": "MMMM"}'/></td></tr>
+                                        </t>
+                                        <t t-if="nf.prestation_type=='Vente'">
+                                            <tr><td align="center" style="padding: 5px;" colspan="2">Prestation : Vente Uniforme/Linge du mois de <span t-field="nf.date_facture" t-options='{"format": "MMMM"}'/></td></tr>
+                                        </t>
+                                    </table>
+                                </td>
+                                <td style="float: right;font-size:14px;text-align:center;font-family:Calibri;align:left;width:60%">
+                                    <table style="font-size:14px;" border="2">
+                                        <tr><td align="center" style="padding: 2px;">Client</td></tr>
+                                        <tr><td align="center" style="padding: 5px;">
+                                            <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 400px; height: 130px;text-align:center;vertical-align:center">
+                                                <span t-field="nf.client_id.nom_commercial"/><br/>
+                                                <span t-field="nf.client_id.contact_address"/><br/>
+                                                <span t-if="nf.client_id.phone is not False">Tél: <span t-field="nf.client_id.phone"/></span><br/>
+                                                <span t-if="nf.client_id.numero_ice is not False">ICE:</span> <span t-field="nf.client_id.numero_ice"/><br/>
+                                                <span t-if="nf.client_id.code_client is not False">Code client:</span> <span t-field="nf.client_id.code_client"/><br/>
+                                                <span t-if="nf.atelier_id.name is not False">Atelier:</span> <span t-field="nf.atelier_id.name"/>
+                                                <span t-if="nf.atelier_id.nom_commercial is not False"><span t-field="nf.atelier_id.nom_commercial"/></span><br/>
+                                                <span t-field="nf.atelier_id.contact_address"/><br/>
+                                                <span t-if="nf.atelier_id.phone is not False">Tél: <span t-field="nf.atelier_id.phone"/></span><br/>
+                                                <span t-if="nf.atelier_id.numero_ice is not False">ICE:</span> <span t-field="nf.atelier_id.numero_ice"/><br/>
+                                            </div>
+                                        </td></tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>
-                         <div  style="width:50%;float:left;margin-bottom:10px;">
-                            <table>
-                                 <tr>
-                                    <td style="padding-left:20px; padding-bottom:15px;">
-                                        <span style="margin-left: 20px">IF : 04921511</span>
-                                        <br/>
-                                        <div style="margin-left: 20px; width:200px; border:1px solid black;font-size:20px;text-align:center;font-family:roboto;font-weight:bold;">Facture</div>
+                        <br/>
+                        <br/>
+                        <table class="table table-sm" style="font-size:14px;font-family:Calibri;border-radius:50em;" width="100%">
+                            <t t-if="nf.prestation_type!='Forfait'">
+                                <tr style="line-height: 24px;border-bottom: 1px solid black;;padding: 8px;">
+                                    <th>N°</th>
+                                    <th class="text-center">Désignation</th>
+                                    <th class="text-center">Quantité</th>
+                                    <th class="text-center">Prix H.T.</th>
+                                    <th class="text-center">Montant H.T.</th>
+                                    <t t-if="nf.prestation_type=='Echantillon'">
+                                       <th class="text-center">N° Bon</th>
+                                    </t>
+                                </tr>
+                            </t>
+                            <t t-if="nf.prestation_type=='Forfait'">
+                                <tr style="line-height: 24px;">
+                                    <th class="text-center">Désignation</th>
+                                    <th class="text-center">Montant H.T.</th>
+                                </tr>
+                            </t>
+                            <tbody class="sale_tbody">
+                               <t t-set="ligne" t-value="0"/>
+                               <t t-set="sum_pieces" t-value="0"/>
+                               <t t-set="sum_mnt" t-value="0"/>
+                               <t t-set="sum_ttc" t-value="0"/>
+                               <t t-set="sum_tva" t-value="0"/>
+                               <t t-set="categ_en_cours" t-value="a"/>
+                               <t t-set="tva" t-value=""/>
+<!--                               <t t-set="departement" t-value="a"/>-->
+<!--                               <t t-set="fonction" t-value="a"/>-->
+                               <t t-if="nf.prestation_type=='Laundry' or nf.prestation_type=='Location' or nf.prestation_type=='Pressing' ">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_categ)"  t-as="nfl">
+                                        <t t-if="categ_en_cours!=nfl.product_categ">
+                                            <tr style="line-height: 24px;border-bottom: 1px #ddd;padding: 8px;">
+                                                <td colspan="5" style="border-radius:10px;font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;">&#160;&#160;&#160;&#160;<span t-field="nfl.product_categ"/></td>
+                                            </tr>
+                                        </t>
+                                        <t t-set="categ_en_cours" t-value="nfl.product_categ"/>
+                                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right;line-height: 24px;border-bottom: 1px solid #ddd;padding: 8px;">
+                                            <t t-set="ligne" t-value="ligne+1"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
+                                            <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
+                                            <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
+                                            <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
+                                            <t t-foreach="nfl.account_move_line_ids"  t-as="move_lines">
+                                                <t t-foreach="move_lines.tax_ids"  t-as="tvas">
+                                                    <t t-set="tva" t-value="tvas.name"/>
+                                                </t>
+                                            </t>
+                                            <td class="text-left"><span t-esc="ligne"/></td>
+                                            <td class="text-left" width="50%">
+                                                <span t-field="nfl.product_description"/>
+                                            </td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
+                                        </tr>
+                                    </t>
+                               </t>
+                               <t t-if="nf.prestation_type=='Vetement travail'">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: (b.departement, b.fonction, b.product_description))"  t-as="nfl">
+                                        <t t-if="departement!=nfl.departement or fonction!=nfl.fonction">
+                                            <tr>
+                                                <td colspan="5" class="text-left" style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;align:right"><span t-esc="nfl.departement"/> - <span t-esc="nfl.fonction"/></td>
+                                            </tr>
+                                        </t>
+                                        <t t-set="departement" t-value="nfl.departement"/>
+                                        <t t-set="fonction" t-value="nfl.fonction"/>
+                                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                            <t t-set="ligne" t-value="ligne+1"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
+                                            <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
+                                            <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
+                                            <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
+                                            <t t-foreach="nfl.account_move_line_ids"  t-as="move_lines">
+                                                <t t-foreach="move_lines.tax_ids"  t-as="tvas">
+                                                    <t t-set="tva" t-value="tvas"/>
+                                                </t>
+                                            </t>
+                                            <td class="text-left"><span t-esc="ligne"/></td>
+                                            <td class="text-left" width="50%">
+                                                <span t-field="nfl.product_description"/>
+                                            </td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
+                                        </tr>
+                                    </t>
+                               </t>
+                                <t t-if="nf.prestation_type=='Textil industrie'">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_id.name)"  t-as="nfl">
+                                        <tr style="height: 30px; line-height: 15px;font-size:14px;text-align:left;font-family:Calibri;align:right">
+                                            <t t-set="ligne" t-value="ligne+1"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
+                                            <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
+                                            <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
+                                            <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
+                                            <td class="text-left"><span t-esc="ligne"/></td>
+                                            <t t-foreach="nfl.account_move_line_ids"  t-as="move_lines">
+                                                <t t-foreach="move_lines.tax_ids"  t-as="tvas">
+                                                    <t t-set="tva" t-value="tvas.name"/>
+                                                </t>
+                                            </t>
+                                            <td class="text-left" width="50%">
+                                               <t t-if="nf.prestation_type=='Textil industrie'">
+                                                    <span t-field="nfl.product_name"/><br/>
+                                                    <span t-field="nfl.traitement" style="font-size:10px;text-align:left;font-family:Calibri;"/>
+                                               </t>
+                                               <t t-if="nf.prestation_type=='Echantillon'">
+                                                    <span t-field="nfl.product_name"/>
+                                               </t>
+                                            </td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
+
+                                        </tr>
+                                       <!--<tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">-->
+                                           <!--<td></td>-->
+                                           <!--<td class="text-left" colspan="3">-->
+                                               <!--<t t-set="nb_traits" t-value="0"/>-->
+                                               <!--<t t-foreach="nfl.sale_line_id" t-as="sale_lines">-->
+                                                    <!--<t t-set="nb_traits" t-value="nb_traits+1"/>-->
+                                                    <!--<span t-field="sale_lines.order_id.name"/>/-->
+                                                    <!--<span t-esc="int(float(sale_lines.product_uom_qty))"/> pcs-->
+                                                    <!--<t t-if="len(nfl.sale_line_id) > nb_traits">-->
+                                                        <!--<span> + </span>-->
+                                                    <!--</t>-->
+                                               <!--</t>-->
+                                           <!--</td>-->
+                                       <!--</tr>-->
+                                    </t>
+                               </t>
+                                <t t-if="nf.prestation_type=='Echantillon'">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: b.product_id.product_name)"  t-as="nfl">
+                                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                            <t t-set="ligne" t-value="ligne+1"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
+                                            <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
+                                            <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
+                                            <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
+                                            <td class="text-left"><span t-esc="ligne"/></td>
+                                            <td class="text-left" width="50%">
+                                               <t t-set="nb_traits" t-value="0"/>
+                                               <t t-foreach="nfl.product_id.traitement_textil"  t-as="traits">
+                                                    <t t-set="nb_traits" t-value="nb_traits+1"/>
+                                                    <span t-field="traits.name"/>
+                                                    <t t-if="len(nfl.product_id.traitement_textil) > nb_traits">
+                                                        <span> , </span>
+                                                    </t>
+                                               </t>
+                                               <t t-foreach="nfl.product_echantillon_id.traitement_textil"  t-as="traits">
+                                                    <t t-set="nb_traits" t-value="nb_traits+1"/>
+                                                    <span t-field="traits.name"/>
+                                                    <t t-if="len(nfl.product_id.traitement_textil) > nb_traits">
+                                                        <span> , </span>
+                                                    </t>
+                                               </t>
+                                               <t t-if="nf.prestation_type=='Textil industrie'">
+                                                    <span t-field="nfl.product_id.coloris.name"/>/<span t-field="nfl.product_id.coloriss_client.name"/>
+                                                     modele
+                                                    <span t-field="nfl.product_name"/>
+                                                    ( <span t-field="nfl.product_id.marque.name"/> )
+                                               </t>
+                                               <t t-if="nf.prestation_type=='Echantillon'">
+                                                    <span t-field="nfl.product_echantillon_id.coloris"/>/<span t-field="nfl.product_echantillon_id.coloriss_client"/>
+                                                     modele
+                                                    <span t-field="nfl.product_name"/>
+                                               </t>
+                                            </td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
+                                            <td class="text-right"><span t-field="nfl.sale_line_id[0].order_id.name"/></td>
+                                        </tr>
+                                       <!--<tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">-->
+                                           <!--<td></td>-->
+                                           <!--<td class="text-left" colspan="3">-->
+                                               <!--<t t-set="nb_traits" t-value="0"/>-->
+                                               <!--<t t-foreach="nfl.sale_line_id" t-as="sale_lines">-->
+                                                    <!--<t t-set="nb_traits" t-value="nb_traits+1"/>-->
+                                                    <!--<span t-field="sale_lines.order_id.name"/>/-->
+                                                    <!--<span t-esc="int(float(sale_lines.product_uom_qty))"/> pcs-->
+                                                    <!--<t t-if="len(nfl.sale_line_id) > nb_traits">-->
+                                                        <!--<span> + </span>-->
+                                                    <!--</t>-->
+                                               <!--</t>-->
+                                           <!--</td>-->
+                                       <!--</tr>-->
+                                    </t>
+                               </t>
+                               <t t-if="nf.prestation_type=='Vente'">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: (b.departement, b.fonction))"  t-as="nfl">
+                                        <t t-if="departement!=nfl.departement or fonction!=nfl.fonction">
+                                            <tr>
+                                                <td colspan="5" class="text-left" style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;align:right"><span t-esc="nfl.departement"/> - <span t-esc="nfl.fonction"/></td>
+                                            </tr>
+                                        </t>
+                                        <t t-set="departement" t-value="nfl.departement"/>
+                                        <t t-set="fonction" t-value="nfl.fonction"/>
+
+                                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                            <t t-set="ligne" t-value="ligne+1"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
+                                            <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
+                                            <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
+                                            <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
+                                            <td class="text-left"><span t-esc="ligne"/></td>
+                                            <td class="text-left" width="50%">
+                                                <span t-field="nfl.product_name"/>
+                                            </td>
+                                            <td class="text-right"><span t-field="nfl.qty_to_invoice"/></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.price).replace(',', ' ').replace('.',',')" /></td>
+                                            <td class="text-right"><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')" /></td>
+                                        </tr>
+                                    </t>
+                               </t>
+                               <t t-if="nf.prestation_type=='Forfait'">
+                                   <t t-foreach="nf.facturation_lines_ids.sorted(key=lambda b: (b.departement, b.fonction))"  t-as="nfl">
+                                        <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                            <t t-set="ligne" t-value="ligne+1"/>
+                                            <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
+                                            <t t-set="sum_mnt" t-value="sum_mnt+nfl.montant_ht"/>
+                                            <t t-set="sum_tva" t-value="sum_tva+nfl.montant_tva"/>
+                                            <t t-set="sum_ttc" t-value="sum_ttc+nfl.montant_ttc"/>
+                                            <td class="text-left" width="50%">
+                                                <span t-field="nfl.product_name"/>
+                                            </td>
+                                            <td class="text-right"><span t-field="nfl.montant_ht"/></td>
+                                        </tr>
+                                    </t>
+                               </t>
+                            </tbody>
+                           <t t-if="nf.prestation_type!='Forfait'">
+                                <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right;padding: 8px;">
+                                    <td class="text-left"></td>
+                                    <td></td>
+                                    <td class="text-left"></td>
+                                    <td colspan="2" class="text-right" style="font-size:16px;text-align:center;font-family:Calibri">Total : <span t-esc="'{0:,}'.format(int(sum_pieces)).replace(',', ' ')"/> Pièces</td>
+                                </tr>
+                           </t>
+                        </table>
+                        <t t-set="devise" t-value="'DH'"/>
+                        <t t-if="nf.client_id.devise.id is not False">
+                            <t t-set="devise" t-value="nf.client_id.devise.name"/>
+                        </t>
+                        <table width="100%" style="margin-top: 10px;">
+                            <tr>
+                                <td width="50%" style="font-size:14px;text-align:center;font-family:Calibri" >
+                                    <table>
+                                        <tr><td align="center" style="padding: 2px;">Total H.T.</td><td align="center" style="padding: 2px;">Taux T.V.A.</td><td align="center" style="padding: 2px;">Montant T.V.A.</td><td align="center" style="padding: 2px;">Montant T.T.C.</td><td align="center" style="padding: 2px;">Mode Paiement</td><td align="center" style="padding: 2px;">Echéance</td></tr>
+                                        <tr><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="'{0:,.2f}'.format(nf.account_move_id.amount_untaxed).replace(',', ' ').replace('.',',')"/>  <span t-esc="devise"/></span>
+                                            </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="tva"/></span>
+                                            </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 200px; display: block;"><span t-esc="'{0:,.2f}'.format(nf.account_move_id.amount_tax).replace(',', ' ').replace('.',',')"/> <span t-esc="devise"/> </span>
+                                            </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="'{0:,.2f}'.format(nf.account_move_id.amount_total).replace(',', ' ').replace('.',',')"/> <span t-esc="devise"/></span>
+                                            </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-field="nf.payment_mode"/> </span>
+                                            </td><td align="center" style="padding: 5px;">
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-field="nf.account_move_id.invoice_date_due"/> </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <t t-if="nf.prestation_type!='Textil industrie' and nf.prestation_type!='Echantillon'">
+                            <table width="100%" style="margin-top: 15px;">
+                                <tr style="font-size:14px;text-align:left;font-family:Calibri;align:right">
+                                    <td width="50%" colspan="2">
+                                        Arrêtée la présente facture, toutes taxes comprises, à la somme de :
+                                            <b><span t-esc="nf.montant_en_lettres"/></b>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td  style="text-align:left;font-size:12px;font-family:roboto;font-weight:bold;padding:5px;">DATE : <span t-field="l.date_facture"/></td>
-                                </tr>
-                                <tr style="font-size:12px;font-family:roboto;font-weight:bold;">
-                                    <td style="text-align:left;padding:5px" >N° FACT : <span t-field="l.name_facture"/></td>
-                                </tr>
                             </table>
-                        </div>
-                        <div style="width:48%;float:right;padding:2px;">
-                            <br/><br/>
-                            <div style="text-align:center;font-family:roboto;font-weight: bold;font-size:14px;"><span  t-field="l.client_id.name"/></div>
-                            <div style="text-align:center;font-size:12px;"><span   t-field="l.client_id.street"/></div>
-                            <div style="text-align:center;font-size:12px;"><span   t-field="l.client_id.city"/> <span  t-field="l.client_id.country_id.name"/></div>
-                            <t t-if="l.currency_id.name=='MAD'">
-                                <div style="text-align:center;padding:0px 20px"><span style="font-family:roboto;text-decoration:underline;">ICE :</span>  <span  t-field="l.client_id.numero_ice"/></div>
-                            </t>
-                        </div>
-                    </div>
-                    <style>
-                        .table2 td { border: 1px solid black; padding:2px;font-size : 12px;font-family:roboto;}
-                        .table3 tr td {  border: 0 ; padding:2px; }
-                        .table3 {font-size:12px;font-family:roboto;}
-                        .foot_foot {
-                          position: fixed;
-                          left: 0;
-                          bottom: 0;
-                          width: 100%;
-                          background-color: red;
-                          color: white;
-                          text-align: center;
-                        }
-                    </style>
-                    <div style="min-height:560px;margin-top:180px;">
-                         <table width="100%" style="text-align:center;font-family:roboto;font-size:12px;border-bottom: 1px solid black;">
-                            <thead  style="width:100%;" >
-                                <tr style="line-height:30px;border-bottom: 1px solid #000;">
-                                    <th style="text-align:center;padding-left:5px;" width="10%">OF</th>
-                                    <th style="text-align:center;padding-left:5px;" width="40%">DESCRIPTION</th>
-                                    <th style="text-align:center;padding-left:5px;" width="10%" >QUANTITE</th>
-                                    <th style="text-align:center;padding-left:5px;" width="10%" >PRIX H.T <t t-if="l.currency_id.name=='EUR'">€</t></th>
-                                    <th style="text-align:center;padding-left:5px;" width="20%">TOTAL H.T <t t-if="l.currency_id.name=='EUR'">€</t></th>
-                                </tr>
-                            </thead>
-                             <tbody >
-                                 <tr width="100%" style="line-height:30px;border-bottom: 1px solid #000;" >
-                                     <td colspan="5" style="text-align:left;padding-left:25px;font-weight: bold;">Atelier : <span t-field="l.atelier_id.name"/></td>
-                                 </tr>
-                                 <t t-set="sum_pieces" t-value="0"/>
-                                 <t t-foreach="l.facturation_lines_ids"  t-as="nfl" >
-                                    <t t-set="sum_pieces" t-value="sum_pieces+nfl.qty_to_invoice"/>
-                                    <tr style="line-height:20px;border-bottom: 1px solid #000;">
-                                        <td style="text-align:center;padding-left:5px;vertical-align:top;" width="10%"><span t-field="nfl.product_id.production_ids.code_article"/></td>
-                                        <td style="text-align:left;padding-left:5px;vertical-align:top;" width="40%">
-                                            <span t-field="nfl.product_description"/>
-                                            <br/>
-                                            <t t-if="nfl.traitement is not False">
-                                                <span style="text-align:center;font-weight: bold;font-size:12px;" t-field="nfl.product_id.production_ids.type_de_traitement"/>
-                                            </t>
-                                        </td>
-                                        <td style="text-align:right;padding-right:5px;vertical-align:top;" width="10%"><span t-field="nfl.qty_to_invoice"/> </td>
-                                        <td style="text-align:right;padding-right:5px;vertical-align:top;" width="12%"><span t-field="nfl.price"/> <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td>
-                                        <td width="20%" style="padding-right:5px;text-align:right; font-weight: bold;vertical-align:top;" ><t t-esc="'{0:,.2f}'.format(nfl.montant_ht).replace(',', ' ').replace('.',',')"/> <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td>
-                                    </tr>
-                                 </t>
-                            </tbody>
-                         </table>
-                    </div>
-                    <div style="min-height:310px;max-height:370px;">
-                        <table width="100%">
-                             <tr>
-                                <td colspan="5">
-                                    <div style="width:45%;float:left;margin-top:20px">
-                                         <t t-if="l.currency_id.name=='EUR'">
-                                            <table style="width : 100%;  border: 0 ;margin-bottom:30px;font-size:12px;font-family:roboto;" class="table3">
-                                                <tr><td>Cours de change : <t t-esc="'{0:,.2f}'.format(1/l.currency_id.rate).replace(',', ' ').replace('.',',')"/> DH</td></tr>
-                                                <tr><td>Valeur en DHS : <t t-esc="'{0:,.2f}'.format(l.invoice_totalttc/l.currency_id.rate).replace(',', ' ').replace('.',',')"/> DH</td></tr>
-                                            </table>
-                                         </t>
-                                        <div style="font-size:12px;font-family:roboto;">
-                                            Nous certifions que la prestation a été réalisée sur le territoire du Maroc et que la valeur mentionée est juste et conforme.
-                                            <br/>
-                                            La marchandise déstinée à l'exportation est éxonérée de la TVA suivant Dahir du 01/01/1986 vente en suspension de la taxe sur la valeur ajoutée en vertu de l'article 8 de la loi n° 30-85 relative à la TVA promulguée par le dahir n°
-                                            <table  style="border: 0 ;font-size:10px;" width="100%">
-                                                <tr><td width="80%">AT N°</td><td>DU</td></tr>
-                                                <tr><td width="80%">DUM N°</td><td>DU</td></tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div style="width:50%;float:left;margin-left:20px; margin-top:20px;">
-                                        <table style="width:100%; margin-bottom:20px;" class="table2">
-                                            <tr style="text-align:center;font-family:roboto;font-size:12px;">
-                                                <td>Total H.T <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t>
-                                                </td><td>Total Quantité</td>
-                                                <td>Total Facture <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td>
-                                            </tr>
-                                            <tr style="text-align:right;font-family:roboto;font-size:12px;">
-                                                <td style="padding-right : 5px ;" ><t t-esc="'{0:,.2f}'.format(l.invoice_totalht).replace(',', ' ').replace('.',',')"/> <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td>
-                                                <td><span t-esc="'{0:,}'.format(int(sum_pieces)).replace(',', ' ')"/> Pièces</td>
-                                                <td style="padding-right : 5px ;" ><t t-esc="'{0:,.2f}'.format(l.invoice_totalttc).replace(',', ' ').replace('.',',')"/> <t t-if="l.currency_id.name=='EUR'">€</t><t t-if="l.currency_id.name=='MAD'">DH</t></td></tr>
-                                        </table>
-                                        <table style="width:100%; margin-bottom:20px; border: 0 ;" class="table3">
-                                            <tr><td style="text-align:left;font-family:roboto;font-size:12px;">Echéance du :  <span t-field="l.account_move_id.invoice_date_due"/></td></tr>
-                                        </table>
-                                        <t t-if="l.client_id.comment is not False">
-                                            <table style="width : 100%; margin-bottom:20px; border: 0 ; " class="table3">
-                                                <tr>
-                                                    <td style="text-align:center;font-family:roboto;font-weight: bold;">
-                                                    <span t-field="l.client_id.comment"/>
-                                                    </td>
-                                                 </tr>
-                                            </table>
-                                        </t>
-                                        <t t-if="not l.client_id.invoice_warn_msg">
-                                            <table style="width : 100%;  border: 0 ;" class="table3">
-                                                <tr style="font-family:roboto;font-weight: bold;"><td style="text-align:left;padding-left:30px">Banque :   <span t-field="l.client_id.payment_journal_id.bank_id.name"/></td></tr>
-                                                <tr style="font-family:roboto;font-weight: bold;"><td style="text-align:left;padding-left:30px">RIB : <span t-field="l.client_id.payment_journal_id.bank_account_id.acc_number"/> <t t-if="l.currency_id.name=='EUR' and l.client_id.payment_journal_id.bank_id.bic is not False "> - <span t-field="l.client_id.payment_journal_id.bank_id.bic"/></t></td></tr>
-                                            </table>
-                                        </t>
-                                        <t t-if="l.client_id.invoice_warn_msg">
-                                            <table style="width : 100%;  border: 0 ;font-size:10px" class="table3">
-                                                <tr style="font-family:roboto;font-weight: bold;"><td style="text-align:left;padding-left:30px"><span t-field="l.client_id.invoice_warn_msg"/></td></tr>
-                                            </table>
-                                        </t>
+                        </t>
+                        <t t-if="nf.prestation_type=='Textil industrie' or nf.prestation_type=='Echantillon'">
+                            <table width="100%" style="margin-top: 15px;">
+                                <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">
+                                    <td width="50%" colspan="2">
+                                        Arrêtée la présente facture en exonération TVA à la somme de :
 
-                                        <table style="width : 100%;  border: 0 ;" class="table3">
-                                            <tr><td style="text-align:left;padding-left:30px"></td></tr>
-                                             <img src='/cps_account_invoice_v13/static/src/img/cachet.png' style="position absolute; top: 10px ; height: 150px;"/>
-                                        </table>
-                                     </div>
+                                            <b><span t-esc="nf.montant_en_lettres"/></b>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">
+                                    <t t-set="sum_dh" t-value="nf.account_move_id.amount_total"/>
+                                    <t t-foreach="nf.client_id.devise.rate_ids.sorted(key=lambda b: b.name)"  t-as="rates">
+                                        <t t-set="sum_dh" t-value="nf.account_move_id.amount_total/rates.rate"/>
+                                    </t>
+                                    <td width="50%" colspan="2">
+                                        <br/>
+                                        <b>Contre valeur en Dirhams de : <span t-esc="'{0:,.2f}'.format(sum_dh).replace(',', ' ').replace('.',',')"/> DH<br/>
+                                        </b>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;text-align:left;font-family:Calibri;align:right">
+                                    <td colspan="2">
+                                        <br/>
+                                        Vente en exonération de TVA suivant Dahir du 01/01/1986 vente en suspension de la taxe sur la valeur ajoutée en vertu de l'article 8 de la loi n° 30-85 relative à la TVA.
+                                        Sous réserve de présentation de l'attestion d'exportation relative aux articles traités.<br/><br/>
+                                        <b>NOTRE R.I.B. : BMCI Tanger succursale 013 640 01063 001114 001 55 92
+                                            <br/>-SWIFT : BMCIMAMC</b>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </t>
+                        <table width="100%" style="margin-top: 15px;">
+                            <tr style="font-size:14px;text-align:center;font-family:Calibri;align:right;" >
+                                <td width="50%" align="center">
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                        VISA NETLINE
+                                    </div>
                                 </td>
-                             </tr>
+                                <td width="50%" align="center">
+                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                        VISA + CACHET CLIENT
+                                    </div>
+                                </td>
+                            </tr>
                         </table>
                     </div>
-                    <table style="width:100%;" class="table3" colspan="2">
-                        <tr>
-                            <td colspan="5"  style="padding-top:10px"> <hr style="width:100%;padding-top:0px;margin:0px;border:1px solid black" /></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left:10px">SARL au capital de 10.000.000 DH </td>
-                            <td style="padding-left:10px">Patente : 57220888 </td>
-                            <td style="padding-left:10px">R.C : 20359 </td>
-                            <td style="padding-left:10px">ICE : 000066916000087</td>
-                            <td style="padding-left:10px">IF. 4921511</td>
-                        </tr>
-                    </table>
-                </div></t>
+                    <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>
+                </t>
+            </t>
         </t>
     </template>
 </odoo>

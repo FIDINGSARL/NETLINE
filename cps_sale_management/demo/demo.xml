@@ -23,13 +23,13 @@
             <field name="sale_ok">False</field>
             <field name="purchase_ok">True</field>
         </record>
-        <record id="product_product_fuel" model="product.product">
-            <field name="name">Fuel</field>
-            <field name="default_code">FUEL</field>
-            <field name="type">consu</field>
-            <field name="sale_ok">False</field>
-            <field name="purchase_ok">True</field>
-        </record>
+<!--        <record id="product_product_fuel" model="product.product">-->
+<!--            <field name="name">Fuel</field>-->
+<!--            <field name="default_code">FUEL</field>-->
+<!--            <field name="type">consu</field>-->
+<!--            <field name="sale_ok">False</field>-->
+<!--            <field name="purchase_ok">True</field>-->
+<!--        </record>-->
         <record id="product_product_electricite" model="product.product">
             <field name="name">Electricité</field>
             <field name="default_code">ELEC</field>

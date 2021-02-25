@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--<report id="manque_report_id"-->
+                <!--model="netline.reception"-->
+                <!--string="Liste des manques"-->
+                <!--report_type="qweb-pdf"-->
+                <!--name="netline.manque_report_template"-->
+        <!--/>-->
+        <report id="manque_report_id"
+                model="netline.livraison"
+                string="Manque"
+                report_type="qweb-pdf"
+                name="netline.manque_report_template"
+                paperformat="paperformat_t20"
+        />
+
+    </data>
+
+    <template id="manque_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="rl">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <table width="100%">
+                            <tr>
+                                <td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height:40px;"/></td>
+                                <td width="50%" style="font-size:12px;text-align:center;font-family:Calibri;align:right" align="right">
+                                    <span t-field="rl.client_name"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%">
+                            <tr style="border: 20px solid white;">
+                                <td style="font-size:14px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">MANQUES A SOLDER SUR</td>
+                            </tr>
+                            <tr><td align="left" style="padding: 2px;font-size:15px;font-family:Calibri;align:right" colspan="2">BON CLIENT N° <span t-field="rl.reception_laundry_ids.n_bon_client"/></td></tr>
+                            <tr><td align="left" style="padding: 2px;font-size:15px;font-family:Calibri;align:right" colspan="2">B.L. NETLINE N° <span t-field="rl.sale_order_name"/></td></tr>
+                            <tr><td align="left" style="padding: 2px;font-size:15px;font-family:Calibri;align:right" colspan="2"><span t-field="rl.date_livraison"/></td></tr>
+                            <tr><td align="center" style="padding: 2px;font-size:15px;font-family:Calibri" colspan="2"><br/>$$$$$$$$$$$$$$$$$$$$$$$$$<br/></td></tr>
+                            <tr><td align="center" style="padding: 2px;font-size:15px;font-family:Calibri" colspan="2"><br/></td></tr>
+                            <t t-set="sum_pieces" t-value="0"/>
+                            <t t-foreach="rl.livraison_lines_ids.sorted(key=lambda b: b.reception_line_id.product_id.product_id.categ_id.name)" t-as="l">
+                                <t t-if="l.available_quantity>0">
+                                    <tr style="font-size:11px;text-align:center;font-family:Calibri;align:right">
+                                        <t t-set="manque" t-value="l.available_quantity"/>
+                                        <t t-set="sum_pieces" t-value="sum_pieces+manque"/>
+                                        <t t-if="l.laundry_product_name is not False">
+                                            <td class="text-left" style="padding: 2px;font-size:13px;font-family:Calibri" width="50%"><span t-field="l.laundry_product_name"/></td>
+                                        </t>
+                                        <t t-if="l.pressing_product_name is not False">
+                                            <td class="text-left" style="padding: 2px;font-size:13px;font-family:Calibri" width="50%"><span t-field="l.pressing_product_name"/></td>
+                                        </t>
+                                        <t t-if="l.vt_product_name is not False">
+                                            <td class="text-left" style="padding: 2px;font-size:13px;font-family:Calibri" width="50%"><span t-field="l.vt_product_name"/></td>
+                                        </t>
+                                        <td class="text-right" style="padding: 2px;font-size:13px;font-family:Calibri" width="20%"><span t-esc="manque"/></td>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr style="font-size:11px;text-align:center;font-family:Calibri;align:right">
+                                <td style="font-size:14px;text-align:right;font-family:Calibri;align:right;" width="20%" colspan="2"><span t-esc="sum_pieces"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                     <div class="footer">
+
+                        <div class="col-xs-6">
+                            <div class="1"></div>
+                            <div class="5" style="border:3px solid black;text-align:2px top;"><center><p>VISA NETLINE</p></center><br></br><br></br><BR></BR></div>
+                        </div>
+                        <div class="col-xs-6">
+                             <div class="1"></div>
+                            <div class="5" style="border:3px solid black;text-align:2px top;"><center><p>VISA + CACHET CLIENT</p></center><br></br><br></br><BR></BR></div>
+                        </div>
+                         <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!--<template id="manque_report_template">-->
+        <!--<t t-call="web.html_container">-->
+            <!--<t t-foreach="docs" t-as="rl">-->
+                <!--<t t-call="web.external_layout">-->
+                    <!--<div class="page">-->
+                        <!--<div class="oe_structure"/>-->
+                        <!--<table width="100%">-->
+                            <!--<tr>-->
+                                <!--<td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height: 145px;"/></td>-->
+                                <!--<td width="50%" style="font-size:11px;text-align:center;font-family:Calibri;align:right" align="right">-->
+                                    <!--Usine : Zone Industrielle Gzenaya-->
+                                    <!--<br/>lot n° 260 - TANGER - B.P. 371 GZENAYA-->
+                                    <!--<br/>Tél. / Fax : 0212 539 39 39 03-->
+                                    <!--<br/>Mail : admin@netline.ma<br/>Web : www.netline.ma-->
+                                    <!--<br/>.R.C: 29797 - IF : 04922966-->
+                                    <!--<br/>N° I.C.E. : 001530545000001-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr style="border: 20px solid white;">-->
+                                <!--<td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de livraison</td>-->
+                            <!--</tr>-->
+                        <!--</table>-->
+                        <!--<table class="table table-condensed" style="margin-top: 30px;">-->
+                            <!--<thead>-->
+                                <!--<tr>-->
+                                    <!--<th>N°</th>-->
+                                    <!--<th class="text-center">Client</th>-->
+                                    <!--<th class="text-center">N° Bon</th>-->
+                                    <!--<th class="text-center">Quantité</th>-->
+                                <!--</tr>-->
+                           <!--</thead>-->
+                           <!--<tbody class="sale_tbody">-->
+                               <!--<t t-set="ligne" t-value="0"/>-->
+                               <!--<t t-set="sum_pieces" t-value="0"/>-->
+                               <!--<t t-set="categ_en_cours" t-value="a"/>-->
+                               <!--<t t-foreach="rl.livraison_lines_ids.sorted(key=lambda b: b.reception_line_id.product_id.product_id.categ_id.name)" t-as="l">-->
+
+                                    <!--<t t-if="categ_en_cours!=l.reception_line_id.product_id.product_id.categ_id.name">-->
+                                        <!--<tr>-->
+                                            <!--<td colspan="3" class="text-left" style="font-size:11px;text-align:left;font-family:Calibri;align:right">Formule laundry : <span t-field="l.reception_line_id.product_id.product_id.categ_id.name"/></td>-->
+                                        <!--</tr>-->
+                                    <!--</t>-->
+                                    <!--<t t-set="categ_en_cours" t-value="l.reception_line_id.product_id.product_id.categ_id.name"/>-->
+
+                                    <!--<tr style="font-size:11px;text-align:center;font-family:Calibri;align:right">-->
+                                        <!--<t t-set="ligne" t-value="ligne+1"/>-->
+                                        <!--<t t-set="sum_pieces" t-value="sum_pieces+l.to_deliver_quantity"/>-->
+                                        <!--<td class="text-left" width="10%"><span t-esc="ligne"/></td>-->
+                                        <!--<td width="20%"></td>-->
+                                        <!--<td class="text-left" width="50%">-->
+                                            <!--<t t-if="l.reception_line_id.product_id.designation_client is not False">-->
+                                                <!-- -<span t-field="l.reception_line_id.product_id.designation_client"/>- -->
+                                            <!--</t>-->
+                                            <!--<span t-field="l.laundry_product_name"/>-->
+                                            <!--<t t-if="l.reception_line_id.product_id.color_name is not False">-->
+                                                <!--(<span t-field="l.reception_line_id.product_id.color_name"/>)-->
+                                            <!--</t>-->
+                                        <!--</td>-->
+
+                                        <!--<td class="text-right" width="20%"><span t-field="l.to_deliver_quantity"/></td>-->
+                                    <!--</tr>-->
+                               <!--</t>-->
+                            <!--</tbody>-->
+                            <!--<tr style="font-size:11px;text-align:center;font-family:Calibri;align:right">-->
+                                <!--<td class="text-left" width="10%"></td>-->
+                                <!--<td width="20%"></td>-->
+                                <!--<td class="text-left" width="50%"></td>-->
+                                <!--<td class="text-right" width="20%">Total : <span t-esc="sum_pieces"/> Pièces</td>-->
+                            <!--</tr>-->
+
+                        <!--</table>-->
+
+                    <!--</div>-->
+                     <!--<div class="footer">-->
+                        <!--<div class="col-xs-6">-->
+                            <!--<div class="1"></div>-->
+                            <!--<div class="5" style="border:3px solid black;text-align:2px top;"><center><p>VISA NETLINE</p></center><br></br><br></br><BR></BR></div>-->
+                        <!--</div>-->
+                        <!--<div class="col-xs-6">-->
+                             <!--<div class="1"></div>-->
+                            <!--<div class="5" style="border:3px solid black;text-align:2px top;"><center><p>VISA + CACHET CLIENT</p></center><br></br><br></br><BR></BR></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</t>-->
+            <!--</t>-->
+        <!--</t>-->
+    <!--</template>-->
+
+</openerp>

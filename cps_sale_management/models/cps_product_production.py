@@ -561,7 +561,7 @@ class CpsProductProduction(models.Model):
         i=0
         for l in pps:
             i+=1
-            cps_facturation_lines.append((0, 0, { 'product_id': l.product_id.id, 'product_description' : l.product_id.name, 'sequence': i, 'qty_to_invoice': l.total_en_souffrance}))
+            cps_facturation_lines.append((0, 0, { 'product_id': l.product_id.id, 'price' : l.price, 'product_description' : l.product_id.name, 'sequence': i, 'qty_to_invoice': l.total_en_souffrance, 'reste_a_facturer': l.total_en_souffrance, 'quantity_livre' : l.total_sortie, 'quantity_facture':l.total_facturee, 'traitement': self.traitement_name}))
             if l.client_id.id not in clients:
                 clients.append(l.client_id.id)
                 # if len(clients) > 1:
@@ -573,7 +573,8 @@ class CpsProductProduction(models.Model):
             'atelier_id' : ateliers[0],
             'client_fact_id': clients[0],
             'date_facture' : date.today().strftime('%Y-%m-%d'),
-            'facturation_lines_ids' : cps_facturation_lines
+            'facturation_lines_ids' : cps_facturation_lines,
+            'prestation_type': 'Textil industrie'
         }
         facture = self.env['account.invoice.sale'].create(cps_facture)
         facture._compute_client_fact_id()

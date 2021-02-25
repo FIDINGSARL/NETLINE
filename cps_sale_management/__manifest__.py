@@ -56,6 +56,7 @@
         'views/cps_chariot_helper.xml',
         'views/cps_product_production_report.xml',
         'views/cps_mrp_production.xml',
+        'views/netline_purchase_da.xml',
         'views/cps_menu.xml',
         'reports/livraison_report.xml',
         'reports/fiche_procede_report.xml',

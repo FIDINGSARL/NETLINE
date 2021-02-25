@@ -264,3 +264,13 @@ class FicheProcede(models.Model):
                procede_line.kcal=(procede_line.temperature-20)*4185
             else:
                 procede_line.kcal=0
+
+    def copy(self, default=None):
+        default = dict(default or {})
+        new_fiche = super(FicheProcede, self).copy(default)
+        procede_lines = []
+        for p in self.procede_line_ids:
+            created_procede_line = p.copy()
+            procede_lines.append(created_procede_line.id)
+        new_fiche.procede_line_ids = procede_lines
+        return new_fiche

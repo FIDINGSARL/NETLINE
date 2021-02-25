@@ -58,7 +58,7 @@
             <field name="margin_left">0</field>
             <field name="margin_right">0</field>
             <field name="header_line" eval="False" />
-            <field name="header_spacing">0</field>
+            <field name="header_spacing">500</field>
             <field name="dpi">90</field>
         </record>
         <record id="paperformat_a4_landscape" model="report.paperformat">

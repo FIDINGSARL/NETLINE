@@ -3,114 +3,126 @@
     <data>
         <report id="livraison_report_id"
                 model="stock.picking"
-                string="Bon de livraison ECOLO"
+                string="Bon de livraison Netline"
                 report_type="qweb-pdf"
                 name="cps_sale_management.livraison_report_template"
-                paperformat="paperformat_a4"
+                paperformat="paperformat_a5"
         />
     </data>
 
     <template id="livraison_report_template">
         <t t-call="web.html_container">
-
             <t t-foreach="docs" t-as="rl">
                 <t t-call="web.external_layout">
-
-                    <div class="page" >
+                    <div class="page">
                         <div class="oe_structure"/>
-                            <table width="100%" >
-                                <tr height="630px" >
-                                    <td width="100%">
-                                            <table width="100%">
-                                                <tr style="padding-top:20px;"><td></td><td align="right">Le <span  t-field="rl.scheduled_date"/></td></tr>
-                                                <tr>
-                                                    <td width="30%"><img src='/cps_sale_management/static/src/img/logo.png' style="max-height: 145px;"/></td>
-                                                    <td width="70%" align="left" style="font-size:22px;"><strong>BON DE SORTIE N° <span t-field="rl.name"/></strong></td>
-                                                </tr>
-                                            </table>
-                                            <table  style="margin-top: 2px;" width="100%">
-                                                <tr>
-                                                    <td width="15%" align="center" style="padding: 2px; "><strong>Atelier : </strong></td><td width="35%" style="padding: 2px; "><span  t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.name"/></td>
-                                                    <td width="15%" align="center" style="padding: 2px;"><strong>Client : </strong></td><td width="35%" style="padding: 2px; "><span t-field="rl.partner_id"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="15%" align="center" style="padding: 5px;"><strong>Traitement : </strong> </td><td colspan="3" style="padding: 2px; "><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>
-                                                </tr>
-                                            </table>
-                                             <table  style="margin-top: 50px;margin-bottom: 50px;border-collapse:collapse" width="100%" >
-                                                <thead>
-                                                    <tr style="border: 1px solid;">
-                                                        <th class="text-center" style="border: 1px solid;">N° OF</th>
-                                                        <th class="text-center" style="border: 1px solid;">Désignation</th>
-                                                        <th class="text-center" style="border: 1px solid;">Quantité</th>
-                                                    </tr>
-                                               </thead>
-                                               <tbody>
-                                                   <t t-foreach="rl.move_ids_without_package" t-as="l">
-                                                        <tr style="font-size:16px;text-align:center;font-family:Calibri;align:right;">
-                                                            <td width="10%" style="border: 1px solid;"><span t-field="rl.product_template_livraison_id.code_article"/></td>
-                                                            <td class="text-left" width="80%" style="border: 1px solid;padding-left:10px;"><span t-field="l.product_id.name"/></td>
-                                                            <td class="text-right" width="10%" style="border: 1px solid;padding-right:10px"><t t-esc="'{0:,.0f}'.format(l.product_uom_qty)" /></td>
-                                                        </tr>
-                                                   </t>
-                                               </tbody>
-                                            </table>
-                                            <table width="100%">
-                                                <tr style="font-size:16px;text-align:center;font-family:Calibri;align:right" width="100%">
-                                                    <td width="33%">Signature et cachet du magasinnier</td>
-                                                    <td width="33%"> Transporteur de la marchandise</td>
-                                                    <td width="33%">Signature et cachet du client</td>
-                                                </tr>
-                                            </table>
+                        <table width="100%">
+                            <tr height="150px">
+                                <td width="50%"><img src="/netline/static/src/img/logo.png" style="max-height: 145px;"/></td>
+                                <td width="50%" style="font-size:11px;text-align:center;font-family:Calibri;align:right" align="right">
+                                    Usine : Zone Industrielle Gzenaya
+                                    <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                    <br/>Tél. / Fax : 0212 539 39 39 03
+                                    <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                    <br/>.R.C: 29797 - IF : 04922966
+                                    <br/>N° Patente : 57223853 - CNSS N° : 7369194
+                                    <br/>N° I.C.E. : 001530545000001
+                                </td>
+                            </tr>
+                            <tr style="border: 20px solid white;">
+                                <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de livraison N° <span t-field="rl.name"/></td>
+                            </tr>
+                            <tr style="line-height: 15px;align:center">
+                                <td style="width:50%;font-size:14px;text-align:center;font-family:Calibri;align:center">
+                                    <table>
+                                        <tr><td align="center" style="padding: 2px;">Date livraison</td><td align="left" style="padding: 2px;"/></tr>
+                                        <tr><td align="center" style="padding: 5px;"><span t-field="rl.scheduled_date" t-field-options="{&quot;format&quot;: &quot;d/MM/y&quot;}" style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"/></tr>
+                                        <tr><td align="center" style="padding: 2px;">Divison</td><td align="center" style="padding: 2px;"/></tr>
+                                        <tr><td align="center" style="padding: 5px;"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;">Textil Industrie</span></td><td align="center" style="padding: 5px;"/></tr>
+                                    </table>
+                                </td>
+                                <td style="width:50%;font-size:14px;text-align:center;font-family:Calibri;align:center">
+                                    <table style="font-size:12px;margin-top: 5px;" border="2">
+                                        <tr><td style="text-align:left;">Client</td></tr>
+                                        <tr><td>
+                                            <div style="border: 1px solid black;border-radius:5px;padding: 2px;width: 400px; height: 150px;text-align:center;">
+                                                <span t-field="rl.partner_id"/><br/>
+                                                <span t-field="rl.partner_id.contact_address"/><br/>
+                                                <span t-if="rl.partner_id.phone is not False">Tél: <span t-field="rl.partner_id.phone"/></span> <br/>
+                                                <span t-if="rl.partner_id.numero_ice is not False">ICE:</span> <span t-field="rl.partner_id.numero_ice"/>
+                                                <span t-if="rl.partner_id.code_client is not False">Code client:</span> <span t-field="rl.partner_id.code_client"/><br/>
+                                                <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.name"/><br/>
+                                                <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.contact_address"/><br/>
+                                                <span t-if="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.numero_ice is not False">ICE:</span> <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.numero_ice"/>
+                                            </div>
+                                        </td></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table style="margin-top: 1px;width:100%">
+                            <thead>
+                                <tr style="line-height:20px;border-top:20px;">
+<!--                                    <th class="text-center;">Bon Clt.</th>-->
+                                    <th class="text-center">Désignation</th>
+                                    <th class="text-center">Traitement</th>
+<!--                                    <th class="text-center">Couleur</th>-->
+                                    <th class="text-center">Quantité</th>
+                                </tr>
+                                <tr style="line-height:5px;">
+                                    <td colspan="3" size="10">
+                                        <hr width="100%"/>
                                     </td>
                                 </tr>
-                                 <tr height="630px" style="border-top:dashed; 2px black">
-                                    <td width="100%">
-                                        <table width="100%">
-                                            <tr><td style="padding-top:50px;"></td><td style="padding-top:20px;" align="right">Le <span  t-field="rl.scheduled_date"/></td></tr>
-                                            <tr>
-                                                <td width="30%"><img src='/cps_sale_management/static/src/img/logo.png' style="max-height: 145px;"/></td>
-                                                <td width="70%" align="left" style="font-size:22px;"><strong>BON DE SORTIE N° <span t-field="rl.name"/></strong></td>
-                                            </tr>
-                                        </table>
-                                        <table  style="margin-top: 2px;" width="100%">
-                                            <tr>
-                                                <td width="15%" align="center" style="padding: 2px; "><strong>Atelier : </strong></td><td width="35%" style="padding: 2px; "><span  t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.name"/></td>
-                                                <td width="15%" align="center" style="padding: 2px;"><strong>Client : </strong></td><td width="35%" style="padding: 2px;"><span t-field="rl.partner_id"/></td>
-                                            </tr>
-                                             <tr>
-                                                    <td width="15%" align="center" style="padding: 5px;"><strong>Traitement : </strong> </td><td colspan="3" style="padding: 2px; "><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>
-                                             </tr>
-                                        </table>
-                                         <table  style="margin-top: 50px;margin-bottom: 50px;border-collapse:collapse" width="100%" >
-                                            <thead>
-                                                <tr style="border: 1px solid;">
-                                                    <th class="text-center" style="border: 1px solid;">N° OF</th>
-                                                    <th class="text-center" style="border: 1px solid;">Désignation</th>
-                                                    <th class="text-center" style="border: 1px solid;">Quantité</th>
-                                                </tr>
-                                           </thead>
-                                           <tbody>
-                                               <t t-foreach="rl.move_ids_without_package" t-as="l">
-                                                    <tr style="font-size:16px;text-align:center;font-family:Calibri;align:right;">
-                                                        <td width="10%" style="border: 1px solid;"><span t-field="rl.product_template_livraison_id.code_article"/></td>
-                                                        <td class="text-left" width="80%" style="border: 1px solid;padding-left:10px;"><span t-field="l.product_id.name"/><span t-field="l.product_id.name"/> <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.commande_client"/></td>
-                                                        <td class="text-right" width="10%" style="border: 1px solid;padding-right:10px"><t t-esc="'{0:,.0f}'.format(l.product_uom_qty)" /></td>
-                                                    </tr>
-                                               </t>
-                                           </tbody>
-                                        </table>
-                                        <table width="100%">
-                                            <tr style="font-size:16px;text-align:center;font-family:Calibri;align:right" width="100%">
-                                                <td width="33%">Signature et cachet du magasinnier</td>
-                                                <td width="33%"> Transporteur de la marchandise</td>
-                                                <td width="33%">Signature et cachet du client</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
+                           </thead>
+                           <tbody class="sale_tbody">
+                               <t t-set="sum_pieces" t-value="0"/>
+                               <t t-foreach="rl.move_ids_without_package" t-as="l">
+                                    <tr style="font-size:12px;text-align:center;font-family:Calibri;align:right">
+                                        <t t-set="sum_pieces" t-value="sum_pieces+l.product_uom_qty"/>
+                                        <t t-set="qty" t-value="l.product_uom_qty"/>
+<!--                                        <td class="text-left" style="font-size:13px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"></td>-->
+                                        <td class="text-left"><span t-field="l.product_id.name"/></td>
+                                        <td class="text-left"><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>
+<!--                                        <td class="text-left"></td>-->
+                                        <td class="text-right"><span t-esc=" '%.0f' % qty"/></td>
+                                    </tr>
+                               </t>
+                            </tbody>
+                            <tr style="font-size:11px;text-align:center;font-family:Calibri;align:right">
+                                <td/>
+                                <td/>
+                                <td class="text-right">Total : <span t-esc=" '%.0f' % sum_pieces" /> Pièces</td>
+                            </tr>
+
+                        </table>
+                        <br/>
+                          <table width="100%">
+                              <tr><td colspan="2">Observation</td></tr>
+                              <tr style="font-size:11px;text-align:left;font-family:Calibri;align:right" width="100%">
+                                  <td width="100%" colspan="2">
+                                      <div style="border: 1px solid black;border-radius:5px;padding: 5px;height: 57px; display: block;">
+                                          <span t-field="rl.note"/>
+                                      </div>
+                                  </td>
+                              </tr>
+                              <tr height="10px"><td> </td></tr>
+                              <tr style="font-size:11px;text-align:center;font-family:Calibri;align:right" width="100%">
+                                  <td width="50%">
+                                      <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                          VISA NETLINE
+                                      </div>
+                                  </td>
+                                  <td width="50%">
+                                      <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">
+                                          VISA + CACHET CLIENT
+                                      </div>
+                                  </td>
+                              </tr>
+                          </table>
                     </div>
+                    <div class="footer"><span>Page </span><span class="page"/> de <span class="topage"/></div>
                 </t>
             </t>
         </t>
@@ -118,3 +130,135 @@
 
 
 </odoo>
+<!--<odoo>-->
+<!--    <data>-->
+<!--        <report id="livraison_report_id"-->
+<!--                model="stock.picking"-->
+<!--                string="Bon de livraison Netline"-->
+<!--                report_type="qweb-pdf"-->
+<!--                name="cps_sale_management.livraison_report_template"-->
+<!--                paperformat="paperformat_a4"-->
+<!--        />-->
+<!--    </data>-->
+
+<!--    <template id="livraison_report_template">-->
+<!--        <t t-call="web.html_container">-->
+<!--            <t t-foreach="docs" t-as="rl">-->
+<!--                <t t-call="web.external_layout">-->
+<!--                    <div class="page">-->
+<!--                        <div class="oe_structure"/>-->
+<!--                        <table width="100%">-->
+<!--                            <tr height="150px" >-->
+<!--                                <td width="50%"><img src='/netline/static/src/img/logo.png' style="max-height: 145px;"/></td>-->
+<!--                                <td width="50%" style="font-size:11px;text-align:center;font-family:Calibri;align:right" align="right">-->
+<!--                                    Usine : Zone Industrielle Gzenaya-->
+<!--                                    <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA-->
+<!--                                    <br/>Tél. / Fax : 0212 539 39 39 03-->
+<!--                                    <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma-->
+<!--                                    <br/>.R.C: 29797 - IF : 04922966-->
+<!--                                    <br/>N° Patente : 57223853 - CNSS N° : 7369194-->
+<!--                                    <br/>N° I.C.E. : 001530545000001-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr style="border: 20px solid white;">-->
+<!--                                <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de livraison N° <span t-field="rl.name"/></td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                        <table style="margin-top: 1px;width:100%">-->
+<!--                            <thead>-->
+<!--                                <tr style="line-height: 15px;">-->
+<!--                                    <td width="100%" style="font-size:14px;text-align:center;font-family:Calibri" colspan="6">-->
+<!--                                        <table style="font-size:12px;margin-top: 5px;" border="2">-->
+<!--                                            <td style="font-size:12px;text-align:center;font-family:Calibri;width:600px;rowspan:5">-->
+<!--                                                <table>-->
+<!--                                                    <tr><td align="center" style="padding: 2px;">Date livraison</td><td align="center" style="padding: 2px;"></td></tr>-->
+<!--                                                    <tr><td align="center" style="padding: 5px;"><span t-field="rl.scheduled_date"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"></td></tr>-->
+<!--                                                    <tr><td align="center" style="padding: 2px;">Divison</td><td align="center" style="padding: 2px;"></td></tr>-->
+<!--                                                    <tr><td align="center" style="padding: 5px;"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;">Textil Industrie</span></td><td align="center" style="padding: 5px;"></td></tr>-->
+<!--                                                </table>-->
+<!--                                            </td>-->
+<!--                                            <td style="float: right;font-size:12px;text-align:center;font-family:Calibri;border-top:50px;width:50%" align="right">-->
+<!--                                                <table>-->
+<!--                                                    <tr><td>Client</td></tr>-->
+<!--                                                    <tr><td>-->
+<!--                                                        <div style="border: 1px solid black;border-radius:5px;padding: 1px;width: 200px; height: 150px;text-align:center;">-->
+<!--                                                            <span t-field="rl.partner_id"/><br/>-->
+<!--                                                            <span t-field="rl.partner_id.contact_address"/><br/>-->
+<!--                                                            <span t-if="rl.partner_id.phone is not False">Tél: <span t-field="rl.partner_id.phone"/></span> <br/>-->
+<!--                                                            <span t-if="rl.partner_id.numero_ice is not False">ICE:</span> <span t-field="rl.partner_id.numero_ice"/>-->
+<!--                                                            <span t-if="rl.partner_id.code_client is not False">Code client:</span> <span t-field="rl.partner_id.code_client"/><br/>-->
+<!--                                                            <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.name"/><br/>-->
+<!--                                                            <span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.atelier_id.contact_address"/><br/>-->
+<!--                                                        </div>-->
+<!--                                                    </td></tr>-->
+<!--                                                </table>-->
+<!--                                            </td>-->
+<!--                                        </table>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr style="line-height:20px;border-top:20px;">-->
+<!--                                    <th class="text-center;">Bon Clt.</th>-->
+<!--                                    <th class="text-center">Désignation</th>-->
+<!--                                    <th class="text-center">Traitement</th>-->
+<!--                                    <th class="text-center">Couleur</th>-->
+<!--                                    <th class="text-center">Quantité</th>-->
+<!--                                </tr>-->
+<!--                                <tr style="line-height:5px;">-->
+<!--                                    <td colspan="3" size="10">-->
+<!--                                        <hr width="100%"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                           </thead>-->
+<!--                           <tbody class="sale_tbody">-->
+<!--                               <t t-set="sum_pieces" t-value="0"/>-->
+<!--                               <t t-foreach="rl.move_ids_without_package" t-as="l">-->
+<!--                                    <tr style="font-size:12px;text-align:center;font-family:Calibri;align:right">-->
+<!--                                        <t t-set="sum_pieces" t-value="sum_pieces+l.product_uom_qty"/>-->
+<!--                                        <td class="text-left" style="font-size:13px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"></td>-->
+<!--                                        <td class="text-left"><span t-field="l.product_id.name"/></td>-->
+<!--                                        <td class="text-left"><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>-->
+<!--                                        <td class="text-left"></td>-->
+<!--                                        <td class="text-right"><span t-field="l.product_uom_qty"/></td>-->
+<!--                                    </tr>-->
+<!--                               </t>-->
+<!--                            </tbody>-->
+<!--                            <tr style="font-size:11px;text-align:center;font-family:Calibri;align:right">-->
+<!--                                <td></td>-->
+<!--                                <td></td>-->
+<!--                                <td class="text-right">Total : <span t-esc="sum_pieces"/> Pièces</td>-->
+<!--                            </tr>-->
+
+<!--                        </table>-->
+<!--                        <br/>-->
+<!--&lt;!&ndash;                        <table width="100%">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr><td colspan="2">Observation</td></tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr style="font-size:11px;text-align:left;font-family:Calibri;align:right" width="100%">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td width="100%" colspan="2">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;height: 57px; display: block;">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        <span t-field="rl.observation"/>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr height="10px"><td> </td></tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr style="font-size:11px;text-align:center;font-family:Calibri;align:right" width="100%">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td width="50%">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        VISA NETLINE&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td width="50%">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 57px; display: block;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        VISA + CACHET CLIENT&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </table>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </t>-->
+<!--    </template>-->
+
+
+<!--</odoo>-->

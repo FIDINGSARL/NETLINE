@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="livraison_facture_bl_final_journal_final_id"
+                model="account.invoice.sale"
+                string="Journal Sorties"
+                report_type="qweb-pdf"
+                name="cps_account_invoice_v13.facture_journal_bl_template"
+                paperformat="paperformat_a4_landscape"
+        />
+    </data>
+
+    <template id="facture_journal_bl_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <table width="100%">
+                        <tr>
+                            <td width="80%"><img src='/netline/static/src/img/logo.png' style="max-height: 100px;"/></td>
+                            <td width="20%" style="font-size:11px;text-align:center;font-family:Calibri;align:right;">
+                                Usine : Zone Industrielle Gzenaya
+                                <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
+                                <br/>Tél. / Fax : 0212 539 39 39 03
+                                <br/>Mail : admin@netline.ma<br/>Web : www.netline.ma
+                                <br/>.R.C: 29797 - IF : 04922966
+                                <br/>N° I.C.E. : 001530545000001
+                            </td>
+                        </tr>
+                        <tr style="border: 5px solid white;">
+                            <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Journal</td>
+                        </tr>
+                    </table>
+                    <table width="100%" style="margin-top: 30px">
+                        <tr>
+                            <td width="50%" style="font-size:14px;text-align:center;font-family:Calibri" colspan="2">
+                                <table>
+                                    <tr><td align="center" style="padding: 2px;">Date Facture</td><td align="center" style="padding: 2px;">N° Facture</td></tr>
+                                    <tr><td align="center" style="padding: 5px;"><span t-field="doc.date_facture"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="doc.account_move_id.name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
+                                    <tr><td align="center" style="padding: 2px;">Divison</td><td align="center" style="padding: 2px;">Réf. Contrat</td></tr>
+                                    <tr><td align="center" style="padding: 5px;"><span t-field="doc.prestation_type" style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"></td></tr>
+                                </table>
+                            </td>
+                            <td width="50%" style="font-size:14px;text-align:center;font-family:Calibri;border-top:50px" align="right" colspan="2">
+                                <br/>
+                                <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 300px; height: 87px; display: block;align: center">
+                                    <span t-field="doc.client_id.nom_commercial"/><br/>
+                                    <span t-field="doc.client_id.contact_address"/><br/>
+                                    <span t-if="doc.client_id.phone is not False">Tél: <span t-field="doc.client_id.phone"/></span><br/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <t t-foreach="pages" t-as="page">
+                        <div style="page-break-after: always;">
+                            <table border="1" style="margin-top: 10px;" width="100%">
+                                <thead style="font-family:Calibri;font-size=12px">
+                                    <t t-foreach="page" t-as="line">
+                                        <t t-if="line['article'] is None">
+                                            <tr style="line-height: 20px;">
+                                                    <td border="0" style="text-align: right">
+                                                        Date bon sale->
+                                                    </td>
+                                                    <td rowspan="4" style="text-align: center;border: 1px solid black">Total Facture <br/> <span t-esc="'{0:,}'.format(line['total_facture']).replace(',', ' ')"/></td>
+                                                    <t t-foreach="line['bons']" t-as="bon">
+                                                        <td style="text-align: center;border: 1px solid black">
+                                                            <t t-foreach="bon.reception_laundry_ids" t-as="bons">
+                                                                <span t-field="bons.date_reception" t-options='{"format": "d/MMMM"}'/>
+                                                            </t>
+                                                        </td>
+                                                    </t>
+                                            </tr>
+                                            <tr style="line-height: 20px;">
+                                                    <td border="0" style="text-align: right">
+                                                        Date bon propre->
+                                                    </td>
+                                                    <t t-foreach="line['bons']" t-as="bon">
+                                                        <td style="text-align: center;border: 1px solid black">
+                                                            <span t-field="bon.date_livraison" t-options='{"format": "d/MMMM"}'/>
+                                                        </td>
+                                                    </t>
+                                            </tr>
+                                            <tr style="line-height: 20px;">
+                                                    <td border="0" style="text-align: right">
+                                                        N° bon propre->
+                                                    </td>
+                                                    <t t-foreach="line['bons']" t-as="bon">
+                                                        <td style="text-align: center;border: 1px solid black">
+                                                            <span t-field="bon.sale_order_name" t-field-options='{"format": "d/MMMM"}'/>
+                                                        </td>
+                                                    </t>
+                                            </tr>
+                                            <tr style="line-height: 20px;">
+                                                    <td border="0" style="text-align: right">
+                                                        Quantité Bon->
+                                                    </td>
+                                                    <t t-foreach="line['bons']" t-as="bon">
+                                                        <td style="text-align: right;border: 1px solid black;padding: 2px;">
+                                                            <span t-field="bon.delivred_quantity"/>
+                                                        </td>
+                                                    </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </thead>
+                                <tbody style="font-family:Calibri;font-size=12px;" border="1">
+                                    <t t-foreach="page" t-as="line">
+                                        <t t-if="line['article'] is not None">
+                                            <tr style="line-height: 20px;">
+                                                <td style="text-align: left;border: 1px solid black;line-height: 25px">
+                                                    <span t-esc="line['article']"/>
+                                                </td>
+                                                <td style="text-align: right;border: 1px solid black;line-height: 25px;padding: 2px;">
+                                                    <span t-esc="'{0:,}'.format(line['total_qty']).replace(',', ' ')"/>
+                                                </td>
+                                                <t t-foreach="line['quantities']" t-as="quantity">
+                                                    <td style="text-align: right;border: 1px solid black;padding: 2px;">
+                                                        <span t-esc="'{0:,}'.format(quantity).replace(',', ' ')"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+                <div class="footer"><span>Page </span><span class="page" /> de <span class="topage" /></div>
+            </t>
+        </t>
+    </template>
+</odoo>

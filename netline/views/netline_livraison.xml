@@ -69,7 +69,6 @@
                     <button string="Maj des Prix" name="action_update_product_prices" type="object" states="ready"/>
                     <button string="Valider" name="set_ready" type="object" states="waiting"/>
                     <button string="En attente" name="set_waiting" type="object" states="ready"/>
-                    <button string="Facturer" name="create_invoice" type="object" states="ready"/>
                     <field name="state" widget="statusbar" statusbar_visible="cancelled,waiting,ready,invoiced"/>
                 </header>
                 <sheet>

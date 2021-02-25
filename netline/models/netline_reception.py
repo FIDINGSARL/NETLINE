@@ -19,7 +19,6 @@ class Netline_purchase_order_line(models.Model):
     is_netline = fields.Boolean(default=False)
 
 
-
 class Netline_reception(models.Model):
     _name = "netline.reception"
     _order = "id desc"

@@ -103,9 +103,9 @@
                 <field name="quantity" string="Quantité déclarée" sum="Total quantité"/>
                 <field name="declared_quantity"  />
                 <field name="diff_quantity"/>
-                <field name="quality_quantity" string="Quantité en réparation" readonly="1"/>
-                <field name="delivered_quantity"/>
-                <field name="available_quantity"/>
+<!--                <field name="quality_quantity" string="Quantité en réparation" readonly="1"/>-->
+<!--                <field name="delivered_quantity" readonly="1"/>-->
+<!--                <field name="available_quantity" readonly="1"/>-->
                 <field name="traitement"/>
                 <field name="is_controlled"/>
                 <!--<field name="copy_it"/>-->

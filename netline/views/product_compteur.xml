@@ -31,6 +31,7 @@
         </field>
     </record>
 
+
     <record id="netline_compteur_list_action" model="ir.actions.act_window">
         <field name="name">Liste des compteurs</field>
         <field name="type">ir.actions.act_window</field>

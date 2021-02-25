@@ -153,15 +153,15 @@
                                     <!--<field name="of_name" string="Transformé en O.F."/>-->
                                 </group>
                                 <group name="right" string="Modèle">
-                                    <field name="type_article_id" options="{'no_create_edit':True, 'no_quick_create':True}" readonly="" domain="[('id', 'child_of', 2)]"/>
+                                    <field name="type_article_id" options="{'no_create_edit':True, 'no_quick_create':True}" readonly="" domain="[('id', 'child_of', 2246)]"/>
                                     <field name="marque" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="reference" />
                                     <field name="segment" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="coloriss_client" />
                                     <field name="commande_client" />
                                     <field name="type_de_traitement" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
-                                    <field name="date_ok"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
-                                    <field name="date_export" />
+                                    <field name="date_ok" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
+                                    <field name="date_export"/>
                                     <field name="ctw"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="join_life"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="gots"  groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
@@ -230,27 +230,27 @@
                 <field name="reference"/>
                 <field name="commande_client"/>
                 <field name="coloriss_client"/>
-                <field name="procede_given" string="pr." groups="cps_sale_management.group_admin,cps_sale_management.group_labo"/>
+                <field name="procede_given" optional="hide" string="pr." groups="cps_sale_management.group_admin,cps_sale_management.group_labo"/>
                 <field name="qte" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" sum="Total qté" widget="monetary"/>
                 <field name="price" widget="monetary" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" options="{'currency_field': 'devise'}"/>
                 <field name="total_entree" string="Ent." sum="Total entrées" />
-                <field name="total_entree_jour" string="Ent. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
+                <field name="total_entree_jour" optional="hide" string="Ent. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
                 <field name="total_sortie" string="Sor." sum="Total sorties"/>
-                <field name="total_sortie_jour" string="Sor. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
-                <field name="total_retour" string="Sor. S.T." sum="Total retour st" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
-                <field name="total_retour_correction" string="Corr." sum="Total correction" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
-                <field name="total_encours" string="Enc." sum="Total encours" />
-                <field name="total_sortie_emballage_2" sum="Total emballage" groups="cps_sale_management.group_admin,cps_sale_management.group_emballage"/>
+                <field name="total_sortie_jour" optional="hide" string="Sor. j" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
+                <field name="total_retour" optional="hide" string="Sor. S.T." sum="Total retour st" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
+                <field name="total_retour_correction" optional="hide" string="Corr." sum="Total correction" groups="cps_sale_management.group_admin,cps_sale_management.group_commercial,cps_sale_management.group_mes"/>
+                <field name="total_encours" optional="hide" string="Enc." sum="Total encours" />
+                <field name="total_sortie_emballage_2" optional="hide" sum="Total emballage" groups="cps_sale_management.group_admin,cps_sale_management.group_emballage"/>
                 <!--<field name="total_sortie_emballage_jour"/>-->
-                <field name="total_facturee" string="Fact." sum="Total facturé" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
-                <field name="total_en_souffrance" string="Souff." sum="Total souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
-                <field name="montant_en_souffrance" string= "Souff. Dev." widget="monetary" sum="Montant souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" options="{'currency_field': 'devise'}"/>
-                <field name="montant_en_souffrance_mad" string= "Souff. MAD" widget="monetary" sum="Montant souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
-                <field name="derniere_sortie" groups="cps_sale_management.group_admin,cps_sale_management.group_finance,cps_sale_management.group_commercial"/>
+                <field name="total_facturee" optional="hide" string="Fact." sum="Total facturé" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="total_en_souffrance" optional="hide" string="Souff." sum="Total souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="montant_en_souffrance" optional="hide" string= "Souff. Dev." widget="monetary" sum="Montant souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance" options="{'currency_field': 'devise'}"/>
+                <field name="montant_en_souffrance_mad" optional="hide" string= "Souff. MAD" widget="monetary" sum="Montant souffrance" groups="cps_sale_management.group_admin,cps_sale_management.group_finance"/>
+                <field name="derniere_sortie" optional="hide" groups="cps_sale_management.group_admin,cps_sale_management.group_finance,cps_sale_management.group_commercial"/>
                 <!--<field name="image_given" string="Photo"/>-->
                 <field name="devise" invisible="1"/>
                 <field name="state"/>
-                <field name="create_uid" string="Créé par"/>
+                <field name="create_uid" optional="hide" string="Créé par"/>
                 <button string="E/S" name="action_view_flux" type="object"/>
             </tree>
         </field>
@@ -472,8 +472,11 @@
 		<field name="model">product.template</field>
 		<field name="inherit_id" ref="product.product_template_only_form_view"/>
 		<field name="arch" type="xml">
+            <field name="categ_id" position="replace">
+                <field name="categ_id" string="Désign. Interne"/>
+            </field>
             <field name="categ_id" position="after">
-                <field name="design_interne"/>
+                <field name="design_interne" string="Ref. interne"/>
             </field>
 		</field>
 	</record>
