@@ -41,12 +41,12 @@ class JournalReports(models.AbstractModel):
         #             is_vt = True
         print('livraisons----------------------', livraisons)
         articles = []
-        if facture.prestation_type =='Laundry':
-            articles=self.env["netline.product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: p.n_ligne)
-        if facture.prestation_type =='Pressing':
-            articles = self.env["netline.pressing_product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: p.n_ligne)
-        if facture.prestation_type =='Vetement travail':
-            articles = self.env["netline.vt_product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: (p.departement_id.name, p.fonction_id.name, p.id))
+        # if facture.prestation_type =='Laundry':
+        #     articles=self.env["netline.product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: p.n_ligne)
+        # if facture.prestation_type =='Pressing':
+        #     articles = self.env["netline.pressing_product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: p.n_ligne)
+        # if facture.prestation_type =='Vetement travail':
+        #     articles = self.env["netline.vt_product"].search([("client_id", "=", facture.client_id.id)]).sorted(key=lambda p: (p.departement_id.name, p.fonction_id.name, p.id))
         # if is_textil is True:
         #     articles = self.env["netline.textil"].search([("client_id", "=", facture.client_id.id)])
 
@@ -57,14 +57,14 @@ class JournalReports(models.AbstractModel):
         total_facture=0
         for livraison in livraisons:
             total_facture+=livraison.delivred_quantity
-
-        for article in articles:
-            line = {'article': article, 'quantities': [], 'total_qty': 0, 'total_facture':total_facture}
+        print('fact lines-------------------------',facture.facturation_lines_ids)
+        for article in facture.facturation_lines_ids:
+            line = {'article': article.product_description, 'quantities': [], 'total_qty': 0, 'total_facture':total_facture}
             i = 0
             for livraison in livraisons:
                 product_quantity = 0
                 for livraison_line in livraison.livraison_lines_ids:
-                    if livraison_line.reception_line_id.product_id.id==article.id or livraison_line.reception_line_id.product_vt_id.id==article.id or livraison_line.reception_line_id.product_pressing_id.id==article.id:
+                    if livraison_line.reception_line_id.product_id.product_id.id==article.product_id.id or livraison_line.reception_line_id.product_vt_id.product_id.id==article.product_id.id or livraison_line.reception_line_id.product_pressing_id.product_id.id==article.product_id.id:
                         product_quantity += livraison_line.to_deliver_quantity
                 line['quantities'].append(product_quantity)
             line['total_qty']=sum(line['quantities'])

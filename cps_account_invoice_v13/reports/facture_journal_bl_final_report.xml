@@ -108,7 +108,7 @@
                                         <t t-if="line['article'] is not None">
                                             <tr style="line-height: 20px;">
                                                 <td style="text-align: left;border: 1px solid black;line-height: 25px">
-                                                    <span t-esc="line['article'].name"/>
+                                                    <span t-esc="line['article']"/>
                                                 </td>
                                                 <td style="text-align: right;border: 1px solid black;line-height: 25px;padding: 2px;">
                                                     <span t-esc="'{0:,}'.format(line['total_qty']).replace(',', ' ')"/>
