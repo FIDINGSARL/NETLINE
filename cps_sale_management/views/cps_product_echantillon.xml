@@ -126,7 +126,7 @@
                                     <!--<field name="devise_client" invisible="1"/>-->
                                     <!--<field name="isFacturable"/>-->
 
-                                    <field name="type_article_id" options="{'no_create_edit':True, 'no_quick_create':True}" readonly="" domain="[('id', 'child_of', 2246)]"/>
+                                    <field name="type_article_id" options="{'no_create_edit':True, 'no_quick_create':True}" readonly="" domain="[('id', 'child_of', 2252)]"/>
                                     <field name="marque" options="{'no_create_edit':True}" context="{'default_attribute_id': 19, 'order_display': 'name desc'}"/>
                                     <field name="reference" />
                                     <field name="segment"  context="{'order_display': 'name desc'}"/>
