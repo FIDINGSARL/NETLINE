@@ -56,7 +56,7 @@ class Netline_purchase_da(models.Model):
                     'partner_id': line.fournisseur_id.id,
                     'date_order': datetime.datetime.now(),
                     'date_planned': datetime.datetime.now(),
-                    'currency_id': line.fournisseur_id.property_product_pricelist.currency_id.id,
+                    'currency_id': line.fournisseur_id.property_purchase_currency_id.id,
                 })
                 for line_bc in self.purchase_da_lines_ids:
                     if line_bc.fournisseur_id.id== fournisseur_en_cours:
