@@ -8,7 +8,8 @@ from odoo.exceptions import UserError, AccessError
 import datetime
 class Netline_purchase_da(models.Model):
     _name = "netline.purchase.da"
-    
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
     #client
     # name = fields.Char("name", compute="compute_name", store=True)
     employee_id = fields.Many2one('hr.employee', "Demandeur")
