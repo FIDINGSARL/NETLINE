@@ -18,6 +18,7 @@ class CpsProductTemplate(models.Model):
     devise = fields.Many2one("res.currency",compute='compute_currency', string='Devise')
     code_article = fields.Char(string="N° Commande")
     reference = fields.Char(string="Modéle")
+    design_client = fields.Char('Désign. Client')
     segment = fields.Selection([('homme', 'Hommes'), ('femme', 'Femmes'), ('enfant', 'Enfant'), ('bebe', 'Bébé'), ('enfant', 'Enfant'), ('fille', 'Fille'), ('garcon', 'Garçon') ], string='Segment', required=True, default='femme')
     #couleur_id = fields.Many2one('product.attribute.value', 'Couleur', domain='[("attribute_name", "=", "Couleur article")]')
     coloriss_client = fields.Many2one('cps.product.couleur', 'Couleur Client')
@@ -77,13 +78,15 @@ class CpsProductTemplate(models.Model):
     name = fields.Char("name", compute='compute_name', store=True)
     date_de_reception = fields.Datetime(related='reception_line_ids.date_expected', string="Date de reception")
 
-    @api.depends('type_article_id', 'reference', 'coloriss_client')
+    @api.depends('type_article_id', 'reference', 'coloriss_client', 'design_client')
     def compute_name(self):
         name=""
         if self.type_article_id.name is not False:
             name = str(self.type_article_id.name)
         if self.reference is not False:
             name = name + " Ref. " + str(self.reference)
+        if self.design_client is not False:
+            name = name + " - " + str(self.design_client)
         if self.coloriss_client.name is not False:
             name = name + " Col. " + str(self.coloriss_client.name)
         self.name = name

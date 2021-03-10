@@ -159,6 +159,7 @@
                                     <field name="segment" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="coloriss_client" />
                                     <field name="commande_client" />
+                                    <field name="design_client" />
                                     <field name="type_de_traitement" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="date_ok" groups="cps_sale_management.group_admin, cps_sale_management.group_labo" />
                                     <field name="date_export"/>
@@ -222,7 +223,7 @@
         <field name="arch" type="xml">
             <tree string="Commande production" default_order="total_encours desc">
                 <field name="active" invisible="1"/>
-                <field name="code_article" string="Cde. ECOLO"/>
+                <field name="code_article" string="Cde. Netline"/>
 <!--                <field name="name"/>-->
                 <field name="client_name"/>
                 <field name="atelier_id"/>
@@ -262,7 +263,7 @@
         <field name="arch" type="xml">
             <tree string="Commandes en souffrance" default_order="total_encours desc">
                 <field name="active" invisible="1"/>
-                <field name="code_article" string="Cde. ECOLO"/>
+                <field name="code_article" string="Cde. Netline"/>
 <!--                <field name="name"/>-->
                 <field name="client_name"/>
                 <field name="atelier_id"/>
