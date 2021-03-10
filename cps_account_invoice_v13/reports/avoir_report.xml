@@ -3,7 +3,7 @@
     <data>
         <report id="avoir_report_id"
                 model="account.move"
-                string="Avoir Ecolo"
+                string="Avoir Netline"
                 report_type="qweb-pdf"
                 name="cps_account_invoice_v13.avoir_report_template"
                 paperformat="paperformat_a4"
@@ -28,8 +28,8 @@
                                 <br/>90000 Tanger (Maroc)
                                 <br/>Tél. : (00212) 539 35 15 05
                                 <br/>Fax. : (00212) 539 35 14 83
-                                <br/>abdellah@ecolo.ma
-                                <br/>www.ecolo.ma</td>
+                                <br/>finance@netline.ma
+                                <br/>www.netline.ma</td>
                         </tr>
                     </table>
                     <div  style="width:50%;float:left;margin-bottom:10px;">
