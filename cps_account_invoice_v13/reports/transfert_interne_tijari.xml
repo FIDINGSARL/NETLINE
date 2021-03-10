@@ -50,7 +50,7 @@
                                 <td>Montant</td><td style="padding-left:10px;padding-right:30px;">:</td><td><span t-field="l.amount"/></td>
                             </tr>
                              <tr style="height:25px">
-                                <td>Bénéficiaire</td><td style="padding-left:10px;padding-right:30px;">:</td><td>ECOLO RENTEL INTERNATIONAL</td>
+                                <td>Bénéficiaire</td><td style="padding-left:10px;padding-right:30px;">:</td><td>NET LINE</td>
                             </tr>
                             <tr style="height:25px">
                                 <td colspan="3">Références bancaires du bénéficiaire (ci-joint le RIB) : </td>
