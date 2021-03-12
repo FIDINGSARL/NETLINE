@@ -330,7 +330,7 @@ class CpsProductProduction(models.Model):
                 'target': 'current',
             }
 
-    @api.depends('type_article_id', 'commande_client', 'reference', 'coloriss_client')
+    @api.depends('type_article_id', 'commande_client', 'reference', 'design_client', 'coloriss_client')
     def compute_name(self):
         name=""
         if self.type_article_id.name is not False:
@@ -341,6 +341,8 @@ class CpsProductProduction(models.Model):
             name = name + " Cde. " + str(self.commande_client)
         if self.coloriss_client.name is not False:
             name = name + " Col. " + str(self.coloriss_client.name)
+        if self.design_client is not False:
+            name = name + " (" + str(self.design_client) + ")"
         self.name = name
 
     def action_view_receptions(self):
