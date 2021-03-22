@@ -525,7 +525,7 @@ class CpsProductProduction(models.Model):
         self.env.cr.execute(query)
         results = self.env.cr.fetchall()
         if values['code_article'] == 0:
-            values['code_article'] = str(int(results[0][0]) + 1)
+            values['code_article'] = str(int(results[0][0]) + 1).zfill(7)
         else :
             product_prod= self.env['cps.product.production'].search([('code_article', '=', values['code_article'])])
             if len(product_prod) > 0 :
