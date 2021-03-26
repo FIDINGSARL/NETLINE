@@ -14,6 +14,21 @@
             <field name="name">Achats CPC</field>
             <field name="comment">Accès au achats et stock</field>
         </record>
+        <record id="group_noureddine" model="res.groups">
+            <field name="name">Noureddine</field>
+            <field name="comment">Groupe de l'user Noureddine</field>
+        </record>
+
+        <record id="group_hakim" model="res.groups">
+            <field name="name">Hakim</field>
+            <field name="comment">Groupe de l'user Hakim</field>
+        </record>
+
+        <record id="group_nadia" model="res.groups">
+            <field name="name">Nadia</field>
+            <field name="comment">Groupe de l'user Nadia</field>
+        </record>
+
         <record id="group_pointage" model="res.groups">
             <field name="name">Pointage</field>
             <field name="comment">Accès au module Pointage</field>
