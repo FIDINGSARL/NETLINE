@@ -85,15 +85,6 @@ class AccountInvoiceSale(models.Model):
         self.compute_lines()
         return super(AccountInvoiceSale, self).unlink()
 
-    # @api.depends('client_id')
-    # @api.onchange('client_id')
-    # def _compute_client_id(self):
-    #     for s in self:
-    #         for l in s.facturation_lines_ids:
-    #             l.unlink()
-    #
-    #
-    #
     def action_invoice_cancel_wizard(self):
         self.account_move_id.button_draft()
         self.account_move_id.button_cancel()
@@ -115,23 +106,6 @@ class AccountInvoiceSale(models.Model):
         for facture_line in self.facturation_lines_ids:
             if facture_line.qty_to_invoice<=0:
                 raise UserError(_("Merci de renseigner la quantité pour toute les lignes"))
-
-    # def action_invoice_disacount_wizard(self):
-        # self.account_move_id.button_draft()
-        # self.facturation_lines_ids.account_move_line_ids.unlink()
-        # self.invoice_create_lines_wizard()
-        # self.check_qty_lines()
-        # self.compute_lines()
-        # self.state="draft"
-
-    # def action_invoice_count_wizard(self):
-    #     if self.account_move_id.name!="/":
-    #         self.invoice_create_lines_wizard()
-        # self.account_move_id.action_post()
-        # self.account_move_id.date = self.date_facture
-        # self.check_qty_lines()
-        # self.compute_lines()
-        # self.state="accounted"
 
     def action_invoice_create_wizard(self):
         #"creating cps facture"
@@ -202,16 +176,6 @@ class AccountInvoiceSale(models.Model):
                             self.sale_order_origin += sol.order_id.name + ", "
                             sol.order_id.write({'invoice_count': sol.order_id.invoice_count + 1, 'invoice_ids': (0, 0, self.account_move_id.id), 'invoice_status': 'invoiced'})
                             tax_id = sol.tax_id
-                        else:
-                            self.invoice_lines.append((0, 0, {
-                                'quantity': qty_to_invoice_cal,
-                                'price_unit': facture_line.price,
-                                'name': facture_line.product_description,
-                                'account_id': account_revenue.id,
-                                'tax_ids': [(6, 0, sol.tax_id.ids if tax_id is not False else [])],
-                                'sale_line_ids': [],
-                                'facturation_line_id': facture_line.id
-                            }))
             if qty_to_invoice_cal > 0:
                 raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
         if self.prestation_type != 'Textil industrie':
@@ -231,7 +195,6 @@ class AccountInvoiceSale(models.Model):
                     'account_id': account_revenue.id,
                     'tax_ids': [(6, 0, sol.tax_id.ids)],
                     'sale_line_ids': [(6, 0, sol.ids)],
-                    # 'facturation_line_id': facture_line.id
                 }))
                 self.sale_order_origin += sol.order_id.name + ", "
                 sol.order_id.write({'invoice_count': sol.order_id.invoice_count + 1, 'invoice_ids': (0, 0, self.account_move_id.id), 'invoice_status': 'invoiced'})
@@ -239,16 +202,6 @@ class AccountInvoiceSale(models.Model):
 
         if qty_to_invoice_cal>0:
             raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
-            # else:
-            #     self.invoice_lines.append((0, 0, {
-            #         'quantity': qty_to_invoice_cal,
-            #         'price_unit': facture_line.price,
-            #         'name': facture_line.product_description,
-            #         'account_id': account_revenue.id,
-            #         'tax_ids': [(6, 0, sol.tax_id.ids if tax_id is not False else [])],
-            #         'sale_line_ids': [],
-            #         'facturation_line_id': facture_line.id
-            #     }))
         self.account_move_id.write({'invoice_line_ids': self.invoice_lines, 'invoice_origin': self.sale_order_origin[:-2]})
 
     def action_view_invoice(self):
