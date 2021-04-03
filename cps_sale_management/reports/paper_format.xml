@@ -13,7 +13,7 @@
             <field name="margin_left">4</field>
             <field name="margin_right">4</field>
             <field name="header_line" eval="False" />
-            <field name="header_spacing">500</field>
+            <field name="header_spacing">450</field>
             <field name="dpi">90</field>
         </record>
         <record id="paperformat_a5_landscape" model="report.paperformat">
