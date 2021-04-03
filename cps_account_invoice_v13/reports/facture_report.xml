@@ -183,6 +183,7 @@
                                                     <t t-set="tva" t-value="tvas.name"/>
                                                 </t>
                                             </t>
+                                            TVA <t t-esc="tva"/>
                                             <td class="text-left" width="50%">
                                                <t t-if="nf.prestation_type=='Textil industrie'">
                                                     <span t-field="nfl.product_name"/><br/>
@@ -334,7 +335,7 @@
                                         <tr><td align="center" style="padding: 5px;">
                                                 <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="'{0:,.2f}'.format(nf.account_move_id.amount_untaxed).replace(',', ' ').replace('.',',')"/>  <span t-esc="devise"/></span>
                                             </td><td align="center" style="padding: 5px;">
-                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="tva"/></span>
+                                                <span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"><span t-esc="nf.account_move_id.amount_tax/nf.account_move_id.amount_untaxed*100"/> %</span>
                                             </td><td align="center" style="padding: 5px;">
                                                 <span style="border: 1px solid;border-radius:5px;padding:5px;width: 200px; display: block;"><span t-esc="'{0:,.2f}'.format(nf.account_move_id.amount_tax).replace(',', ' ').replace('.',',')"/> <span t-esc="devise"/> </span>
                                             </td><td align="center" style="padding: 5px;">
