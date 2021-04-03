@@ -62,7 +62,7 @@
                                     <table style="font-size:14px;" border="2">
                                         <tr><td align="center" style="padding: 2px;">Client</td></tr>
                                         <tr><td align="center" style="padding: 5px;">
-                                            <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 400px; height: 160px;text-align:center;vertical-align:center">
+                                            <div style="border: 1px solid black;border-radius:5px;padding: 5px;width: 400px; height: 170px;text-align:center;vertical-align:center">
                                                 <span t-field="nf.client_id.nom_commercial"/><br/>
                                                 <span t-field="nf.client_id.contact_address"/><br/>
                                                 <span t-if="nf.client_id.phone is not False">Tél: <span t-field="nf.client_id.phone"/></span><br/>
