@@ -17,9 +17,9 @@
                     <div class="page">
                         <div class="oe_structure"/>
                         <table width="100%">
-                            <tr height="150px">
-                                <td width="50%"><img src="/netline/static/src/img/logo.png" style="max-height: 145px;"/></td>
-                                <td width="50%" style="font-size:11px;text-align:center;font-family:Calibri;align:right" align="right">
+                            <tr height="130px">
+                                <td width="50%"><img src="/netline/static/src/img/logo.png" style="max-height: 80px;"/></td>
+                                <td width="50%" style="font-size:11px;text-align:center;font-family:Calibri;align:right;vertical-align: top;">
                                     Usine : Zone Industrielle Gzenaya
                                     <br/>lot n° 260 - TANGER - B.P. 371 GZENAYA
                                     <br/>Tél. / Fax : 0212 539 39 39 03
@@ -29,11 +29,11 @@
                                     <br/>N° I.C.E. : 001530545000001
                                 </td>
                             </tr>
-                            <tr style="border: 20px solid white;">
-                                <td style="font-size:25px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de livraison</td>
+                            <tr>
+                                <td style="padding-top:10px;padding-bottom:10px;font-size:20px;text-align:center;text-decoration:underline;font-family:Calibri" colspan="2">Bon de livraison</td>
                             </tr>
                             <tr style="line-height: 15px;align:center">
-                                <td style="width:50%;font-size:14px;text-align:center;font-family:Calibri;align:center">
+                                <td style="width:50%;font-size:12px;text-align:center;font-family:Calibri;align:center">
                                     <table>
                                         <tr><td align="center" style="padding: 2px;">Date livraison</td><td align="center" style="padding: 2px;">N° livraison</td></tr>
                                         <tr><td align="center" style="padding: 5px;"><span t-field="rl.date_livraison"  t-field-options='{"format": "d/MM/y"}' style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;"/></td><td align="center" style="padding: 5px;"><span t-field="rl.sale_order_name" style="border: 1px solid;border-radius:5px;padding: 5px;width: 130px; display: block;"/></td></tr>
@@ -41,11 +41,11 @@
                                         <tr><td align="center" style="padding: 5px;"><span style="border: 1px solid;border-radius:5px;padding:5px;width: 130px; display: block;">Laundry</span></td><td align="center" style="padding: 5px;"></td></tr>
                                     </table>
                                 </td>
-                                <td style="width:50%;font-size:14px;text-align:center;font-family:Calibri;align:center">
+                                <td style="width:50%;font-size:12px;text-align:center;font-family:Calibri;align:center">
                                     <table style="font-size:12px;margin-top: 5px;" border="2">
                                         <tr><td style="text-align:left;">Client</td></tr>
                                         <tr><td>
-                                            <div style="border: 1px solid black;border-radius:5px;padding: 2px;width: 400px; height: 150px;text-align:center;">
+                                            <div style="border: 1px solid black;border-radius:5px;padding: 2px;width: 300px; height: 130px;text-align:center;">
                                                 <span t-field="rl.client_id.nom_commercial"/><br/>
                                                 <span t-field="rl.client_id.contact_address"/><br/>
                                                 <span t-if="rl.client_id.phone is not False">Tél: <span t-field="rl.client_id.phone"/></span> <br/>
@@ -60,11 +60,16 @@
                         <br/>
                         <table style="margin-top: 1px;width:100%">
                             <thead>
-                                <tr style="line-height:20px;border-top:20px;">
-                                    <th>N°</th>
-                                    <th class="text-center">Bon Client/Porteur</th>
-                                    <th class="text-center">Désignation</th>
-                                    <th class="text-center">Quantité</th>
+                                <tr style="line-height:15px;border-top:20px;">
+                                    <th style="width:5%;font-size:14px;">N°</th>
+                                    <th style="width:15%;font-size:14px;">Bon Client/Porteur</th>
+                                    <th style="width:70%;font-size:14px;">Désignation</th>
+                                    <th style="width:10%;font-size:14px;">Quantité</th>
+                                </tr>
+                                <tr style="line-height:1px;">
+                                    <td colspan="4" size="10">
+                                        <hr width="100%"/>
+                                    </td>
                                 </tr>
                            </thead>
                            <tbody class="sale_tbody">
@@ -73,8 +78,8 @@
                                <t t-set="categ_en_cours" t-value="a"/>
                                <t t-foreach="rl.livraison_lines_ids.sorted(key=lambda b : (b.reception_line_id.reception_id.n_bon_client, b.reception_line_id.product_vt_id.departement_id.name,b.reception_line_id.product_vt_id.fonction_id.name,b.reception_line_id.n_porteur))" t-as="l">
                                     <t t-if="bon_client_en_cours!=l.reception_line_id.reception_id.n_bon_client">
-                                        <tr style="line-height:20px;font-size:12px;text-align:center;font-family:Calibri;align:right">
-                                            <td></td><td colspan="2" class="text-left" style="font-size:15px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"><span t-field="l.reception_line_id.reception_id.n_bon_client"/></td>
+                                        <tr style="line-height:10px;">
+                                            <td></td><td colspan="4" class="text-left" style="font-size:12px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"><span t-field="l.reception_line_id.reception_id.n_bon_client"/></td>
                                         </tr>
                                     </t>
                                     <t t-if="fonction_en_cours!=l.reception_line_id.product_vt_id.fonction_id.name or departement_en_cours!=l.reception_line_id.product_vt_id.departement_id.name">
@@ -86,10 +91,10 @@
                                     <t t-set="departement_en_cours" t-value="l.reception_line_id.product_vt_id.departement_id.name"/>
                                     <t t-set="bon_client_en_cours" t-value="l.reception_line_id.reception_id.n_bon_client"/>
 
-                                    <tr style="line-height:20px;font-size:14px;text-align:center;font-family:Calibri;align:right">
+                                    <tr style="border-bottom: 1px solid #ebebeb;line-height:15px;font-size:12px;text-align:center;font-family:Calibri;align:right">
                                         <t t-set="ligne" t-value="ligne+1"/>
                                         <t t-set="sum_pieces" t-value="sum_pieces+l.to_deliver_quantity"/>
-                                        <td class="text-left" width="10%"><span t-esc="ligne"/></td>
+                                        <td style="text-align: left;padding-top:4px;padding-bottom:4px;" width="10%"><span t-esc="ligne"/></td>
                                         <t t-if="porteur_en_cours!=l.reception_line_id.n_porteur">
                                             <td colspan="1" class="text-left" style="font-size:14px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;">Porteur n° <span t-field="l.reception_line_id.n_porteur"/> : </td>
                                         </t>
