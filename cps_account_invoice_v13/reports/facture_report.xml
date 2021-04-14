@@ -85,6 +85,7 @@
                             <t t-if="nf.prestation_type!='Forfait'">
                                 <tr style="line-height: 24px;border-bottom: 1px solid black;;padding: 8px;">
                                     <th>N°</th>
+                                    <th class="text-center">N° OF</th>
                                     <th class="text-center">Désignation</th>
                                     <th class="text-center">Quantité</th>
                                     <th class="text-center">Prix H.T.</th>
@@ -130,6 +131,7 @@
                                                 </t>
                                             </t>
                                             <td class="text-left"><span t-esc="ligne"/></td>
+                                            <td class="text-right"><t t-esc="nfl.product_id.code_article" /></td>
                                             <td class="text-left" width="50%">
                                                 <span t-field="nfl.product_description"/>
                                             </td>

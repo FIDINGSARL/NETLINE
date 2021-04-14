@@ -65,6 +65,7 @@
                             <thead>
                                 <tr style="line-height:20px;border-top:20px;">
 <!--                                    <th class="text-center;">Bon Clt.</th>-->
+                                    <th class="text-center">N° OF</th>
                                     <th class="text-center">Désignation</th>
                                     <th class="text-center">Traitement</th>
 <!--                                    <th class="text-center">Couleur</th>-->
@@ -83,6 +84,7 @@
                                         <t t-set="sum_pieces" t-value="sum_pieces+l.product_uom_qty"/>
                                         <t t-set="qty" t-value="l.product_uom_qty"/>
 <!--                                        <td class="text-left" style="font-size:13px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"></td>-->
+                                        <td class="text-left"><span t-field="l.product_id.code_article"/></td>
                                         <td class="text-left"><span t-field="l.product_id.name"/></td>
                                         <td class="text-left"><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>
 <!--                                        <td class="text-left"></td>-->
