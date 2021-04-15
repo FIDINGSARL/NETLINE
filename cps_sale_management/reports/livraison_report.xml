@@ -72,7 +72,7 @@
                                     <th class="text-center">Quantité</th>
                                 </tr>
                                 <tr style="line-height:5px;">
-                                    <td colspan="3" size="10">
+                                    <td colspan="4" size="10">
                                         <hr width="100%"/>
                                     </td>
                                 </tr>
@@ -84,7 +84,7 @@
                                         <t t-set="sum_pieces" t-value="sum_pieces+l.product_uom_qty"/>
                                         <t t-set="qty" t-value="l.product_uom_qty"/>
 <!--                                        <td class="text-left" style="font-size:13px;text-align:left;font-family:Calibri;align:right;text-decoration:underline;"></td>-->
-                                        <td class="text-left"><span t-field="l.product_id.product_tmpl_id.code_article"/></td>
+                                        <td class="text-left"><span t-field="l.product_id.template_ids.code_article"/></td>
                                         <td class="text-left"><span t-field="l.product_id.name"/></td>
                                         <td class="text-left"><span t-field="rl.product_template_livraison_id.product_tmpl_production_ids.traitement_name"/></td>
 <!--                                        <td class="text-left"></td>-->
