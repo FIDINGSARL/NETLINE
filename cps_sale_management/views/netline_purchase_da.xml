@@ -45,7 +45,7 @@
                             <tree name="Lignes Demande d'achat" editable="false" create="true" delete="true">
                                 <field name="product_id" string="Article" options="{'no_create_edit':True, 'no_quick_create':True}"/>
                                 <field name="quantity" string="Quantité demandée" sum="Total quantité"/>
-                                <field name="fournisseur_id" string="Fournisseur" groups="netline.group_admin,netline.group_comptabilite,netline.group_noureddine"/>
+                                <field name="fournisseur_id" string="Fournisseur" groups="netline.group_admin,netline.group_comptabilite,cps_sale_management.group_noureddine"/>
                                 <field name="is_bc_created" string="Validé"  readonly="1"/>
                                 <!--<field name="purchase_orders_name" string="Bon de commande" readonly="1" groups="netline.group_admin,netline.group_comptabilite"/>>-->
 

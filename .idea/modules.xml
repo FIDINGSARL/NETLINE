@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/NETLINE-V13.iml" filepath="$PROJECT_DIR$/.idea/NETLINE-V13.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../NETLINE10/.idea/custom_addons.iml" filepath="$PROJECT_DIR$/../NETLINE10/.idea/custom_addons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../fasterlogistics14/.idea/fasterlogistics14.iml" filepath="$PROJECT_DIR$/../fasterlogistics14/.idea/fasterlogistics14.iml" />
     </modules>
   </component>
 </project>

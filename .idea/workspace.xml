@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f41f89d-5880-4cad-b234-39eff4a2d9ba" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/NETLINE-V13.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NETLINE-V13.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cps_account_invoice_v13/reports/facture_report.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cps_account_invoice_v13/reports/facture_report.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cps_sale_management/reports/livraison_report.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cps_sale_management/reports/livraison_report.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +16,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1aWdekcV65QyrDEGk8jSimZmn3F" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -33,5 +35,16 @@
       <updated>1618392412346</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
