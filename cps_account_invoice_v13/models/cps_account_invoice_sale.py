@@ -157,12 +157,13 @@ class AccountInvoiceSale(models.Model):
                 tax_id=False
                 if len(facture_line.product_id) > 0:
                     for sol in sols :
+                        print('sol---------------------------', sol.qty_to_invoice, ' name----------------', sol.order_id.name)
                         if qty_to_invoice_cal>0:
                             if qty_to_invoice_cal > sol.product_uom_qty:
-                                qty_to_invoice = sol.product_uom_qty
+                                qty_to_invoice = sol.qty_to_invoice
                             else:
                                 qty_to_invoice = qty_to_invoice_cal
-                            qty_to_invoice_cal -= sol.product_uom_qty
+                            qty_to_invoice_cal -= sol.qty_to_invoice
                             self.invoice_lines.append((0, 0, {
                                 'product_id': sol.product_id.id,
                                 'name': facture_line.product_description,
@@ -176,8 +177,9 @@ class AccountInvoiceSale(models.Model):
                             self.sale_order_origin += sol.order_id.name + ", "
                             sol.order_id.write({'invoice_count': sol.order_id.invoice_count + 1, 'invoice_ids': (0, 0, self.account_move_id.id), 'invoice_status': 'invoiced'})
                             tax_id = sol.tax_id
+            print('qty_to_invoice_cal------------------------', qty_to_invoice_cal)
             if qty_to_invoice_cal > 0:
-                raise UserError(_("Attention, il n'existe aucun bon a facturer pour l'of " + facture_line.product_id.name + ", merci de reverifier la qté facturée !"))
+                raise UserError(_("Attention, il exite des bons non validés pour l'OF " + facture_line.product_id.name))
         if self.prestation_type != 'Textil industrie':
             for so in self.facturation_lines_ids.facturation_id.sale_order_ids:
                 sols += so.order_line
