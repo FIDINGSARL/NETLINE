@@ -9,7 +9,6 @@ import datetime
 class Netline_purchase_order(models.Model):
     _inherit = 'purchase.order'
     
-    # reception_id = fields.One2many('netline.reception', 'purchase_order_id', string="receptions")
     is_laundry = fields.Boolean(default=True)
 
 class Netline_purchase_order_line(models.Model):
