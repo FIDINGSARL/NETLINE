@@ -15,7 +15,7 @@ class Netline_Consomation(models.Model):
     # consomationline_ids = fields.One2many('netline.consomation.line', "consommation_id", string="Consommations")
     purchase_order_id = fields.Many2one('purchase.order', "Ordre d'achat")
     product_order_name = fields.Char(related="purchase_order_id.name", readonly=True)
-    product_id = fields.Many2one('netline.compter', 'Compteur')
+    product_id = fields.Many2one('netline.compter', 'Compteur', required=True)
     compteur_initial=fields.Integer(string="Compteur initial", store=True)
     compteur_final=fields.Integer(string="Compteur final")
     image_small = fields.Binary("image_small", attachment=True)
