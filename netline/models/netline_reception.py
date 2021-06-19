@@ -107,7 +107,10 @@ class Netline_reception(models.Model):
                 date = rec.create_date
                 if rec.date_reception is not False:
                     date = rec.date_reception
-                name = rec.product_order_name + ' | ' + rec.n_bon_client + ' | ' + str(date) #+ ' | ' + products
+                if rec.n_bon_client is not False:
+                    name = rec.product_order_name + ' | ' + rec.n_bon_client + ' | ' + str(date) #+ ' | ' + products
+                else:
+                    name = rec.product_order_name + ' | ' + str(date) #+ ' | ' + products
             res.append((rec.id, name))
         return res
 
