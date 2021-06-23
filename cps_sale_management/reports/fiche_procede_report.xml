@@ -60,7 +60,7 @@
                                <t t-foreach="l.procede_line_ids.sorted(key=lambda b : (b.sequence, b.id))" t-as="s">
                                    <t t-if="operation_encours!=s.operation_id.name and s.operation_id.name is not False">
                                             <tr style="height:30px;">
-                                                <td colspan="9"  style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;background-color: #808080;color: white;padding:4px"><span t-field="s.operation_id.name"/> - <span t-field="s.phase_id.name"/></td>
+                                                <td colspan="9"  style="font-size:15px;font-weight:bold;text-align:left;font-family:Calibri;background-color: #808080;color: white;padding:4px"><span t-field="s.phase_id.name"/> - <span t-field="s.operation_id.name"/></td>
                                             </tr>
                                    </t>
                                    <t t-set="operation_encours" t-value="s.operation_id.name"/>
