@@ -22,15 +22,15 @@ class CpsProductEchantillon(models.Model):
 
     product_tmpl_id = fields.Many2one('cps.product.template', 'Product Template', auto_join=True, ondelete="cascade", required=True)
 
-    @api.onchange('type_article_id')
-    @api.depends('type_article_id')
-    def change_type_article(self):
-        cat = self.env['res.config.settings'].get_cat_mere_vente()
-        pcs = self.env['product.category'].search([("parent_id", "=", cat.id)])
-        ids = []
-        for pc in pcs:
-            ids.append(pc.id)
-        return {'domain': {'type_article_id': [('id', 'in', ids)]}}
+    # @api.onchange('type_article_id')
+    # @api.depends('type_article_id')
+    # def change_type_article(self):
+    #     cat = self.env['res.config.settings'].get_cat_mere_vente()
+    #     pcs = self.env['product.category'].search([("parent_id", "=", cat.id)])
+    #     ids = []
+    #     for pc in pcs:
+    #         ids.append(pc.id)
+    #     return {'domain': {'type_article_id': [('id', 'in', ids)]}}
 
     def set_recu(self):
         self.state='recu'
