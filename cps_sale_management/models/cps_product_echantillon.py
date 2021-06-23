@@ -64,7 +64,7 @@ class CpsProductEchantillon(models.Model):
 
     @api.depends('type_article_id', 'reference', 'coloriss_client')
     def compute_name(self):
-        name=""
+        name = ""
         if self.type_article_id.name is not False:
             name = str(self.type_article_id.name)
         if self.reference is not False:
