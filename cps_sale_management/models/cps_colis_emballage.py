@@ -14,7 +14,7 @@ class CpsColisEmballage(models.Model):
     qte = fields.Integer('Quantité à emballer')
     qte_emballer = fields.Integer('Quantité / colis')
     colis_details = fields.One2many('cps.colis.emballage.lines', 'colis_id', 'Détail des colis')
-    type_sortie = fields.Selection([('normal','Normal'), ('2eme','2eme Choix'), ('declasse','Déclassé')], string='Type sortie', required=True, default='normal')
+    type_sortie = fields.Selection([('normal','Normal'), ('2eme','Réparation'), ('declasse','Déclassé')], string='Type sortie', required=True, default='normal')
     state = fields.Selection([('draft','Brouillon'), ('ready','Pret'), ('printed','Imprimé')], string='Statut', required=True, default='ready')
 
     # def action_print(self):
