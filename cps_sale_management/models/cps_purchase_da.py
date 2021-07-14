@@ -20,6 +20,15 @@ class Netline_purchase_da(models.Model):
 
     date_da = fields.Datetime("Date", required=True)
     purchase_da_lines_ids = fields.One2many('netline.purchase.da.line', "purchase_da_id", string="Produits")
+    # total_bc = fields.Integer(compute="_compute_total_achats", string="Bons de commande", store=True)
+    # 
+    # def _compute_total_achats(self):
+    #     for p in self:
+    #         total_bc = 0
+    #         for s in p.purchase_da_lines_ids:
+    #             total_bc += p.purchase_da_lines_ids
+    # 
+    #         p.total_bc = p.total_entree-p.total_sortie-p.total_retour+p.total_retour_correction
 
     def define_state(self):
         partial=False
@@ -78,6 +87,18 @@ class Netline_purchase_da(models.Model):
                         line_bc.is_bc_created = True
                         print ("pOrder line ", pol)
         self.define_state()
+    def action_view_bc(self):
+        bcs = self.env['purchase.order'].search([("id", "in", self.purchase_da_lines_ids.purchase_order_id.ids)])
+        # flux = self.purchase_da_lines_ids.purchase_order_id.ids
+        return {
+            'name': 'Liste des bons de commande',
+            'res_model': 'purchase.order',
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'domain': [('id', 'in', bcs.ids)],
+            'type': 'ir.actions.act_window',
+            'target': 'current'  # will open a popup with mail.message list
+        }
 
     # @api.model
     # def create(self, values):
@@ -120,7 +141,7 @@ class Netline_purchase_da_line(models.Model):
         # if self.purchase_order_id is not False:
         #     print "self.purchase_order_id ", self.purchase_order_id
         self.purchase_orders_name = "test"
-
+    
 class Netline_requisition(models.Model):
     _inherit = 'purchase.requisition'
     is_laundry = fields.Boolean(default=True)

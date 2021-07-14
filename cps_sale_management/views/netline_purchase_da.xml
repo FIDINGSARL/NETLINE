@@ -27,6 +27,7 @@
             <form string="Demande d'achat">
                 <header>
                     <button string="Générer BC" name="action_cancel" type="object" states="ready,done_partial" />
+                    <button string="Bons de commandes" name="action_view_bc" type="object" states="done_partial,done" />
 <!--                    <button String="Créer Bon Commande" name="action_make_bonc" type="object" states="ready,done_partial" />-->
                     <field name="state" widget="statusbar" statusbar_visible="cancelled,ready,done_partial,done"/>
                 </header>
@@ -47,6 +48,8 @@
                                 <field name="quantity" string="Quantité demandée" sum="Total quantité"/>
                                 <field name="fournisseur_id" string="Fournisseur" groups="netline.group_admin,netline.group_comptabilite,cps_sale_management.group_noureddine"/>
                                 <field name="is_bc_created" string="Validé"  readonly="1"/>
+                                <field name="purchase_order_id"/>
+
                                 <!--<field name="purchase_orders_name" string="Bon de commande" readonly="1" groups="netline.group_admin,netline.group_comptabilite"/>>-->
 
                                 <!--<field name="copy_it"/>-->
