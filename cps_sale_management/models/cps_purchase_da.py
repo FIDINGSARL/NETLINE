@@ -86,7 +86,7 @@ class Netline_purchase_da(models.Model):
             'res_model': 'purchase.order',
             'view_type': 'form',
             'view_mode': 'form',
-            'res_id': flux,
+            'res_id': flux.ids,
             'type': 'ir.actions.act_window',
             'target': 'current'  # will open a popup with mail.message list
         }
