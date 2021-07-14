@@ -31,6 +31,17 @@
                     <field name="state" widget="statusbar" statusbar_visible="cancelled,ready,done_partial,done"/>
                 </header>
                 <sheet>
+                    <button type="object"
+                        name="action_view_bc"
+                        class="oe_stat_button" icon="fa-arrows-h">
+                        <div class="o_field_widget o_stat_info">
+<!--                            <span class="o_stat_value" widget="statinfo">-->
+<!--                                <field name="total_encours" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                            </span>-->
+                            <span class="o_stat_text">Bons de commande</span>
+                        </div>
+                    </button>
+
                     <group>
                         <group>
                             <field name="id" string="N° D.A."/>

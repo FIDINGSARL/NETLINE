@@ -78,6 +78,18 @@ class Netline_purchase_da(models.Model):
                         line_bc.is_bc_created = True
                         print ("pOrder line ", pol)
         self.define_state()
+    def action_view_bc(self):
+        # flux = self.env['purchase.order'].search([("id", "=", self.flux_id.id)])
+        flux = self.purchase_da_lines_ids.purchase_order_id.ids
+        return {
+            'name': 'Liste des bons de commande',
+            'res_model': 'purchase.order',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_id': flux,
+            'type': 'ir.actions.act_window',
+            'target': 'current'  # will open a popup with mail.message list
+        }
 
     # @api.model
     # def create(self, values):
@@ -120,7 +132,7 @@ class Netline_purchase_da_line(models.Model):
         # if self.purchase_order_id is not False:
         #     print "self.purchase_order_id ", self.purchase_order_id
         self.purchase_orders_name = "test"
-
+    
 class Netline_requisition(models.Model):
     _inherit = 'purchase.requisition'
     is_laundry = fields.Boolean(default=True)
