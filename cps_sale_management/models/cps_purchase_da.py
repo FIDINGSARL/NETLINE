@@ -79,7 +79,7 @@ class Netline_purchase_da(models.Model):
                         print ("pOrder line ", pol)
         self.define_state()
     def action_view_bc(self):
-        flux = self.env['purchase.order'].search([("id", "=", self.purchase_da_lines_ids.purchase_order_id.ids)])
+        flux = self.env['purchase.order'].search([("id", "in", self.purchase_da_lines_ids.purchase_order_id.ids)])
         # flux = self.purchase_da_lines_ids.purchase_order_id.ids
         return {
             'name': 'Liste des bons de commande',
